@@ -57,24 +57,24 @@ export class LoginComponent implements OnInit {
           this.send= false;
           this.form_login.enable();
             if (err.error instanceof Error) {
-                console.log('Client-side error occured.', err.message);
-                Swal.fire({
-                  title: 'Error!',
-                  text: err.message,
-                  icon: 'error',
-                  confirmButtonText: 'OK',
-                  timer: 3000,
-                  timerProgressBar: true,
-                })
+                console.log('Client-side error occured.', err);
+                // Swal.fire({
+                //   title: 'Error!',
+                //   text: err.toString(),
+                //   icon: 'error',
+                //   confirmButtonText: 'OK',
+                //   timer: 3000,
+                //   timerProgressBar: true,
+                // })
             } else {
-              Swal.fire({
-                title: 'Error!',
-                text: err.error.error.message,
-                icon: 'error',
-                confirmButtonText: 'OK',
-                timer: 3000,
-                timerProgressBar: true,
-              })
+              // Swal.fire({
+              //   title: 'Error!',
+              //   text: err.error.error.message,
+              //   icon: 'error',
+              //   confirmButtonText: 'OK',
+              //   timer: 3000,
+              //   timerProgressBar: true,
+              // })
                 console.log('Server-side error occured.', err);
             }
         }
