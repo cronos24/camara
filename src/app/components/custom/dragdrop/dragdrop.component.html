@@ -1,0 +1,103 @@
+<div class="container-fluid">
+  <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="row">
+        <div class="col-md-2" *ngFor="let menu of menus" cdkDrag>
+          <div class="card" style="width: 100%;">
+            
+    
+            <div class="card-body" style="text-align: center;">
+              <div class="row">
+                <div class="col-sm-8">
+                  <h3 style="font-size: 13px;">{{menu.nombre}}</h3>
+                </div>
+                
+                  <div (click)="editMenu(mymodal,menu.id)" class="col-sm-1" style="cursor: pointer;"> <i class="fas fa-pencil-alt fa-xs" ></i></div>
+                  <div (click)="borrarMenu(mymodal,menu.id)" class="col-sm-1" style="cursor: pointer;"><i class="fas fa-trash-alt fa-xs" ></i></div>
+                  
+              </div>
+        
+              <p class="card-text"><i class="{{ menu.icono }} fa-6x"></i></p>
+              <p class="card-text" style="font-size: 11px; color: gray; padding-left: 8px; padding-right: 8px;">{{ menu.subtitulo }}</p>
+            </div>
+            <div class="card-footer" *ngIf="menu.url!=undefined && menu.url!=''">
+              <a href="#" >{{ menu.url }}</a>
+            </div>
+          </div>
+        </div>    
+
+        <div class="col-sm-2">
+          <div class="card" style="min-width: 100%; width: 100%;">
+            
+    
+            <div class="card-body" style="text-align: center;">
+              <div (click)="crearMenu(mymodal)" style="cursor: pointer;"> <i class="fas fa-plus-circle fa-8x" ></i> <p>Adicionar Menu</p></div>
+            </div>
+           
+          </div>
+        </div> 
+      </div>      
+  </div>
+
+    
+</div>
+
+    
+    <ng-template #mymodal let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ scenario }} Menu</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form_menu" (ngSubmit)="submitForm()">
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" [formControlName]="'nombre'" placeholder="Ingrese el nombre" required>
+
+            <div *ngIf="form_menu.controls['nombre'].invalid && (form_menu.controls['nombre'].dirty || form_menu.controls['nombre'].touched)" class="alert alert-danger form-danger" role="alert">
+
+              <div *ngIf="form_menu.controls['nombre'].errors?.required">
+                  Nombre no puede estar vacio.
+              </div>
+            </div>
+           
+          </div>
+          <div class="mb-3">
+            <label for="icono" class="form-label">Icono</label>
+            <input type="text" class="form-control" id="icono" [formControlName]="'icono'" placeholder="Ingrese el icono" required>
+            <div *ngIf="form_menu.controls['icono'].invalid && (form_menu.controls['icono'].dirty || form_menu.controls['icono'].touched)" class="alert alert-danger form-danger" role="alert">
+
+              <div *ngIf="form_menu.controls['icono'].errors?.required">
+                  Icono no puede estar vacio.
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="subtitulo" class="form-label">Descripción</label>
+            <input type="text" class="form-control" id="subtitulo" [formControlName]="'subtitulo'" placeholder="Ingrese la descripción" required>
+            <div *ngIf="form_menu.controls['subtitulo'].invalid && (form_menu.controls['subtitulo'].dirty || form_menu.controls['subtitulo'].touched)" class="alert alert-danger form-danger" role="alert">
+
+              <div *ngIf="form_menu.controls['subtitulo'].errors?.required">
+                Descripción no puede estar vacio.
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="url" class="form-label">Url</label>
+            <input type="text" class="form-control" id="url" [formControlName]="'url'" placeholder="Ingrese la Url" required>
+            <div *ngIf="form_menu.controls['url'].invalid && (form_menu.controls['url'].dirty || form_menu.controls['subtitulo'].touched)" class="alert alert-danger form-danger" role="alert">
+
+              <div *ngIf="form_menu.controls['url'].errors?.required">
+                Url no puede estar vacio.
+              </div>
+            </div>
+          </div>
+          <div class="d-grid gap-2">
+              <button type="submit" [disabled]="!form_menu.valid" class="btn btn-primary custom-submit-button">Guardar</button>
+          </div>
+          
+        </form>
+      </div>
+      
+    </ng-template>
