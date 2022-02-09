@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2'
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -32,14 +33,13 @@ export class LoginComponent implements OnInit {
       let headers = new HttpHeaders();
       headers = headers.set('Content-Type', 'application/json; charset=utf-8'); 
 
-      this.httpClient.post(environment.apiUrl+'/api/Login', this.form_login.getRawValue(), {headers: headers}).subscribe(
+      this.httpClient.post<any>(environment.apiUrl+'/api/Login', this.form_login.getRawValue(), {headers: headers}).subscribe(
         (data) => {
-
-
+          
             Swal.fire({
               icon: 'success',            
               title: 'Has iniciado sesión',
-              text: data.toString(),
+              text: data.info,
               timer: 1000,
               timerProgressBar: true,
             }); 
