@@ -5,7 +5,7 @@
           <div class="card" style="width: 100%; min-height: 200px;">
             
     
-            <div class="card-body" style="text-align: center;">
+            <div class="card-body flex-fill" style="text-align: center;">
               <div class="row">
                 <div class="col-sm-8">
                   <h3 style="font-size: 13px;">{{menu.etiqueta}}</h3>
@@ -19,7 +19,7 @@
               <p class="card-text"><span style="color: rgb(111, 105, 105);">
                 <i class="{{ menu.icono }} fa-4x"></i>
               </span></p>
-              <p class="card-text" style="font-size: 11px; color: gray; padding-left: 8px; padding-right: 8px;">{{ menu.leyenda }}</p>
+              <p class="card-text truncate" style="font-size: 11px; color: gray; padding-left: 8px; padding-right: 8px;">{{ menu.leyenda }}</p>
             </div>
             <div class="card-footer" *ngIf="menu.url!=undefined && menu.url!=''">
               <a href="#" >{{ menu.url }}</a>
