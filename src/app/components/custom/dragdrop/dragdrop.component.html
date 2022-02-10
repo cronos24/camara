@@ -8,7 +8,7 @@
             <div class="card-body" style="text-align: center;">
               <div class="row">
                 <div class="col-sm-8">
-                  <h3 style="font-size: 13px;">{{menu.nombre}}</h3>
+                  <h3 style="font-size: 13px;">{{menu.etiqueta}}</h3>
                 </div>
                 
                   <div (click)="editMenu(mymodal,menu.id)" class="col-sm-1" style="cursor: pointer;"> <i class="fas fa-pencil-alt fa-xs" ></i></div>
@@ -17,7 +17,7 @@
               </div>
         
               <p class="card-text"><i class="{{ menu.icono }} fa-6x"></i></p>
-              <p class="card-text" style="font-size: 11px; color: gray; padding-left: 8px; padding-right: 8px;">{{ menu.subtitulo }}</p>
+              <p class="card-text" style="font-size: 11px; color: gray; padding-left: 8px; padding-right: 8px;">{{ menu.leyenda }}</p>
             </div>
             <div class="card-footer" *ngIf="menu.url!=undefined && menu.url!=''">
               <a href="#" >{{ menu.url }}</a>
@@ -52,12 +52,12 @@
       <div class="modal-body">
         <form [formGroup]="form_menu" (ngSubmit)="submitForm()">
           <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" [formControlName]="'nombre'" placeholder="Ingrese el nombre" required>
+            <label for="etiqueta" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="etiqueta" [formControlName]="'etiqueta'" placeholder="Ingrese el nombre" required>
 
-            <div *ngIf="form_menu.controls['nombre'].invalid && (form_menu.controls['nombre'].dirty || form_menu.controls['nombre'].touched)" class="alert alert-danger form-danger" role="alert">
+            <div *ngIf="form_menu.controls['etiqueta'].invalid && (form_menu.controls['etiqueta'].dirty || form_menu.controls['etiqueta'].touched)" class="alert alert-danger form-danger" role="alert">
 
-              <div *ngIf="form_menu.controls['nombre'].errors?.required">
+              <div *ngIf="form_menu.controls['etiqueta'].errors?.required">
                   Nombre no puede estar vacio.
               </div>
             </div>
@@ -74,11 +74,11 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="subtitulo" class="form-label">Descripción</label>
-            <input type="text" class="form-control" id="subtitulo" [formControlName]="'subtitulo'" placeholder="Ingrese la descripción" required>
-            <div *ngIf="form_menu.controls['subtitulo'].invalid && (form_menu.controls['subtitulo'].dirty || form_menu.controls['subtitulo'].touched)" class="alert alert-danger form-danger" role="alert">
+            <label for="leyenda" class="form-label">Descripción</label>
+            <input type="text" class="form-control" id="leyenda" [formControlName]="'leyenda'" placeholder="Ingrese la descripción" required>
+            <div *ngIf="form_menu.controls['leyenda'].invalid && (form_menu.controls['leyenda'].dirty || form_menu.controls['leyenda'].touched)" class="alert alert-danger form-danger" role="alert">
 
-              <div *ngIf="form_menu.controls['subtitulo'].errors?.required">
+              <div *ngIf="form_menu.controls['leyenda'].errors?.required">
                 Descripción no puede estar vacio.
               </div>
             </div>
@@ -86,7 +86,7 @@
           <div class="mb-3">
             <label for="url" class="form-label">Url</label>
             <input type="text" class="form-control" id="url" [formControlName]="'url'" placeholder="Ingrese la Url" required>
-            <div *ngIf="form_menu.controls['url'].invalid && (form_menu.controls['url'].dirty || form_menu.controls['subtitulo'].touched)" class="alert alert-danger form-danger" role="alert">
+            <div *ngIf="form_menu.controls['url'].invalid && (form_menu.controls['url'].dirty || form_menu.controls['leyenda'].touched)" class="alert alert-danger form-danger" role="alert">
 
               <div *ngIf="form_menu.controls['url'].errors?.required">
                 Url no puede estar vacio.

@@ -31,9 +31,9 @@ export class LoginComponent implements OnInit {
       this.form_login.disable();
       this.send= true;
       let headers = new HttpHeaders();
-      headers = headers.set('Content-Type', 'application/json; charset=utf-8'); 
+      //headers = headers.set('Content-Type', 'application/json; charset=utf-8'); 
 
-      this.httpClient.post<any>(environment.apiUrl+'/api/Login', this.form_login.getRawValue(), {headers: headers}).subscribe(
+      this.httpClient.post<any>(environment.apiUrl+'/api/Login', this.form_login.getRawValue()).subscribe(
         (data) => {
           
             Swal.fire({

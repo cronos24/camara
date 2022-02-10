@@ -1,7 +1,11 @@
+import { environment } from './../../../../environments/environment';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators } from '@angular/forms';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dragdrop',
@@ -10,55 +14,79 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class DragdropComponent implements OnInit {
   @ViewChild('editModal') editModal: ElementRef | any;
-  menus = [
-    {
-      id:1,
-      nombre: "Informe por departamento",
-      icono: "fas fa-globe-americas",
-      subtitulo: "Comercio exterior por departamento",
-      url:"www.compite360.com/link1"
-    },
-    {
-      id:2,
-      nombre: "Productos",
-      icono: "fas fa-cog",
-      subtitulo: "Selección de Capítulos y Posiciones arancelarias",
-      url:"www.compite360.com/link2"
-    },
-    {
-      id:3,
-      nombre: "Destinos",
-      icono: "fas fa-cog",
-      subtitulo: "Selección de países",
-      url:"www.compite360.com/link3"
-    },  
-    {
-      id:4,
-      nombre: "Empresas",
-      icono: "fas fa-cog",
-      subtitulo: "Desarrollo de empresas exportadoras",
-      url:"www.compite360.com/link4"
-    },  
-  ];
+ 
 
   title = 'appBootstrap';
   
   closeResult: string | undefined;
-  filtered_menu: { id: number; nombre: string; icono: string; subtitulo: string; url: string; }[] | undefined;
+  filtered_menu: { id: number; etiqueta: string; icono: string; leyenda: string; orden:number; url: string; }[] | undefined;
   form_menu: any;
   scenario:any= '';
+  //menus: { id: number, etiqueta: string, icono: string, leyenda: string, orden:number, url: string; }[]
+  menus: any[] = [];
 
-  constructor(private readonly fb: FormBuilder,private modalService: NgbModal) {
+  constructor(private readonly fb: FormBuilder,private modalService: NgbModal, private httpClient: HttpClient,private router: Router) {
     this.form_menu = this.fb.group({
       id: [''], 
-      nombre: ['', Validators.required],      
+      etiqueta: ['', Validators.required],      
       icono: ['', Validators.required],
-      subtitulo:['', Validators.required],
+      leyenda:['', Validators.required],
+      orden:['', Validators.required],
       url:['', Validators.required],
     });
+
+    this.menus = [];
    }
 
   ngOnInit(): void {
+    this.getMenu();
+  }
+
+  getMenu(){
+
+    this.httpClient.get<any>(environment.apiUrl+'/api/Menu/CargarDatos').subscribe(
+      (data) => {
+      
+         if (data.length >0 ) {
+          this.menus= data.sort((a:any, b:any) => (a.orden < b.orden ? -1 : 1));
+         }else{
+          Swal.fire({
+            title: 'Error!',
+            text:'No se encontraron menus en la base de dados',
+            icon: 'error',
+            confirmButtonText: 'OK',
+            timer: 3000,
+            timerProgressBar: true,
+          })
+         }
+         
+                   
+      },
+      (err: HttpErrorResponse) => {
+    
+          if (err.error instanceof Error) {
+              console.log('Client-side error occured.', err);
+              Swal.fire({
+                title: 'Error!',
+                text: err.message,
+                icon: 'error',
+                confirmButtonText: 'OK',
+                timer: 3000,
+                timerProgressBar: true,
+              })
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: err.message,
+              icon: 'error',
+              confirmButtonText: 'OK',
+              timer: 3000,
+              timerProgressBar: true,
+            })
+              console.log('Server-side error occured.', err);
+          }
+      }
+  );
   }
 
   editMenu(content: any,id:number){
@@ -99,7 +127,7 @@ export class DragdropComponent implements OnInit {
 
       switch (this.scenario) {
         case "Crear":
-          this.menus.push({ id:this.menus.length+1, nombre: this.form_menu.getRawValue().nombre, icono: this.form_menu.getRawValue().icono, subtitulo: this.form_menu.getRawValue().subtitulo, url: this.form_menu.getRawValue().url });
+          this.menus.push({ id:this.menus.length+1, etiqueta: this.form_menu.getRawValue().etiqueta, icono: this.form_menu.getRawValue().icono, leyenda: this.form_menu.getRawValue().leyenda, orden: this.form_menu.getRawValue().orden, url: this.form_menu.getRawValue().url });
           break;
 
         case "Editar":
@@ -133,6 +161,13 @@ export class DragdropComponent implements OnInit {
 
   drop(event: any) {
     moveItemInArray(this.menus, event.previousIndex, event.currentIndex);
+    this.menus.forEach((value, index) => {
+      value.orden = index+1;                     
+    });
+
+    console.log(this.menus);
+    
+    
   }
 
   open(content: any) {

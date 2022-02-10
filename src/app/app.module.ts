@@ -14,7 +14,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {HttpClientModule} from '@angular/common/http'; // add this line
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'; // add this line
+import { AppInterceptor } from './app.interceptor';
 
 
 @NgModule({
@@ -44,7 +45,9 @@ import {HttpClientModule} from '@angular/common/http'; // add this line
     MatCardModule,
     MatButtonModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
