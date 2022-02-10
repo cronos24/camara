@@ -31,7 +31,7 @@ export class DragdropComponent implements OnInit {
       etiqueta: ['', Validators.required],      
       icono: ['', Validators.required],
       leyenda:['', Validators.required],
-      orden:['', Validators.required],
+      orden:[''],
       url:['', Validators.required],
     });
 
@@ -127,7 +127,7 @@ export class DragdropComponent implements OnInit {
 
       switch (this.scenario) {
         case "Crear":
-          this.menus.push({ id:this.menus.length+1, etiqueta: this.form_menu.getRawValue().etiqueta, icono: this.form_menu.getRawValue().icono, leyenda: this.form_menu.getRawValue().leyenda, orden: this.form_menu.getRawValue().orden, url: this.form_menu.getRawValue().url });
+          this.menus.push({ id:this.menus.length+1, etiqueta: this.form_menu.getRawValue().etiqueta, icono: this.form_menu.getRawValue().icono, leyenda: this.form_menu.getRawValue().leyenda, orden: this.menus.length+1, url: this.form_menu.getRawValue().url });
           break;
 
         case "Editar":

@@ -1,8 +1,8 @@
 <div class="container-fluid">
   <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
       <div class="row">
-        <div class="col-md-2" *ngFor="let menu of menus" cdkDrag>
-          <div class="card" style="width: 100%;">
+        <div class="col-md-2 d-flex align-items-stretch" *ngFor="let menu of menus" cdkDrag>
+          <div class="card" style="width: 100%; min-height: 200px;">
             
     
             <div class="card-body" style="text-align: center;">
@@ -16,7 +16,9 @@
                   
               </div>
         
-              <p class="card-text"><i class="{{ menu.icono }} fa-6x"></i></p>
+              <p class="card-text"><span style="color: rgb(111, 105, 105);">
+                <i class="{{ menu.icono }} fa-4x"></i>
+              </span></p>
               <p class="card-text" style="font-size: 11px; color: gray; padding-left: 8px; padding-right: 8px;">{{ menu.leyenda }}</p>
             </div>
             <div class="card-footer" *ngIf="menu.url!=undefined && menu.url!=''">
@@ -29,8 +31,10 @@
           <div class="card" style="min-width: 100%; width: 100%;">
             
     
-            <div class="card-body" style="text-align: center;">
-              <div (click)="crearMenu(mymodal)" style="cursor: pointer;"> <i class="fas fa-plus-circle fa-8x" ></i> <p>Adicionar Menu</p></div>
+            <div class="card-body" style="text-align: center;  min-height: 200px;">
+              <div (click)="crearMenu(mymodal)" style="cursor: pointer;"> <span style="color: rgb(111, 105, 105);">
+                <i class="fas fa-plus-circle fa-6x" ></i>
+              </span> <br><p>Adicionar Menu</p></div>
             </div>
            
           </div>
