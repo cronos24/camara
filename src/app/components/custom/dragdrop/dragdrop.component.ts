@@ -271,7 +271,6 @@ export class DragdropComponent implements OnInit {
 
       this.modalService.dismissAll();
       
-      console.log(this.form_menu.getRawValue());
       
     } else {
         console.log('There is a problem with the form');
@@ -280,7 +279,67 @@ export class DragdropComponent implements OnInit {
   }
 
   borrarMenu(content: any,id:number){
-    this.menus.splice(this.menus.findIndex(item => item.id === id), 1)
+
+    this.httpClient.delete<any>(environment.apiUrl+"/api/Menu/Eliminar?id="+id).subscribe(
+      (data) => {
+
+        console.log('delete',data);
+        
+      
+        if (data.status==200) {
+
+          Swal.fire({
+            icon: 'success',            
+            title: 'Ok!!!',
+            text: 'El Menu ha sido eliminado correctamente.',
+            timer: 1000,
+            timerProgressBar: true,
+          }); 
+
+          setTimeout(() => { 
+            this.menus.splice(this.menus.findIndex(item => item.id === id), 1)
+          }, 500);
+          
+          
+        }else{
+          Swal.fire({
+            icon: 'info',            
+            title: 'UPS!!!',
+            text: data.message,
+            timer: 1000,
+            timerProgressBar: true,
+          }); 
+        }
+         
+       
+         
+                   
+      },
+      (err: HttpErrorResponse) => {
+    
+          if (err.error instanceof Error) {
+              console.log('Client-side error occured.', err);
+              Swal.fire({
+                title: 'Error!',
+                text: err.message,
+                icon: 'error',
+                confirmButtonText: 'OK',
+                timer: 3000,
+                timerProgressBar: true,
+              })
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: err.message,
+              icon: 'error',
+              confirmButtonText: 'OK',
+              timer: 3000,
+              timerProgressBar: true,
+            })
+              console.log('Server-side error occured.', err);
+          }
+      }
+    );
   }  
 
   drop(event: any) {
