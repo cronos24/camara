@@ -7,7 +7,6 @@ import { LoginComponent } from './components/pages/login/login.component';
 import { MenuComponent } from './components/pages/menu/menu.component';
 import { DragdropComponent } from './components/custom/dragdrop/dragdrop.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ItemMenuComponent } from './components/custom/item-menu/item-menu.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatSliderModule } from '@angular/material/slider';
@@ -16,7 +15,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'; // add this line
 import { AppInterceptor } from './app.interceptor';
-
+import { InfoDepartamentoComponent } from './components/pages/info-departamento/info-departamento.component';
+import { NgApexchartsModule } from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import { AppInterceptor } from './app.interceptor';
     LoginComponent,
     MenuComponent,
     DragdropComponent,
-    ItemMenuComponent
+    InfoDepartamentoComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +36,8 @@ import { AppInterceptor } from './app.interceptor';
     MatCardModule,
     MatButtonModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    NgApexchartsModule
   ],
   exports:[
     BrowserAnimationsModule,
