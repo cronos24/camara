@@ -14,6 +14,7 @@ import {
   ApexGrid,
   ApexResponsive
 } from "ng-apexcharts";
+import { InfoDepartamentoService } from 'src/app/services/pages/info-departamento.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -68,8 +69,23 @@ export class InfoDepartamentoComponent implements OnInit {
   public chartOptions!: Partial<ChartOptions>| any;
   public chartOptions2!: Partial<ChartOptions2>| any;
   public chartOptions3!: Partial<ChartOptions3>| any;
+  filterFormodel: { periodoID: number | string, departamentoID: number };
+  periodos: any;
+  departamentos: any;
+  loading: boolean;
+  balanceDto: any;
+  resultadosGeneralesDto: any;
+  departamento: any;
+  periodo: any;
 
-  constructor() {
+  constructor(private infoDepartamentoService: InfoDepartamentoService) {
+    this.filterFormodel= {
+      periodoID:6,
+      departamentoID:5                     
+    };
+
+    this.loading= false;
+
     this.chartOptions = {
       series: [
         {
@@ -328,13 +344,73 @@ export class InfoDepartamentoComponent implements OnInit {
         opacity: 1
       }
     };
+
+    this.getLists();
+    this.sendFilter();
    }
 
   ngOnInit(): void {
+    
+  }
+
+  getLists(){
+    this.infoDepartamentoService.getAllFilter().subscribe((response) => {   
+      console.log('response', response);
+      this.departamentos= response.departamentos;
+      this.periodos= response.periodos;
+      
+    },
+    (error) => {
+      console.log('error', error);
+    }
+    );
   }
 
   edit(){
     console.log('Editando');
+    
+  }
+
+  stringFormat(string: any){
+    if (string!=null && string!='') {
+      var mayus = string.substring(0, 1).toUpperCase();
+      var resto = string.substring(1, string.lenght).toLowerCase();
+      return mayus.concat(resto.toString());
+    }
+    return null;
+  }
+
+ 
+
+  
+
+  sendFilter(){
+
+    this.loading= true;
+
+    this.infoDepartamentoService.postFilter(this.filterFormodel).subscribe((response) => {  
+      console.log(response);
+      this.loading= false;
+      this.balanceDto = response.balanceDto;
+      this.resultadosGeneralesDto = response.resultadosGeneralesDto;
+       
+      this.departamento=  this.departamentos.find((depa: any) => {
+        return depa.id === this.filterFormodel.departamentoID;
+      });
+
+      console.log('this.departamento',this.departamento);
+      
+
+      this.periodo=  this.periodos.find((pera: any) => {
+        return pera.id === this.filterFormodel.periodoID;
+      });
+      
+    },
+    (error) => {
+      this.loading= false;
+      console.log('error', error);
+    }
+    );
     
   }
 }

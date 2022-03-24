@@ -1,32 +1,45 @@
 
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: transparent;">
     <div class="container-fluid">
-      <a class="navbar-brand">Exportaciones de Antioquia (últimos 12 meses)</a>
-      <form class="d-flex">
+      <a class="navbar-brand">Exportaciones de {{ this.stringFormat( this.departamento?.departamento) }} ({{ this.stringFormat( this.periodo?.nombrePeriodo) }})</a>
+      <div *ngIf="loading">
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        <span>&nbsp; Consultando Información...</span>
+      </div>
+      <form class="d-flex" (submit)="sendFilter()" *ngIf="!loading">
+     
+         
+            <select name="periodoID"  [(ngModel)]="filterFormodel.periodoID" placeholder="Periodo" class="form-select form-control form-control-sm me-2" required>
+              <option value="" selected>Seleccione Periodo</option>
+              <option *ngFor="let objeto of periodos" [ngValue]="objeto.id">{{objeto.nombrePeriodo}}</option>
+            </select>
+      
+         
+      
+            <select name="departamentoID"  [(ngModel)]="filterFormodel.departamentoID" placeholder="departamento" class="form-select form-control form-control-sm me-2">
+              <option value="0" selected>Seleccione Departamento</option>
+              <option *ngFor="let objeto of departamentos" [ngValue]="objeto.id">{{objeto.departamento}}</option>
+            </select>
+         
+          
+  
 
-        <select class="form-select form-control me-2" aria-label="Default select example">
-            <option selected>Seleccione Tiempo</option>
-            <option value="1" selected>12 Meses</option>
-            <option value="2">6 Meses</option>
-            <option value="3">3 Meses</option>
-        </select>
-        
-        <select class="form-select form-control me-2" aria-label="Default select example">
-            <option selected>Seleccione Departamento</option>
-            <option value="1" selected>Antioquia</option>
-            <option value="2">Santander</option>
-            <option value="3">Atlántico</option>
-        </select>
-        
+            <button type="submit" class="btn " style="border: 0px; background-color:transparent;"><i class="fa fa-search" aria-hidden="true" style="color: black;"></i></button>
+   
+  
+         
        
-        <button class="btn" type="submit" style="border: 0px; background-color:transparent;"><i class="fa fa-search" aria-hidden="true" style="color: black;"></i></button>
+      
       </form>
+      
     </div>
   </nav>
 <div class="container-fluid">
     
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-body" style="padding: 25px;">
                     <div class="row">
@@ -45,7 +58,7 @@
                             Paises destino
                         </div>   
                         <div class="col-sm-2">
-                            75
+                            {{ (this.resultadosGeneralesDto?.paisesDestino != undefined) ? this.resultadosGeneralesDto?.paisesDestino: 0 }}
                         </div>                    
                     </div>
 
@@ -57,7 +70,7 @@
                             Pocisiones Arancelarias
                         </div>   
                         <div class="col-sm-2">
-                            380
+                            {{ (this.resultadosGeneralesDto?.posicionesArancelarias != undefined) ? this.resultadosGeneralesDto?.posicionesArancelarias: 0 }}
                         </div>                    
                     </div>
 
@@ -70,7 +83,7 @@
                             Peso neto (Miles de Toneladas)
                         </div>   
                         <div class="col-sm-2">
-                            310
+                            {{ (this.resultadosGeneralesDto?.pesoNeto != undefined) ? this.resultadosGeneralesDto?.pesoNeto: 0 }}
                         </div>                    
                     </div>
 
@@ -82,17 +95,16 @@
                             Número de empresas
                         </div>   
                         <div class="col-sm-2">
-                            380
-                        </div>                    
+                            {{ (this.resultadosGeneralesDto?.numEmpresas != undefined) ? this.resultadosGeneralesDto?.numEmpresas: 0 }}                        </div>                    
                     </div>
             
                  
                 </div>
             </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-6">
             <div class="card">
-                <div class="card-body" style="padding: 25px;">
+                <div class="card-body" style="padding: 25px; padding-right: 20;">
                   
                     <div class="row">
                         <div class="col-sm-10">
@@ -100,7 +112,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">Exportaciones totales</h6>
                         </div>
                     
-                      <div (click)="edit()" class="col-sm-2" style="cursor: pointer;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="edit()" class="col-sm-2" style="cursor: pointer; text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -108,39 +120,39 @@
                     <br>
 
                     <div class="row card-body2">                 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             Variación frente a 2020
                         </div>   
-                        <div class="col-sm-2">
-                            <i class="fas fa-plus" style="color: rgb(14, 199, 60);"></i> 2.5%
+                        <div class="col-sm-4" style="text-align: end;">
+                            <span><i class="fas fa-plus" style="color: rgb(14, 199, 60);"></i> {{ (this.balanceDto?.variacion != undefined) ? this.balanceDto?.variacion: 0 }}</span>
                         </div>                    
                     </div>
 
                     <div class="row card-body2">                 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             Participación en Exportaciones de Colombia
                         </div>   
-                        <div class="col-sm-2">
-                            22.5%
+                        <div class="col-sm-4" style="text-align: end;">
+                            <span> {{ (this.balanceDto?.participacionExpo != undefined) ? this.balanceDto?.participacionExpo+'%': 0+'%' }}</span>
                         </div>                    
                     </div>
 
 
                     <div class="row card-body2">                 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             Ranking en Colombia
                         </div>   
-                        <div class="col-sm-2">
-                            <i class="fas fa-arrow-alt-circle-up" style="color: rgb(14, 199, 60);"></i> 2do
+                        <div class="col-sm-4" style="text-align: end;">                          
+                            <span><i class="fas fa-arrow-alt-circle-up" style="color: rgb(14, 199, 60);"></i> {{ (this.balanceDto?.ranking != undefined) ? this.balanceDto?.ranking: 0 }}</span>
                         </div>                    
                     </div>
 
                     <div class="row card-body2">                 
-                        <div class="col-sm-10">
+                        <div class="col-sm-8">
                             Número de empresas
                         </div>   
-                        <div class="col-sm-2">
-                            380
+                        <div class="col-sm-4" style="text-align: end;">
+                            <span> {{ (this.balanceDto?.numeroEmpresas != undefined) ? this.balanceDto?.numeroEmpresas: 0 }}</span>
                         </div>                    
                     </div>
                 </div>
@@ -166,7 +178,7 @@
 
                     <br>
 
-                    <div class="row card-body2">                 
+                    <div class="row card-body4">                 
                         <div class="col-sm-12">
                             <div id="chart">
                                 <apx-chart
@@ -194,14 +206,14 @@
                             </div>                            
                         </div>   
                         <div class="col-sm-4">
-                            <div class="row card-body2">
+                            <div class="row card-body3">
                                 <div class="col"> 
                                     <div style="background-color: #b4d4fc; padding: 6px;">
                                         Distancia al primero en el ranking _(Millones USD/FOB): 1.250  
                                     </div>                                                                    
                                 </div>
                             </div>
-                            <div class="row card-body2">
+                            <div class="row card-body3">
                                 <div class="col">
                                     <div style="background-color: #b4d4fc; padding: 6px;">
                                         Distancia al primero en el ranking _(%): 503.2%  
@@ -210,10 +222,10 @@
                             </div>
                         </div>   
                         <div class="col-sm-5">
-                            <div class="row card-body2">
+                            <div class="row card-body3">
                                 <div class="col">Antioquia tendía que haber exportado 1250 millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de Bogotá (Mayor exportador)</div>
                             </div>
-                            <div class="row card-body2">
+                            <div class="row card-body3">
                                 <div class="col">Antioquia tendía que haber exportado 1250 millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de Bogotá (Mayor exportador)</div>
                             </div>
                         </div>                  
@@ -243,7 +255,7 @@
 
                     <br>
 
-                    <div class="row card-body2">                 
+                    <div class="row card-body4">                 
                         <div class="col-sm-12">
                             <div id="chart">
                                 <apx-chart
@@ -282,7 +294,7 @@
 
                     <br>
 
-                    <div class="row card-body2">                 
+                    <div class="row card-body4">                 
                         <div class="col-sm-12">
                             <div id="chart">
                                 <apx-chart

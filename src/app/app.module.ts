@@ -17,6 +17,7 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'; // add
 import { AppInterceptor } from './app.interceptor';
 import { InfoDepartamentoComponent } from './components/pages/info-departamento/info-departamento.component';
 import { NgApexchartsModule } from "ng-apexcharts";
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { NgApexchartsModule } from "ng-apexcharts";
     MatButtonModule,
     NgbModule,
     HttpClientModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    FormsModule
   ],
   exports:[
     BrowserAnimationsModule,
