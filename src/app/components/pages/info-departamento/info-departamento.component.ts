@@ -12,6 +12,8 @@ import {
   ApexYAxis,
   ApexPlotOptions,
   ApexGrid,
+  ApexStroke,
+  ApexAnnotations,
   ApexResponsive
 } from "ng-apexcharts";
 import { InfoDepartamentoService } from 'src/app/services/pages/info-departamento.service';
@@ -20,14 +22,18 @@ export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   xaxis: ApexXAxis;
+  colors: string[];
   markers: any; //ApexMarkers;
-  stroke: any; //ApexStroke;
+  stroke: ApexStroke; //ApexStroke;
   yaxis: ApexYAxis | ApexYAxis[];
   dataLabels: ApexDataLabels;
   title: ApexTitleSubtitle;
   legend: ApexLegend;
   fill: ApexFill;
   tooltip: ApexTooltip;
+  plotOptions: ApexPlotOptions;
+  annotations: ApexAnnotations;
+  grid: ApexGrid;
 };
 
 export type ChartOptions2 = {
@@ -77,12 +83,18 @@ export class InfoDepartamentoComponent implements OnInit {
   resultadosGeneralesDto: any;
   departamento: any;
   periodo: any;
+  rankings: any;
+  count_ranking: any;
+  rank_dep: any;
+  rank_one: any;
 
   constructor(private infoDepartamentoService: InfoDepartamentoService) {
     this.filterFormodel= {
       periodoID:6,
       departamentoID:5                     
     };
+
+    
 
     this.loading= false;
 
@@ -91,18 +103,20 @@ export class InfoDepartamentoComponent implements OnInit {
         {
           name: "Income",
           type: "column",
-          data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
+          data: []
         },
-        {
-          name: "Cashflow",
-          type: "column",
-          data: [1.1, 3, 3.1, 4, 4.1, 4.9, 6.5, 8.5]
-        },
-        {
-          name: "Revenue",
-          type: "line",
-          data: [20, 29, 37, 36, 44, 45, 50, 58]
-        }
+      
+      ],
+      colors: [
+        "#008FFB",
+        "#00E396",
+        "#FEB019",
+        "#FF4560",
+        "#775DD0",
+        "#546E7A",
+        "#26a69a",
+        "#D10CE8",
+        "#775DD0"
       ],
       chart: {
         height: 350,
@@ -113,32 +127,47 @@ export class InfoDepartamentoComponent implements OnInit {
         enabled: false
       },
       stroke: {
-        width: [1, 1, 4]
+        width: [2]
+      },
+      plotOptions: {
+        bar: {
+          columnWidth: "50%",
+          endingShape: "rounded"
+        }
       },
       title: {
-        text: "XYZ - Stock Analysis (2009 - 2016)",
+        text: undefined,
         align: "left",
         offsetX: 110
       },
+      grid: {
+        row: {
+          colors: ["#fff", "#f2f2f2"]
+        }
+      },
       xaxis: {
-        categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016]
+        labels: {
+          rotate: -45
+        },
+        categories: []
       },
       yaxis: [
         {
           axisTicks: {
-            show: true
+            show: false
           },
           axisBorder: {
-            show: true,
+            show: false,
             color: "#008FFB"
           },
           labels: {
+            show: false,
             style: {
               color: "#008FFB"
             }
           },
           title: {
-            text: "Income (thousand crores)",
+            text: undefined,
             style: {
               color: "#008FFB"
             }
@@ -147,50 +176,7 @@ export class InfoDepartamentoComponent implements OnInit {
             enabled: true
           }
         },
-        {
-          seriesName: "Income",
-          opposite: true,
-          axisTicks: {
-            show: true
-          },
-          axisBorder: {
-            show: true,
-            color: "#00E396"
-          },
-          labels: {
-            style: {
-              color: "#00E396"
-            }
-          },
-          title: {
-            text: "Operating Cashflow (thousand crores)",
-            style: {
-              color: "#00E396"
-            }
-          }
-        },
-        {
-          seriesName: "Revenue",
-          opposite: true,
-          axisTicks: {
-            show: true
-          },
-          axisBorder: {
-            show: true,
-            color: "#FEB019"
-          },
-          labels: {
-            style: {
-              color: "#FEB019"
-            }
-          },
-          title: {
-            text: "Revenue (thousand crores)",
-            style: {
-              color: "#FEB019"
-            }
-          }
-        }
+        
       ],
       tooltip: {
         fixed: {
@@ -347,10 +333,127 @@ export class InfoDepartamentoComponent implements OnInit {
 
     this.getLists();
     this.sendFilter();
+    
    }
 
   ngOnInit(): void {
     
+  }
+  rankexpnac (){
+    let data_series: any[]= [];
+    let data_categories: any[]= [];
+    this.rankings.forEach((element:any) => {
+      data_series.push(element.fobdolares);
+      data_categories.push(element.departament);
+    });
+
+    this.count_ranking = this.rankings.length;
+
+    console.log('this.departamento', this.departamento);
+    
+
+    this.rank_dep=  this.rankings.find((rank: any) => {
+      return rank.id === this.departamento.id;
+    });
+
+    this.rank_one=  this.rankings.find((rank: any) => {
+      return rank.rank === 1;
+    });
+
+
+    this.chartOptions = {
+      series: [
+        {
+          name: "Fobdolares",
+          type: "column",
+          data: data_series
+        },
+      
+      ],
+      colors: [
+        "#008FFB",
+        "#00E396",
+        "#FEB019",
+        "#FF4560",
+        "#775DD0",
+        "#546E7A",
+        "#26a69a",
+        "#D10CE8",
+        "#775DD0"
+      ],
+      chart: {
+        height: 350,
+        type: "line",
+        stacked: false
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: [2]
+      },
+      plotOptions: {
+        bar: {
+          columnWidth: "50%",
+          endingShape: "rounded"
+        }
+      },
+      title: {
+        text: undefined,
+        align: "left",
+        offsetX: 110
+      },
+      grid: {
+        row: {
+          colors: ["#fff", "#f2f2f2"]
+        }
+      },
+      xaxis: {
+        labels: {
+          rotate: -45
+        },
+        categories: data_categories
+      },
+      yaxis: [
+        {
+          axisTicks: {
+            show: false
+          },
+          axisBorder: {
+            show: false,
+            color: "#008FFB"
+          },
+          labels: {
+            show: false,
+            style: {
+              color: "#008FFB"
+            }
+          },
+          title: {
+            text: undefined,
+            style: {
+              color: "#008FFB"
+            }
+          },
+          tooltip: {
+            enabled: true
+          }
+        },
+        
+      ],
+      tooltip: {
+        fixed: {
+          enabled: true,
+          position: "topLeft", // topRight, topLeft, bottomRight, bottomLeft
+          offsetY: 30,
+          offsetX: 60
+        }
+      },
+      legend: {
+        horizontalAlign: "left",
+        offsetX: 40
+      }
+    };
   }
 
   getLists(){
@@ -389,17 +492,20 @@ export class InfoDepartamentoComponent implements OnInit {
     this.loading= true;
 
     this.infoDepartamentoService.postFilter(this.filterFormodel).subscribe((response) => {  
-      console.log(response);
+      
       this.loading= false;
       this.balanceDto = response.balanceDto;
       this.resultadosGeneralesDto = response.resultadosGeneralesDto;
+      this.rankings = response.rankings.sort((a:any, b:any) => (a.rank < b.rank ? -1 : 1));
+
+   
        
       this.departamento=  this.departamentos.find((depa: any) => {
         return depa.id === this.filterFormodel.departamentoID;
       });
 
-      console.log('this.departamento',this.departamento);
-      
+     
+      this.rankexpnac();
 
       this.periodo=  this.periodos.find((pera: any) => {
         return pera.id === this.filterFormodel.periodoID;
