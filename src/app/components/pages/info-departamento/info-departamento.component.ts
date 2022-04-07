@@ -14,7 +14,8 @@ import {
   ApexGrid,
   ApexStroke,
   ApexAnnotations,
-  ApexResponsive
+  ApexResponsive,
+  ApexNonAxisChartSeries
 } from "ng-apexcharts";
 import { InfoDepartamentoService } from 'src/app/services/pages/info-departamento.service';
 
@@ -64,6 +65,71 @@ export type ChartOptions3 = {
   fill: ApexFill;
 };
 
+export type ChartOptions4 = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  tooltip: any; // ApexTooltip;
+  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  legend: ApexLegend;
+  title: ApexTitleSubtitle;
+};
+
+export type ChartOptions5 = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  stroke: ApexStroke;
+  fill: ApexFill;
+};
+
+export type ChartOptions6 = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  yaxis: ApexYAxis;
+  title: ApexTitleSubtitle;
+  labels: string[];
+  legend: ApexLegend;
+  subtitle: ApexTitleSubtitle;
+};
+
+
+
+export type ChartOptions7 = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  labels: string[];
+  plotOptions: ApexPlotOptions;
+  title: ApexTitleSubtitle;
+};
+
+export type ChartOptions8 = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  title: ApexTitleSubtitle;
+};
+
+export type ChartOptions9 = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  yaxis: ApexYAxis;
+  xaxis: ApexXAxis;
+  fill: ApexFill;
+  title: ApexTitleSubtitle;
+};
+
+
 @Component({
   selector: 'app-info-departamento',
   templateUrl: './info-departamento.component.html',
@@ -75,6 +141,12 @@ export class InfoDepartamentoComponent implements OnInit {
   public chartOptions!: Partial<ChartOptions>| any;
   public chartOptions2!: Partial<ChartOptions2>| any;
   public chartOptions3!: Partial<ChartOptions3>| any;
+  public chartOptions4!: Partial<ChartOptions4>| any;
+  public chartOptions5!: Partial<ChartOptions5>| any;
+  public chartOptions6!: Partial<ChartOptions6>| any;
+  public chartOptions7!: Partial<ChartOptions7>| any;
+  public chartOptions8!: Partial<ChartOptions8>| any;
+  public chartOptions9!: Partial<ChartOptions9>| any;
   filterFormodel: { periodoID: number | string, departamentoID: number };
   periodos: any;
   departamentos: any;
@@ -85,6 +157,7 @@ export class InfoDepartamentoComponent implements OnInit {
   periodo: any;
   rankings: any;
   count_ranking: any;
+  capitulosArancelariosDept:any;
   rank_dep: any;
   rank_one: any;
 
@@ -147,7 +220,8 @@ export class InfoDepartamentoComponent implements OnInit {
       },
       xaxis: {
         labels: {
-          rotate: -45
+          rotate: -90,
+          rotateAlways: true,
         },
         categories: []
       },
@@ -331,6 +405,364 @@ export class InfoDepartamentoComponent implements OnInit {
       }
     };
 
+    this.chartOptions4 = {
+      series: [
+        {
+          name: "Valor",
+          data: []
+        },
+        {
+          name: "Variación",
+          data: []
+        },
+        {
+          name: "Participacion",
+          data: []
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "line"
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: 1,
+        curve: "smooth",
+        dashArray: [0, 0, 0]
+      },
+      title: {
+        text: "Capitulos Arancelarios",
+        align: "left"
+      },
+      legend: {
+        tooltipHoverFormatter: function(val:any, opts:any) {
+          return (
+            val +
+            " - <strong>" +
+            opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+            "</strong>"
+          );
+        }
+      },
+      markers: {
+        size: 0,
+        hover: {
+          sizeOffset: 6
+        }
+      },
+      xaxis: {
+        labels: {
+          trim: false
+        },
+        categories: []
+      },
+      tooltip: {
+        y: [
+          {
+            title: {
+              formatter: function(val:any) {
+                return val + " (mins)";
+              }
+            }
+          },
+          {
+            title: {
+              formatter: function(val:any) {
+                return val + " per session";
+              }
+            }
+          },
+          {
+            title: {
+              formatter: function(val:any) {
+                return val;
+              }
+            }
+          }
+        ]
+      },
+      grid: {
+        borderColor: "#f1f1f1"
+      }
+    };
+
+    this.chartOptions5 = {
+      series: [14, 23, 21, 17, 15, 10, 12, 17, 21],
+      chart: {
+        type: "polarArea",
+        height: 350,
+      },
+      stroke: {
+        colors: ["#fff"]
+      },
+      fill: {
+        opacity: 0.8
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
+
+    this.chartOptions6 = {
+      series: [
+        {
+          name: "STOCK ABC",
+          data: [
+            8107.85,
+            8128.0,
+            8122.9,
+            8165.5,
+            8340.7,
+            8423.7,
+            8423.5,
+            8514.3,
+            8481.85,
+            8487.7,
+            8506.9,
+            8626.2,
+            8668.95,
+            8602.3,
+            8607.55,
+            8512.9,
+            8496.25,
+            8600.65,
+            8881.1,
+            9340.85
+          ]
+        }
+      ],
+      chart: {
+        type: "area",
+        height: 350,
+        zoom: {
+          enabled: false
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: "straight"
+      },
+
+      title: {
+        text: "Intensidad tecnológica CICI Rev.2",
+        align: "left"
+      },
+      subtitle: {
+        text: "178,080",
+        align: "left"
+      },
+      labels: [
+        "13 Nov 2017",
+        "14 Nov 2017",
+        "15 Nov 2017",
+        "16 Nov 2017",
+        "17 Nov 2017",
+        "20 Nov 2017",
+        "21 Nov 2017",
+        "22 Nov 2017",
+        "23 Nov 2017",
+        "24 Nov 2017",
+        "27 Nov 2017",
+        "28 Nov 2017",
+        "29 Nov 2017",
+        "30 Nov 2017",
+        "01 Dec 2017",
+        "04 Dec 2017",
+        "05 Dec 2017",
+        "06 Dec 2017",
+        "07 Dec 2017",
+        "08 Dec 2017"
+      ],
+      xaxis: {
+        type: "datetime"
+      },
+      yaxis: {
+        show: false,
+        opposite: false
+      },
+      legend: {
+        horizontalAlign: "left"
+      }
+    };
+
+    this.chartOptions7 = {
+      series: [44, 55, 67],
+      chart: {
+        height: 350,
+        type: "radialBar"
+      },
+      title: {
+        text: "Paises",
+        align: "left"
+      },
+      plotOptions: {
+        radialBar: {
+          dataLabels: {
+            name: {
+              fontSize: "22px"
+            },
+            value: {
+              fontSize: "16px"
+            },
+            total: {
+              show: true,
+              label: "Total",
+              formatter: function(w:any) {
+                return "249";
+              }
+            }
+          }
+        }
+      },
+      labels: ["Visits", "Sales", "Earnings",]
+    };
+
+    this.chartOptions8 = {
+      series: [44, 55, 13, 43, 22],
+      title: {
+        text: "Bloques Geográficos",
+        align: "left"
+      },
+      chart: {
+        height: 350,
+        type: "donut"
+      },
+      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
+
+    this.chartOptions9 = {
+      series: [
+        {
+          name: "Inflation",
+          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "bar"
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            position: "top" // top, center, bottom
+          }
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function(val:any) {
+          return val + "%";
+        },
+        offsetY: -20,
+        style: {
+          fontSize: "12px",
+          colors: ["#304758"]
+        }
+      },
+
+      xaxis: {
+        categories: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ],
+        position: "bottom",
+        labels: {
+          
+        },
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        },
+        crosshairs: {
+          fill: {
+            type: "gradient",
+            gradient: {
+              colorFrom: "#D8E3F0",
+              colorTo: "#BED1E6",
+              stops: [0, 100],
+              opacityFrom: 0.4,
+              opacityTo: 0.5
+            }
+          }
+        },
+        tooltip: {
+          enabled: true,
+          offsetY: -35
+        }
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shade: "light",
+          type: "horizontal",
+          shadeIntensity: 0.25,
+          gradientToColors: undefined,
+          inverseColors: true,
+          opacityFrom: 1,
+          opacityTo: 1,
+          stops: [50, 0, 100, 100]
+        }
+      },
+      yaxis: {
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false,
+          formatter: function(val:any) {
+            return val + "%";
+          }
+        }
+      },
+      title: {
+        text: "Agrupación de paises por acuerdos comerciales",
+        align: "left"
+      }
+    };
+    
+
     this.getLists();
     this.sendFilter();
     
@@ -358,6 +790,19 @@ export class InfoDepartamentoComponent implements OnInit {
 
     this.rank_one=  this.rankings.find((rank: any) => {
       return rank.rank === 1;
+    });
+
+  
+
+    let valor: any[]= [];
+    let variacion: any[]= [];
+    let participacion: any[]= [];
+    let categoria: any[]= [];
+    this.capitulosArancelariosDept.forEach((element:any) => {
+      valor.push(element.valor);
+      variacion.push(element.variacion);
+      participacion.push(element.participacion);
+      categoria.push(element.capitulo);
     });
 
 
@@ -410,7 +855,8 @@ export class InfoDepartamentoComponent implements OnInit {
       },
       xaxis: {
         labels: {
-          rotate: -45
+          rotate: -90,
+          rotateAlways: true,
         },
         categories: data_categories
       },
@@ -454,6 +900,90 @@ export class InfoDepartamentoComponent implements OnInit {
         offsetX: 40
       }
     };
+
+    this.chartOptions4 = {
+      series: [
+        {
+          name: "Valor",
+          data: valor
+        },
+        {
+          name: "Variación",
+          data: variacion
+        },
+        {
+          name: "Participacion",
+          data: participacion
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "line"
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: 1,
+        curve: "smooth",
+        dashArray: [0, 0, 0]
+      },
+      title: {
+        text: "Capitulos Arancelarios",
+        align: "left"
+      },
+      legend: {
+        tooltipHoverFormatter: function(val:any, opts:any) {
+          return (
+            val +
+            " - <strong>" +
+            opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+            "</strong>"
+          );
+        }
+      },
+      markers: {
+        size: 0,
+        hover: {
+          sizeOffset: 6
+        }
+      },
+      xaxis: {
+        labels: {
+          trim: false
+        },
+        categories: categoria
+      },
+      tooltip: {
+        y: [
+          {
+            title: {
+              formatter: function(val:any) {
+                return val;
+              }
+            }
+          },
+          {
+            title: {
+              formatter: function(val:any) {
+                return val;
+              }
+            }
+          },
+          {
+            title: {
+              formatter: function(val:any) {
+                return val;
+              }
+            }
+          }
+        ]
+      },
+      grid: {
+        borderColor: "#f1f1f1"
+      }
+    };
+
   }
 
   getLists(){
@@ -497,7 +1027,7 @@ export class InfoDepartamentoComponent implements OnInit {
       this.balanceDto = response.balanceDto;
       this.resultadosGeneralesDto = response.resultadosGeneralesDto;
       this.rankings = response.rankings.sort((a:any, b:any) => (a.rank < b.rank ? -1 : 1));
-
+      this.capitulosArancelariosDept= response.capitulosArancelariosDept;
    
        
       this.departamento=  this.departamentos.find((depa: any) => {

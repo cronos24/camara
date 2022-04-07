@@ -203,22 +203,22 @@
                   
                     <div class="row">                 
                         <div class="col-sm-3">
-                            <div style="background-color: #dbebeb; text-align: center; padding: 6px;">
+                            <div class="centerv">
                                 Ranking entre {{ this.count_ranking }}:
-                                <p><h2><i class="fas fa-star"></i> {{ this.rank_dep?.rank }}</h2>
+                                <br><h2><i class="fas fa-star"></i> {{ this.rank_dep?.rank }}</h2>
                             </div>                            
                         </div>   
                         <div class="col-sm-4">
                             <div class="row card-body3">
                                 <div class="col"> 
-                                    <div style="background-color: #b4d4fc; padding: 6px;">
+                                    <div style="background-color: #b4d4fc; padding: 6px; min-height: 70px;">
                                         Distancia al primero en el ranking _(Millones USD/FOB): {{ this.rank_one?.fobdolares-this.rank_dep?.fobdolares }}
                                     </div>                                                                    
                                 </div>
                             </div>
                             <div class="row card-body3">
                                 <div class="col">
-                                    <div style="background-color: #b4d4fc; padding: 6px;">
+                                    <div style="background-color: #b4d4fc; padding: 6px; min-height: 70px;">
                                         Distancia al primero en el ranking _(%): {{ (this.rank_one?.fobdolares*100/this.rank_dep?.fobdolares)+'%' }}
                                     </div> 
                                 </div>
@@ -322,6 +322,149 @@
                 </div>
             </div>
         </div>      
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body" style="padding: 25px;">
+                  
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <h5 class="card-title">Productos Exportados</h5>
+                           
+                        </div>
+                    
+                      <div (click)="edit()" class="col-sm-2" style="cursor: pointer;"> <i class="fas fa-cogs fa-2x"></i></div>
+            
+                      
+                    </div>
+
+                    <br>
+
+                    <div class="row card-body4">                 
+                        <div class="col-sm-4" style="border-right: 1px solid #c3c0c0;">
+                          
+                            <apx-chart
+                            [series]="chartOptions4.series"
+                            [chart]="chartOptions4.chart"
+                            [xaxis]="chartOptions4.xaxis"
+                            [stroke]="chartOptions4.stroke"
+                            [tooltip]="chartOptions4.tooltip"
+                            [dataLabels]="chartOptions4.dataLabels"
+                            [legend]="chartOptions4.legend"
+                            [markers]="chartOptions4.markers"
+                            [grid]="chartOptions4.grid"
+                            [yaxis]="chartOptions4.yaxis"
+                            [title]="chartOptions4.title"
+                          ></apx-chart>
+                              
+                        </div>      
+                        
+                        <div class="col-sm-4" style="border-right: 1px solid #c3c0c0;">
+                          
+                            <apx-chart
+                                [series]="chartOptions5.series"
+                                [chart]="chartOptions5.chart"
+                                [labels]="chartOptions5.labels"
+                                [fill]="chartOptions5.fill"
+                                [stroke]="chartOptions5.stroke"
+                                [responsive]="chartOptions5.responsive"
+                            ></apx-chart>
+                              
+                        </div>  
+
+                        <div class="col-sm-4">
+                          
+                            <apx-chart
+                                [series]="chartOptions6.series"
+                                [chart]="chartOptions6.chart"
+                                [xaxis]="chartOptions6.xaxis"
+                                [stroke]="chartOptions6.stroke"
+                                [dataLabels]="chartOptions6.dataLabels"
+                                [yaxis]="chartOptions6.yaxis"
+                                [labels]="chartOptions6.labels"
+                                [legend]="chartOptions6.legend"
+                                [title]="chartOptions6.title"
+                                [subtitle]="chartOptions6.subtitle"
+                            ></apx-chart>
+                              
+                        </div>                   
+                    </div>
+                  
+                 
+                    
+
+                </div>
+            </div>
+        </div>        
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body" style="padding: 25px;">
+                  
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <h5 class="card-title">Productos Exportados</h5>
+                           
+                        </div>
+                    
+                      <div (click)="edit()" class="col-sm-2" style="cursor: pointer;"> <i class="fas fa-cogs fa-2x"></i></div>
+            
+                      
+                    </div>
+
+                    <br>
+
+                    <div class="row card-body4">                 
+                        <div class="col-sm-4" style="border-right: 1px solid #c3c0c0;">
+                          
+                            <apx-chart
+                                [series]="chartOptions7.series"
+                                [chart]="chartOptions7.chart"
+                                [plotOptions]="chartOptions7.plotOptions"
+                                [labels]="chartOptions7.labels"
+                                [title]="chartOptions7.title"
+                            ></apx-chart>
+                              
+                        </div>      
+                        
+                        <div class="col-sm-4" style="border-right: 1px solid #c3c0c0;">
+                          
+                            <apx-chart
+                                [series]="chartOptions8.series"
+                                [chart]="chartOptions8.chart"
+                                [labels]="chartOptions8.labels"
+                                [responsive]="chartOptions8.responsive"
+                                [title]="chartOptions8.title"
+                            ></apx-chart>
+                              
+                        </div>  
+
+                        <div class="col-sm-4">
+                          
+                            <apx-chart
+                                [series]="chartOptions9.series"
+                                [chart]="chartOptions9.chart"
+                                [dataLabels]="chartOptions9.dataLabels"
+                                [plotOptions]="chartOptions9.plotOptions"
+                                [yaxis]="chartOptions9.yaxis"
+                                [xaxis]="chartOptions9.xaxis"
+                                [fill]="chartOptions9.fill"
+                                [title]="chartOptions9.title"
+                            ></apx-chart>
+                              
+                        </div>                   
+                    </div>
+                  
+                 
+                    
+
+                </div>
+            </div>
+        </div>        
     </div>
 </div>
 

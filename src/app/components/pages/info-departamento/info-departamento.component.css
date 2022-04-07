@@ -103,3 +103,18 @@
     display: flex;
     flex-direction: column;
   }
+
+  .centerv {
+    line-height: 80px;
+    text-align: center;
+    min-height: 200px;
+    background-color: #dbebeb;
+    text-align: center;
+    padding: 6px;
+  }
+
+  .centerv span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+  }
