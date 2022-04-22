@@ -147,7 +147,7 @@ export class InfoDepartamentoComponent implements OnInit {
   public chartOptions7!: Partial<ChartOptions7>| any;
   public chartOptions8!: Partial<ChartOptions8>| any;
   public chartOptions9!: Partial<ChartOptions9>| any;
-  filterFormodel: { periodoID: number | string, departamentoID: number };
+  filterFormodel: { periodoID: number | string, departamentoID: number, extraPeriodo:number, graficaConsulta:number };
   periodos: any;
   departamentos: any;
   loading: boolean;
@@ -160,15 +160,48 @@ export class InfoDepartamentoComponent implements OnInit {
   capitulosArancelariosDept:any;
   rank_dep: any;
   rank_one: any;
+  periodosExtra: { id: number; numero: number; periodo_id: number; nombrePeriodoExtra: string; }[];
+  _periodosExtra: { id: number; numero: number; periodo_id: number; nombrePeriodoExtra: string; }[] | undefined;
+  fobDepartamentos: any;
+  kilosNetos: any;
+  intensidadTecno: any;
+  paises: any;
+  bloquesGeoDept: any;
+
 
   constructor(private infoDepartamentoService: InfoDepartamentoService) {
     this.filterFormodel= {
       periodoID:6,
-      departamentoID:5                     
+      departamentoID:5,
+      extraPeriodo:0,
+      graficaConsulta:1                  
     };
 
-    
+   
 
+    this.periodosExtra=[
+      {id:0, numero: 1, periodo_id:3, nombrePeriodoExtra:'Primer Semestre'},
+      {id:1, numero: 2, periodo_id:3, nombrePeriodoExtra:'Segundo Semestre'},
+      {id:2, numero: 1, periodo_id:4, nombrePeriodoExtra:'Primer Trimestre'},
+      {id:3, numero: 2, periodo_id:4, nombrePeriodoExtra:'Segundo Trimestre'},
+      {id:4, numero: 3, periodo_id:4, nombrePeriodoExtra:'Tercer Trimestre'},
+      {id:5, numero: 4, periodo_id:4, nombrePeriodoExtra:'Cuarto Trimestre'},
+      {id:6, numero: 1, periodo_id:2, nombrePeriodoExtra:'Enero'},
+      {id:7, numero: 2, periodo_id:2, nombrePeriodoExtra:'Febrero'},
+      {id:8, numero: 3, periodo_id:2, nombrePeriodoExtra:'Marzo'},
+      {id:9, numero: 4, periodo_id:2, nombrePeriodoExtra:'Abril'},
+      {id:10, numero: 5, periodo_id:2, nombrePeriodoExtra:'Mayo'},
+      {id:11, numero: 6, periodo_id:2, nombrePeriodoExtra:'Junio'},
+      {id:12, numero: 7, periodo_id:2, nombrePeriodoExtra:'Julio'},
+      {id:13, numero: 8, periodo_id:2, nombrePeriodoExtra:'Agosto'},
+      {id:14, numero: 9, periodo_id:2, nombrePeriodoExtra:'Septiembre'},
+      {id:15, numero: 10, periodo_id:2, nombrePeriodoExtra:'Octubre'},
+      {id:16, numero: 11, periodo_id:2, nombrePeriodoExtra:'Noviembre'},
+      {id:17, numero: 12, periodo_id:2, nombrePeriodoExtra:'Diciembre'},
+      
+    ];
+ 
+    this.periodosExtra=this.periodosExtra;
     this.loading= false;
 
     this.chartOptions = {
@@ -764,225 +797,389 @@ export class InfoDepartamentoComponent implements OnInit {
     
 
     this.getLists();
-    this.sendFilter();
+    this.getGraph();
     
    }
 
   ngOnInit(): void {
     
   }
-  rankexpnac (){
-    let data_series: any[]= [];
-    let data_categories: any[]= [];
-    this.rankings.forEach((element:any) => {
-      data_series.push(element.fobdolares);
-      data_categories.push(element.departament);
+
+  onChangePeriodo(event:any){
+    this.filterFormodel.extraPeriodo=0;
+    this._periodosExtra= this.periodosExtra.filter((pe: any) => {
+      return pe.periodo_id === this.filterFormodel.periodoID;
     });
 
-    this.count_ranking = this.rankings.length;
-
-    console.log('this.departamento', this.departamento);
+    console.log(this.filterFormodel);
     
+  }
+  rankexpnac (graficaConsulta:number){
 
-    this.rank_dep=  this.rankings.find((rank: any) => {
-      return rank.id === this.departamento.id;
-    });
 
-    this.rank_one=  this.rankings.find((rank: any) => {
-      return rank.rank === 1;
-    });
+    switch (graficaConsulta) {
+      case 1:
+        let data_series: any[]= [];
+        let data_categories: any[]= [];
+        
+        if (this.rankings!=null) {
+          this.rankings.forEach((element:any) => {
+            data_series.push(element.fobdolares);
+            data_categories.push(element.departament);
+          });
+        }
+        
+
+        this.count_ranking = (this.rankings!=null) ?this.rankings.length:null;
+
+        console.log('this.departamento', this.departamento);
+        
+
+        this.rank_dep=  ( this.rankings!=null && this.departamento!=null)? this.rankings.find((rank: any) => {
+          return rank.id === this.departamento.id;
+        }): null;
+
+        this.rank_one=  ( this.rankings!=null)? this.rankings.find((rank: any) => {
+          return rank.rank === 1;
+        }):null;
+
+      
+
+        let valor: any[]= [];
+        let variacion: any[]= [];
+        let participacion: any[]= [];
+        let categoria: any[]= [];
+
+        if (this.capitulosArancelariosDept!=null) {
+          this.capitulosArancelariosDept.forEach((element:any) => {
+            valor.push(element.valor);
+            variacion.push(element.variacion);
+            participacion.push(element.participacion);
+            categoria.push(element.capitulo);
+          });
+        }
+
+        
+        console.log('this.departamento', this.departamento);
+        
+
+        this.rank_dep=  ( this.rankings!=null && this.departamento!=null)? this.rankings.find((rank: any) => {
+          return rank.id === this.departamento.id;
+        }): null;
+
+        this.rank_one=  ( this.rankings!=null)? this.rankings.find((rank: any) => {
+          return rank.rank === 1;
+        }):null;
 
   
-
-    let valor: any[]= [];
-    let variacion: any[]= [];
-    let participacion: any[]= [];
-    let categoria: any[]= [];
-    this.capitulosArancelariosDept.forEach((element:any) => {
-      valor.push(element.valor);
-      variacion.push(element.variacion);
-      participacion.push(element.participacion);
-      categoria.push(element.capitulo);
-    });
-
-
-    this.chartOptions = {
-      series: [
-        {
-          name: "Fobdolares",
-          type: "column",
-          data: data_series
-        },
-      
-      ],
-      colors: [
-        "#008FFB",
-        "#00E396",
-        "#FEB019",
-        "#FF4560",
-        "#775DD0",
-        "#546E7A",
-        "#26a69a",
-        "#D10CE8",
-        "#775DD0"
-      ],
-      chart: {
-        height: 350,
-        type: "line",
-        stacked: false
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        width: [2]
-      },
-      plotOptions: {
-        bar: {
-          columnWidth: "50%",
-          endingShape: "rounded"
-        }
-      },
-      title: {
-        text: undefined,
-        align: "left",
-        offsetX: 110
-      },
-      grid: {
-        row: {
-          colors: ["#fff", "#f2f2f2"]
-        }
-      },
-      xaxis: {
-        labels: {
-          rotate: -90,
-          rotateAlways: true,
-        },
-        categories: data_categories
-      },
-      yaxis: [
-        {
-          axisTicks: {
-            show: false
+        this.chartOptions = {
+          series: [
+            {
+              name: "Fobdolares",
+              type: "column",
+              data: data_series
+            },
+          
+          ],
+          colors: [
+            "#008FFB",
+            "#00E396",
+            "#FEB019",
+            "#FF4560",
+            "#775DD0",
+            "#546E7A",
+            "#26a69a",
+            "#D10CE8",
+            "#775DD0"
+          ],
+          chart: {
+            height: 350,
+            type: "line",
+            stacked: false
           },
-          axisBorder: {
-            show: false,
-            color: "#008FFB"
+          dataLabels: {
+            enabled: false
           },
-          labels: {
-            show: false,
-            style: {
-              color: "#008FFB"
+          stroke: {
+            width: [2]
+          },
+          plotOptions: {
+            bar: {
+              columnWidth: "50%",
+              endingShape: "rounded"
             }
           },
           title: {
             text: undefined,
-            style: {
-              color: "#008FFB"
+            align: "left",
+            offsetX: 110
+          },
+          grid: {
+            row: {
+              colors: ["#fff", "#f2f2f2"]
             }
+          },
+          xaxis: {
+            labels: {
+              rotate: -90,
+              rotateAlways: true,
+            },
+            categories: data_categories
+          },
+          yaxis: [
+            {
+              axisTicks: {
+                show: false
+              },
+              axisBorder: {
+                show: false,
+                color: "#008FFB"
+              },
+              labels: {
+                show: false,
+                style: {
+                  color: "#008FFB"
+                }
+              },
+              title: {
+                text: undefined,
+                style: {
+                  color: "#008FFB"
+                }
+              },
+              tooltip: {
+                enabled: true
+              }
+            },
+            
+          ],
+          tooltip: {
+            fixed: {
+              enabled: true,
+              position: "topLeft", // topRight, topLeft, bottomRight, bottomLeft
+              offsetY: 30,
+              offsetX: 60
+            }
+          },
+          legend: {
+            horizontalAlign: "left",
+            offsetX: 40
+          }
+        };
+    
+        this.chartOptions4 = {
+          series: [
+            {
+              name: "Valor",
+              data: valor
+            },
+            {
+              name: "Variación",
+              data: variacion
+            },
+            {
+              name: "Participacion",
+              data: participacion
+            }
+          ],
+          chart: {
+            height: 350,
+            type: "line"
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            width: 1,
+            curve: "smooth",
+            dashArray: [0, 0, 0]
+          },
+          title: {
+            text: "Capitulos Arancelarios",
+            align: "left"
+          },
+          legend: {
+            tooltipHoverFormatter: function(val:any, opts:any) {
+              return (
+                val +
+                " - <strong>" +
+                opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+                "</strong>"
+              );
+            }
+          },
+          markers: {
+            size: 0,
+            hover: {
+              sizeOffset: 6
+            }
+          },
+          xaxis: {
+            labels: {
+              trim: false
+            },
+            categories: categoria
           },
           tooltip: {
-            enabled: true
+            y: [
+              {
+                title: {
+                  formatter: function(val:any) {
+                    return val;
+                  }
+                }
+              },
+              {
+                title: {
+                  formatter: function(val:any) {
+                    return val;
+                  }
+                }
+              },
+              {
+                title: {
+                  formatter: function(val:any) {
+                    return val;
+                  }
+                }
+              }
+            ]
+          },
+          grid: {
+            borderColor: "#f1f1f1"
           }
-        },
-        
-      ],
-      tooltip: {
-        fixed: {
-          enabled: true,
-          position: "topLeft", // topRight, topLeft, bottomRight, bottomLeft
-          offsetY: 30,
-          offsetX: 60
-        }
-      },
-      legend: {
-        horizontalAlign: "left",
-        offsetX: 40
-      }
-    };
+        };
+    
+        break;
 
-    this.chartOptions4 = {
-      series: [
-        {
-          name: "Valor",
-          data: valor
-        },
-        {
-          name: "Variación",
-          data: variacion
-        },
-        {
-          name: "Participacion",
-          data: participacion
+      case 2:
+        let fob_categoria: any[]= [];
+        let data_categories_fob: any[]= [];
+        let data_categories_epd: any[]= [];
+        let data_categories_eme: any[]= [];
+        let data_categories_epa: any[]= [];
+        let data_categories_ec: any[]= [];
+
+
+        if (this.fobDepartamentos!=null) {
+          this.fobDepartamentos.forEach((element:any) => {
+            fob_categoria.push(element.fecha);
+            switch (element.categoria) {
+              case 'Exportaciones totales':
+                data_categories_fob.push(element.fobdolares);
+                break;
+              case 'Excluyendo petróleo y derivados':
+                data_categories_epd.push(element.fobdolares);
+                break;
+
+              case 'Excluyendo minero enérgeticos':
+                data_categories_eme.push(element.fobdolares);
+                break;
+
+              case 'Excluyendo productos agrícolas':
+                data_categories_epa.push(element.fobdolares);
+                break;
+              case 'Excluyendo café':
+                data_categories_ec.push(element.fobdolares);
+                 break;
+              default:
+                break;
+            }
+          });
         }
-      ],
-      chart: {
-        height: 350,
-        type: "line"
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        width: 1,
-        curve: "smooth",
-        dashArray: [0, 0, 0]
-      },
-      title: {
-        text: "Capitulos Arancelarios",
-        align: "left"
-      },
-      legend: {
-        tooltipHoverFormatter: function(val:any, opts:any) {
-          return (
-            val +
-            " - <strong>" +
-            opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
-            "</strong>"
-          );
-        }
-      },
-      markers: {
-        size: 0,
-        hover: {
-          sizeOffset: 6
-        }
-      },
-      xaxis: {
-        labels: {
-          trim: false
-        },
-        categories: categoria
-      },
-      tooltip: {
-        y: [
-          {
-            title: {
-              formatter: function(val:any) {
-                return val;
-              }
+
+        let result_cat = fob_categoria.sort().filter((item,index)=>{
+          return fob_categoria.indexOf(item) === index;
+        })
+        
+
+        console.log('fobDepartamentos', result_cat);
+    
+
+
+    
+
+        this.chartOptions3 = {
+          series: [
+            {
+              name: "Exportaciones totales",
+              data: data_categories_fob
+            },
+            {
+              name: "Excluyendo petróleo y derivados",
+              data: data_categories_epd
+            },
+            {
+              name: "Excluyendo minero enérgeticos",
+              data: data_categories_eme
+            },
+            {
+              name: "Excluyendo productos agrícolas",
+              data: data_categories_epa
+            },
+            {
+              name: "Excluyendo café",
+              data: data_categories_ec
+            }
+          ],
+          chart: {
+            type: "bar",
+            height: 350,
+            stacked: true,
+            toolbar: {
+              show: true
+            },
+            zoom: {
+              enabled: true
             }
           },
-          {
-            title: {
-              formatter: function(val:any) {
-                return val;
+          responsive: [
+            {
+              breakpoint: 480,
+              options: {
+                legend: {
+                  position: "bottom",
+                  offsetX: -10,
+                  offsetY: 0
+                }
               }
+            }
+          ],
+          plotOptions: {
+            bar: {
+              horizontal: false
             }
           },
-          {
-            title: {
-              formatter: function(val:any) {
-                return val;
-              }
-            }
+          xaxis: {
+            type: "category",
+            categories: result_cat
+          },
+          legend: {
+            position: "bottom",
+            offsetY: 10
+          },
+          fill: {
+            opacity: 1
           }
-        ]
-      },
-      grid: {
-        borderColor: "#f1f1f1"
-      }
-    };
+        };
+        break;
+      
+      case 3:
+        
+        break;  
+      
+      case 4:
+        
+        break; 
+        
+      case 5:
+        
+        break;    
+      default:
+        break;
+    }
+    
+    
 
   }
 
@@ -1013,33 +1210,68 @@ export class InfoDepartamentoComponent implements OnInit {
     return null;
   }
 
- 
+ getGraph(){
+    this.sendFilter(1);
+    this.sendFilter(2);
+    this.sendFilter(3);
+    this.sendFilter(4);
+    this.sendFilter(5);
+ }
 
   
 
-  sendFilter(){
+  sendFilter(graficaConsulta:number){
 
     this.loading= true;
+    this.filterFormodel.graficaConsulta= graficaConsulta;
 
     this.infoDepartamentoService.postFilter(this.filterFormodel).subscribe((response) => {  
       
+      switch (graficaConsulta) {
+        case 1:
+          this.balanceDto = response.balanceDto;
+          this.resultadosGeneralesDto = response.resultadosGeneralesDto;
+          this.rankings = (response.rankings!=null) ? response.rankings.sort((a:any, b:any) => (a.rank < b.rank ? -1 : 1)): null;
+          break;
+        
+        case 2:
+          this.fobDepartamentos= response.fobDepartamentos;
+          this.kilosNetos= response.kilosNetos;
+          break;        
+
+        case 3:
+          this.capitulosArancelariosDept= response.capitulosArancelariosDept;
+          this.intensidadTecno= response.intensidadTecno;
+          break;  
+        
+        case 4:
+            this.paises= response.paises;
+          break; 
+
+        case 5:
+            this.bloquesGeoDept= response.bloquesGeoDept;
+          break;
+
+        default:
+          break;
+      }
       this.loading= false;
-      this.balanceDto = response.balanceDto;
-      this.resultadosGeneralesDto = response.resultadosGeneralesDto;
-      this.rankings = response.rankings.sort((a:any, b:any) => (a.rank < b.rank ? -1 : 1));
-      this.capitulosArancelariosDept= response.capitulosArancelariosDept;
-   
-       
-      this.departamento=  this.departamentos.find((depa: any) => {
-        return depa.id === this.filterFormodel.departamentoID;
-      });
+      
+      this.rankexpnac(graficaConsulta);
 
-     
-      this.rankexpnac();
 
-      this.periodo=  this.periodos.find((pera: any) => {
+      if (this.departamentos !=undefined ) {
+        this.departamento=  this.departamentos.find((depa: any) => {
+          return depa.id === this.filterFormodel.departamentoID;
+        });
+  
+      }else{
+        this.departamento= null;
+      }
+
+      this.periodo=  (this.periodos!=undefined)? this.periodos.find((pera: any) => {
         return pera.id === this.filterFormodel.periodoID;
-      });
+      }): null;
       
     },
     (error) => {

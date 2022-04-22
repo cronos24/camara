@@ -8,15 +8,18 @@
         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
         <span>&nbsp; Consultando Información...</span>
       </div>
-      <form class="d-flex" (submit)="sendFilter()" *ngIf="!loading">
+      <form class="d-flex" (submit)="getGraph()" *ngIf="!loading">
      
          
-            <select name="periodoID"  [(ngModel)]="filterFormodel.periodoID" placeholder="Periodo" class="form-select form-control form-control-sm me-2" required>
+            <select name="periodoID"  [(ngModel)]="filterFormodel.periodoID" placeholder="Periodo" class="form-select form-control form-control-sm me-2" #periodoSelect (change)="onChangePeriodo($event)" required>
               <option value="" selected>Seleccione Periodo</option>
               <option *ngFor="let objeto of periodos" [ngValue]="objeto.id">{{objeto.nombrePeriodo}}</option>
             </select>
       
-         
+            <select name="extraPeriodo" *ngIf="(filterFormodel.periodoID==2 || filterFormodel.periodoID==3 || filterFormodel.periodoID==4)"  [(ngModel)]="filterFormodel.extraPeriodo" placeholder="Periodo" class="form-select form-control form-control-sm me-2" [required]="(filterFormodel.periodoID==2 || filterFormodel.periodoID==3 || filterFormodel.periodoID==4)">
+                <option value="" selected>Seleccione ..</option>
+                <option *ngFor="let objetoExtra of _periodosExtra" [ngValue]="objetoExtra.numero">{{objetoExtra.nombrePeriodoExtra}}</option>
+              </select>
       
             <select name="departamentoID"  [(ngModel)]="filterFormodel.departamentoID" placeholder="departamento" class="form-select form-control form-control-sm me-2">
               <option value="0" selected>Seleccione Departamento</option>
@@ -260,7 +263,7 @@
 
                     <div class="row card-body4">                 
                         <div class="col-sm-12">
-                            <div id="chart">
+                            <div id="chart" *ngIf="this.fobDepartamentos!=null">
                                 <apx-chart
                                     [series]="chartOptions3.series"
                                     [chart]="chartOptions3.chart"
@@ -271,6 +274,12 @@
                                     [legend]="chartOptions3.legend"
                                     [fill]="chartOptions3.fill"
                                 ></apx-chart>
+                            </div>
+                            <div *ngIf="this.fobDepartamentos==null">
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span>&nbsp; Consultando Información...</span>
                               </div>
                         </div>                                          
                     </div>
@@ -299,7 +308,7 @@
 
                     <div class="row card-body4">                 
                         <div class="col-sm-12">
-                            <div id="chart">
+                            <div id="chart" *ngIf="this.kilosNetos!=null">
                                 <apx-chart
                                 [series]="chartOptions2.series"
                                 [chart]="chartOptions2.chart"
@@ -313,6 +322,12 @@
                                 [tooltip]="chartOptions2.tooltip"
                                 [legend]="chartOptions2.legend"
                                 ></apx-chart>
+                            </div>
+                            <div *ngIf="this.kilosNetos==null">
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span>&nbsp; Consultando Información...</span>
                               </div>
                         </div>                                          
                     </div>

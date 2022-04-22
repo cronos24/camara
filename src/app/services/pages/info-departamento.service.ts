@@ -12,9 +12,6 @@ import { environment } from 'src/environments/environment';
 })
 export class InfoDepartamentoService {
 
-   
-
-
     isBorwser: boolean = false;
     constructor(private http: HttpClient,
       @Inject(PLATFORM_ID) private platformId: any) {

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {Router} from "@angular/router";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2'
+import { LoginService } from 'src/app/services/pages/login.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   
   form_login: FormGroup;
   send:boolean=false;
-  constructor(private readonly fb: FormBuilder,private router: Router, private httpClient: HttpClient) { 
+  constructor(private readonly fb: FormBuilder,private router: Router, private loginService: LoginService) { 
     this.form_login = this.fb.group({
       email: ['dianac.rueda', Validators.required],      
       clave: ['Compite360.2022', Validators.required],
@@ -33,34 +34,36 @@ export class LoginComponent implements OnInit {
       let headers = new HttpHeaders();
       //headers = headers.set('Content-Type', 'application/json; charset=utf-8'); 
 
-      this.httpClient.post<any>(environment.apiUrl+'/api/Login', this.form_login.getRawValue()).subscribe(
-        (data) => {
-          
-            Swal.fire({
-              icon: 'success',            
-              title: 'Has iniciado sesión',
-              text: data.info,
-              timer: 1000,
-              timerProgressBar: true,
-            }); 
-  
+      this.loginService.signIn(this.form_login.getRawValue()).subscribe((response) => {  
+      
+        localStorage.setItem('login', '1');
                   
-            setTimeout(() => { 
-              this.send= false;
-              this.form_login.enable();
-              this.router.navigate(['/custom/dragdrop']);
-            }, 1000);
-            
-           
-        },
-        (err: HttpErrorResponse) => {
+        Swal.fire({
+          icon: 'success',            
+          title: 'Has iniciado sesión',
+          text: response.info,
+          timer: 1000,
+          timerProgressBar: true,
+        }); 
+
+              
+        setTimeout(() => { 
           this.send= false;
           this.form_login.enable();
-            if (err.error instanceof Error) {
-                console.log('Client-side error occured.', err);
+          this.router.navigate(['/custom/dragdrop']);
+        }, 1000);
+        
+      },
+      (error: HttpErrorResponse) => {
+
+        console.log('error', error);
+        this.send= false;
+          this.form_login.enable();
+            if (error.error instanceof Error) {
+                console.log('Client-side error occured.', error);
                 Swal.fire({
                   title: 'Error!',
-                  text: err.message,
+                  text: error.message,
                   icon: 'error',
                   confirmButtonText: 'OK',
                   timer: 3000,
@@ -69,16 +72,18 @@ export class LoginComponent implements OnInit {
             } else {
               Swal.fire({
                 title: 'Error!',
-                text: err.message,
+                text: error.message,
                 icon: 'error',
                 confirmButtonText: 'OK',
                 timer: 3000,
                 timerProgressBar: true,
               })
-                console.log('Server-side error occured.', err);
+                console.log('Server-side error occured.', error);
             }
-        }
-    );
+      }
+      );
+
+     
 
 
      

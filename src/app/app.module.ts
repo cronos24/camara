@@ -18,6 +18,7 @@ import { AppInterceptor } from './app.interceptor';
 import { InfoDepartamentoComponent } from './components/pages/info-departamento/info-departamento.component';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { FormsModule } from '@angular/forms';
+import { HomeComponent } from './components/pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     MenuComponent,
     DragdropComponent,
-    InfoDepartamentoComponent
+    InfoDepartamentoComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
