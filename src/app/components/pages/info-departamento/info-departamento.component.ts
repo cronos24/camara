@@ -447,86 +447,71 @@ export class InfoDepartamentoComponent implements OnInit {
     };
 
     this.chartOptions4 = {
-      series: [
-        {
-          name: "Valor",
-          data: []
-        },
-        {
-          name: "Variación",
-          data: []
-        },
-        {
-          name: "Participacion",
-          data: []
-        }
-      ],
+      series: [44, 55, 13, 43, 22],
       chart: {
         height: 350,
-        type: "polarArea"
+        type: "donut"
       },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        width: 1,
-        curve: "smooth",
-        dashArray: [0, 0, 0]
-      },
+      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      // stroke: {
+      //   width: 1,
+      //   curve: "smooth",
+      //   dashArray: [0, 0, 0]
+      // },
       title: {
         text: "Capitulos Arancelarios",
         align: "left"
       },
-      legend: {
-        tooltipHoverFormatter: function(val:any, opts:any) {
-          return (
-            val +
-            " - <strong>" +
-            opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
-            "</strong>"
-          );
-        }
-      },
-      markers: {
-        size: 0,
-        hover: {
-          sizeOffset: 6
-        }
-      },
-      xaxis: {
-        labels: {
-          trim: false
-        },
-        categories: []
-      },
-      tooltip: {
-        y: [
-          {
-            title: {
-              formatter: function(val:any) {
-                return val + " (mins)";
-              }
-            }
-          },
-          {
-            title: {
-              formatter: function(val:any) {
-                return val + " per session";
-              }
-            }
-          },
-          {
-            title: {
-              formatter: function(val:any) {
-                return val;
-              }
-            }
-          }
-        ]
-      },
-      grid: {
-        borderColor: "#f1f1f1"
-      }
+      // legend: {
+      //   tooltipHoverFormatter: function(val:any, opts:any) {
+      //     return (
+      //       val +
+      //       " - <strong>" +
+      //       opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+      //       "</strong>"
+      //     );
+      //   }
+      // },
+      // markers: {
+      //   size: 0,
+      //   hover: {
+      //     sizeOffset: 6
+      //   }
+      // },
+      // xaxis: {
+      //   labels: {
+      //     trim: false
+      //   },
+      //   categories: []
+      // },
+      // tooltip: {
+      //   y: [
+      //     {
+      //       title: {
+      //         formatter: function(val:any) {
+      //           return val + " (mins)";
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: {
+      //         formatter: function(val:any) {
+      //           return val + " per session";
+      //         }
+      //       }
+      //     },
+      //     {
+      //       title: {
+      //         formatter: function(val:any) {
+      //           return val;
+      //         }
+      //       }
+      //     }
+      //   ]
+      // },
+      // grid: {
+      //   borderColor: "#f1f1f1"
+      // }
     };
 
     this.chartOptions5 = {
@@ -557,46 +542,20 @@ export class InfoDepartamentoComponent implements OnInit {
     };
 
     this.chartOptions6 = {
-      series: [
-        {
-          name: "STOCK ABC",
-          data: [
-            8107.85,
-            8128.0,
-            8122.9,
-            8165.5,
-            8340.7,
-            8423.7,
-            8423.5,
-            8514.3,
-            8481.85,
-            8487.7,
-            8506.9,
-            8626.2,
-            8668.95,
-            8602.3,
-            8607.55,
-            8512.9,
-            8496.25,
-            8600.65,
-            8881.1,
-            9340.85
-          ]
-        }
-      ],
+      series: [20, 57, 45, 25, 10],
       chart: {
-        type: "polarArea",
+        type: "donut",
         height: 350,
         zoom: {
           enabled: false
         }
       },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        curve: "straight"
-      },
+      // dataLabels: {
+      //   enabled: false
+      // },
+      // stroke: {
+      //   curve: "straight"
+      // },
 
       title: {
         text: "Intensidad tecnológica CICI Rev.2",
@@ -606,38 +565,17 @@ export class InfoDepartamentoComponent implements OnInit {
         text: "178,080",
         align: "left"
       },
-      labels: [
-        "13 Nov 2017",
-        "14 Nov 2017",
-        "15 Nov 2017",
-        "16 Nov 2017",
-        "17 Nov 2017",
-        "20 Nov 2017",
-        "21 Nov 2017",
-        "22 Nov 2017",
-        "23 Nov 2017",
-        "24 Nov 2017",
-        "27 Nov 2017",
-        "28 Nov 2017",
-        "29 Nov 2017",
-        "30 Nov 2017",
-        "01 Dec 2017",
-        "04 Dec 2017",
-        "05 Dec 2017",
-        "06 Dec 2017",
-        "07 Dec 2017",
-        "08 Dec 2017"
-      ],
-      xaxis: {
-        type: "datetime"
-      },
-      yaxis: {
-        show: false,
-        opposite: false
-      },
-      legend: {
-        horizontalAlign: "left"
-      }
+      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      // xaxis: {
+      //   type: "datetime"
+      // },
+      // yaxis: {
+      //   show: false,
+      //   opposite: false
+      // },
+      // legend: {
+      //   horizontalAlign: "left"
+      // }
     };
 
     this.chartOptions7 = {
@@ -974,88 +912,89 @@ export class InfoDepartamentoComponent implements OnInit {
           }
         };
     
-        this.chartOptions4 = {
-          series: [
-            {
-              name: "Valor",
-              data: valor
-            },
-            {
-              name: "Variación",
-              data: variacion
-            },
-            {
-              name: "Participacion",
-              data: participacion
-            }
-          ],
-          chart: {
-            height: 350,
-            type: "polarArea"
-          },
-          dataLabels: {
-            enabled: false
-          },
-          stroke: {
-            width: 1,
-            curve: "smooth",
-            dashArray: [0, 0, 0]
-          },
-          title: {
-            text: "Capitulos Arancelarios",
-            align: "left"
-          },
-          legend: {
-            tooltipHoverFormatter: function(val:any, opts:any) {
-              return (
-                val +
-                " - <strong>" +
-                opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
-                "</strong>"
-              );
-            }
-          },
-          markers: {
-            size: 0,
-            hover: {
-              sizeOffset: 6
-            }
-          },
-          xaxis: {
-            labels: {
-              trim: false
-            },
-            categories: categoria
-          },
-          tooltip: {
-            y: [
-              {
-                title: {
-                  formatter: function(val:any) {
-                    return val;
-                  }
-                }
-              },
-              {
-                title: {
-                  formatter: function(val:any) {
-                    return val;
-                  }
-                }
-              },
-              {
-                title: {
-                  formatter: function(val:any) {
-                    return val;
-                  }
-                }
-              }
-            ]
-          },
-          grid: {
-            borderColor: "#f1f1f1"
-          }
-        };
+        // this.chartOptions4 = {
+        //   series: [
+        //     {
+        //       name: "Valor",
+        //       data: valor
+        //     },
+        //     {
+        //       name: "Variación",
+        //       data: variacion
+        //     },
+        //     {
+        //       name: "Participacion",
+        //       data: participacion
+        //     }
+        //   ],
+        //   chart: {
+        //     height: 350,
+        //     type: "donut"
+        //   },
+        //   dataLabels: {
+        //     enabled: false
+        //   },
+        //   stroke: {
+        //     width: 1,
+        //     curve: "smooth",
+        //     dashArray: [0, 0, 0]
+        //   },
+        //   title: {
+        //     text: "Capitulos Arancelarios",
+        //     align: "left"
+        //   },
+        //   legend: {
+        //     tooltipHoverFormatter: function(val:any, opts:any) {
+        //       return (
+        //         val +
+        //         " - <strong>" +
+        //         opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+        //         "</strong>"
+        //       );
+        //     }
+        //   },
+        //   markers: {
+        //     size: 0,
+        //     hover: {
+        //       sizeOffset: 6
+        //     }
+        //   },
+        //   xaxis: {
+        //     labels: {
+        //       trim: false
+        //     },
+        //     categories: categoria
+        //   },
+        //   tooltip: {
+        //     y: [
+        //       {
+        //         title: {
+        //           formatter: function(val:any) {
+        //             return val;
+        //           }
+        //         }
+        //       },
+        //       {
+        //         title: {
+        //           formatter: function(val:any) {
+        //             return val;
+        //           }
+        //         }
+        //       },
+        //       {
+        //         title: {
+        //           formatter: function(val:any) {
+        //             return val;
+        //           }
+        //         }
+        //       }
+        //     ]
+        //   },
+        //   grid: {
+        //     borderColor: "#f1f1f1"
+        //   }
+        // };
+        
     
         break;
 
@@ -1100,11 +1039,6 @@ export class InfoDepartamentoComponent implements OnInit {
         })
         
 
-        console.log('fobDepartamentos', result_cat);
-    
-
-
-    
 
         this.chartOptions3 = {
           series: [
@@ -1239,6 +1173,9 @@ export class InfoDepartamentoComponent implements OnInit {
     this.filterFormodel.graficaConsulta= graficaConsulta;
 
     this.infoDepartamentoService.postFilter(this.filterFormodel).subscribe((response) => {  
+
+      console.log('response'+graficaConsulta, response);
+      
       
       switch (graficaConsulta) {
         case 1:
