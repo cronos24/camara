@@ -25,6 +25,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.loginService.getUserLoggedIn()) {
+      this.router.navigate(['home']); // if user was logged in before, redirect to default landing page
+    }
   }
 
   submitForm() {
@@ -36,7 +39,7 @@ export class LoginComponent implements OnInit {
 
       this.loginService.signIn(this.form_login.getRawValue()).subscribe((response) => {  
       
-        localStorage.setItem('login', '1');
+        this.loginService.setUserLoggedIn();
                   
         Swal.fire({
           icon: 'success',            

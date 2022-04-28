@@ -9,11 +9,14 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class LoginService {
-  isLogin: boolean = false;
   isBorwser: boolean = false;
+  isUserLoggedIn: string;
+
   constructor(private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: any , private router: Router) {
       this.isBorwser = isPlatformBrowser(this.platformId);
+      this.isUserLoggedIn = '0';
+      localStorage.setItem('login',this.isUserLoggedIn);
      }
 
 
@@ -21,20 +24,35 @@ export class LoginService {
       return this.http.post<any[]>(environment.apiUrl + '/api/Login', model);
     }
   
-    logOut(){
+    // logOut(){
+    //   localStorage.clear();
+    //   this.router.navigate(['/home']);
+    //   return false;
+    // }
+
+    // checkLogin(): boolean {
+    //   if (localStorage.getItem('login')=='1') { 
+    //     return true; 
+    //   }else{
+    //     this.router.navigate(['/login']);
+    //     return false;
+    //   }    
+      
+    // }
+
+    setUserLoggedIn() {
+      this.isUserLoggedIn = '1';
+      localStorage.setItem('login',this.isUserLoggedIn);
+    }
+    getUserLoggedIn() {
+      return ((localStorage.getItem('login') != null && localStorage.getItem('login') != undefined) ? (localStorage.getItem('login') == '1' ? true:false) : false);
+    }
+    setUserLoggedOut() {
+       this.isUserLoggedIn = '0';
+      // localStorage.setItem('login',this.isUserLoggedIn);
       localStorage.clear();
       this.router.navigate(['/home']);
       return false;
-    }
-
-    checkLogin(): boolean {
-      if (localStorage.getItem('login')=='1') { 
-        return true; 
-      }else{
-        this.router.navigate(['/login']);
-        return false;
-      }    
-      
     }
     
 }

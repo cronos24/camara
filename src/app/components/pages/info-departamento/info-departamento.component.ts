@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -147,7 +148,8 @@ export class InfoDepartamentoComponent implements OnInit {
   public chartOptions7!: Partial<ChartOptions7>| any;
   public chartOptions8!: Partial<ChartOptions8>| any;
   public chartOptions9!: Partial<ChartOptions9>| any;
-  filterFormodel: { periodoID: number | string, departamentoID: number, extraPeriodo:number, graficaConsulta:number };
+  filterFormodel: { periodoID: number | string, departamentoID: number, extraPeriodo:number, graficaConsulta:number, anioConsulta:number };
+  filterFormodelGraph: { categoriaID: number | string; };
   periodos: any;
   departamentos: any;
   loading: boolean;
@@ -167,17 +169,23 @@ export class InfoDepartamentoComponent implements OnInit {
   intensidadTecno: any;
   paises: any;
   bloquesGeoDept: any;
+  closeResult: string | undefined;
+  categorias: any;
+  modalHeader: string = '';
+  years: any[]= [];
 
-
-  constructor(private infoDepartamentoService: InfoDepartamentoService) {
+  constructor(private infoDepartamentoService: InfoDepartamentoService, private modalService: NgbModal,) {
     this.filterFormodel= {
       periodoID:6,
       departamentoID:5,
       extraPeriodo:0,
-      graficaConsulta:1                  
+      graficaConsulta:1,
+      anioConsulta:2021                 
     };
 
-   
+    this.filterFormodelGraph= {
+      categoriaID:0                 
+    };
 
     this.periodosExtra=[
       {id:0, numero: 1, periodo_id:3, nombrePeriodoExtra:'Primer Semestre'},
@@ -455,7 +463,7 @@ export class InfoDepartamentoComponent implements OnInit {
       ],
       chart: {
         height: 350,
-        type: "line"
+        type: "polarArea"
       },
       dataLabels: {
         enabled: false
@@ -577,7 +585,7 @@ export class InfoDepartamentoComponent implements OnInit {
         }
       ],
       chart: {
-        type: "area",
+        type: "polarArea",
         height: 350,
         zoom: {
           enabled: false
@@ -832,8 +840,7 @@ export class InfoDepartamentoComponent implements OnInit {
 
         this.count_ranking = (this.rankings!=null) ?this.rankings.length:null;
 
-        console.log('this.departamento', this.departamento);
-        
+       
 
         this.rank_dep=  ( this.rankings!=null && this.departamento!=null)? this.rankings.find((rank: any) => {
           return rank.id === this.departamento.id;
@@ -984,7 +991,7 @@ export class InfoDepartamentoComponent implements OnInit {
           ],
           chart: {
             height: 350,
-            type: "line"
+            type: "polarArea"
           },
           dataLabels: {
             enabled: false
@@ -1188,8 +1195,14 @@ export class InfoDepartamentoComponent implements OnInit {
       console.log('response', response);
       this.departamentos= response.departamentos;
       this.periodos= response.periodos;
-      
-    },
+      this.categorias = response.categorias;
+
+      for (let index = response.añomin; index < response.añomax; index++) {        
+        this.years.push(index);        
+      }
+
+     
+    },  
     (error) => {
       console.log('error', error);
     }
@@ -1280,5 +1293,24 @@ export class InfoDepartamentoComponent implements OnInit {
     }
     );
     
+  }
+
+  open(content:any, modalHeader:string) {
+    this.modalHeader= modalHeader;
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }

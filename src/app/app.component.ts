@@ -11,13 +11,13 @@ export class AppComponent {
   login: boolean = false;
   isOpen: boolean= false;
 
-  constructor(private loginService: LoginService) {}
+  constructor(public loginService: LoginService) {}
 
   title = 'login';
 
   Logout(event: Event): void {
     event.preventDefault(); // Prevents browser following the link
-      this.loginService.logOut();
+      this.loginService.setUserLoggedOut();
   
   }
 
