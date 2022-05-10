@@ -84,6 +84,7 @@ export type ChartOptions4 = {
   grid: ApexGrid;
   legend: ApexLegend;
   title: ApexTitleSubtitle;
+  labels: string[];
 };
 
 export type ChartOptions5 = {
@@ -478,12 +479,12 @@ export class InfoDepartamentoComponent implements OnInit {
     };
 
     this.chartOptions4 = {
-      series: [44, 55, 13, 43, 22],
+      series: [],
       chart: {
         height: 350,
         type: "donut"
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      labels: [],
       // stroke: {
       //   width: 1,
       //   curve: "smooth",
@@ -573,7 +574,7 @@ export class InfoDepartamentoComponent implements OnInit {
     };
 
     this.chartOptions6 = {
-      series: [20, 57, 45, 25, 10],
+      series: [],
       chart: {
         type: "donut",
         height: 350,
@@ -596,7 +597,7 @@ export class InfoDepartamentoComponent implements OnInit {
         text: "178,080",
         align: "left"
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      labels: [],
       // xaxis: {
       //   type: "datetime"
       // },
@@ -972,88 +973,7 @@ export class InfoDepartamentoComponent implements OnInit {
           }
         };
     
-        // this.chartOptions4 = {
-        //   series: [
-        //     {
-        //       name: "Valor",
-        //       data: valor
-        //     },
-        //     {
-        //       name: "Variación",
-        //       data: variacion
-        //     },
-        //     {
-        //       name: "Participacion",
-        //       data: participacion
-        //     }
-        //   ],
-        //   chart: {
-        //     height: 350,
-        //     type: "donut"
-        //   },
-        //   dataLabels: {
-        //     enabled: false
-        //   },
-        //   stroke: {
-        //     width: 1,
-        //     curve: "smooth",
-        //     dashArray: [0, 0, 0]
-        //   },
-        //   title: {
-        //     text: "Capitulos Arancelarios",
-        //     align: "left"
-        //   },
-        //   legend: {
-        //     tooltipHoverFormatter: function(val:any, opts:any) {
-        //       return (
-        //         val +
-        //         " - <strong>" +
-        //         opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
-        //         "</strong>"
-        //       );
-        //     }
-        //   },
-        //   markers: {
-        //     size: 0,
-        //     hover: {
-        //       sizeOffset: 6
-        //     }
-        //   },
-        //   xaxis: {
-        //     labels: {
-        //       trim: false
-        //     },
-        //     categories: categoria
-        //   },
-        //   tooltip: {
-        //     y: [
-        //       {
-        //         title: {
-        //           formatter: function(val:any) {
-        //             return val;
-        //           }
-        //         }
-        //       },
-        //       {
-        //         title: {
-        //           formatter: function(val:any) {
-        //             return val;
-        //           }
-        //         }
-        //       },
-        //       {
-        //         title: {
-        //           formatter: function(val:any) {
-        //             return val;
-        //           }
-        //         }
-        //       }
-        //     ]
-        //   },
-        //   grid: {
-        //     borderColor: "#f1f1f1"
-        //   }
-        // };
+        
         
     
         break;
@@ -1166,11 +1086,147 @@ export class InfoDepartamentoComponent implements OnInit {
         break;
       
       case 3:
+
+        
+        let valor3: any[]= [];
+        let variacion3: any[]= [];
+        let participacion3: any[]= [];
+        let categoria3: any[]= [];
+
+        if (this.capitulosArancelariosDept!=null) {
+          this.capitulosArancelariosDept.forEach((element:any) => {
+            valor3.push(element.valor);
+            variacion3.push(element.variacion);
+            participacion3.push(element.participacion);
+            categoria3.push(element.capitulo);
+          });
+        }
+
+        this.chartOptions4 = {
+          series: valor3,
+          chart: {
+            height: 350,
+            type: "donut"
+          },
+          labels: categoria3,
+          // stroke: {
+          //   width: 1,
+          //   curve: "smooth",
+          //   dashArray: [0, 0, 0]
+          // },
+          title: {
+            text: "Capitulos Arancelarios",
+            align: "left"
+          },
+          // legend: {
+          //   tooltipHoverFormatter: function(val:any, opts:any) {
+          //     return (
+          //       val +
+          //       " - <strong>" +
+          //       opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+          //       "</strong>"
+          //     );
+          //   }
+          // },
+          // markers: {
+          //   size: 0,
+          //   hover: {
+          //     sizeOffset: 6
+          //   }
+          // },
+          // xaxis: {
+          //   labels: {
+          //     trim: false
+          //   },
+          //   categories: []
+          // },
+          // tooltip: {
+          //   y: [
+          //     {
+          //       title: {
+          //         formatter: function(val:any) {
+          //           return val + " (mins)";
+          //         }
+          //       }
+          //     },
+          //     {
+          //       title: {
+          //         formatter: function(val:any) {
+          //           return val + " per session";
+          //         }
+          //       }
+          //     },
+          //     {
+          //       title: {
+          //         formatter: function(val:any) {
+          //           return val;
+          //         }
+          //       }
+          //     }
+          //   ]
+          // },
+          // grid: {
+          //   borderColor: "#f1f1f1"
+          // }
+        };
+
+    
         
         break;  
       
       case 4:
         
+
+        let valor4: any[]= [];
+        let variacion4: any[]= [];
+        let participacion4: any[]= [];
+        let categoria4: any[]= [];
+
+        if (this.intensidadTecno!=null) {
+          this.intensidadTecno.forEach((element:any) => {
+            valor4.push(element.valor);
+            categoria4.push(element.nivel);
+          });
+        }
+
+        this.chartOptions6 = {
+          series: valor4,
+          chart: {
+            type: "donut",
+            height: 350,
+            zoom: {
+              enabled: false
+            }
+          },
+          // dataLabels: {
+          //   enabled: false
+          // },
+          // stroke: {
+          //   curve: "straight"
+          // },
+    
+          title: {
+            text: "Intensidad tecnológica",
+            align: "left"
+          },
+          subtitle: {
+            text: "178,080",
+            align: "left"
+          },
+          labels: categoria4,
+          // xaxis: {
+          //   type: "datetime"
+          // },
+          // yaxis: {
+          //   show: false,
+          //   opposite: false
+          // },
+          // legend: {
+          //   horizontalAlign: "left"
+          // }
+        };
+
+
         break; 
         
       case 5:
@@ -1253,14 +1309,20 @@ export class InfoDepartamentoComponent implements OnInit {
 
         case 3:
           this.capitulosArancelariosDept= response.capitulosArancelariosDept;
-          this.intensidadTecno= response.intensidadTecno;
+          
           break;  
         
         case 4:
+            this.intensidadTecno= response.intensidadTecno;
+          
+          break; 
+        
+        case 5:
+           
             this.paises= response.paises;
           break; 
 
-        case 5:
+        case 6:
             this.bloquesGeoDept= response.bloquesGeoDept;
           break;
 
