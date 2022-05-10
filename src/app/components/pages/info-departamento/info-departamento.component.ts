@@ -115,7 +115,7 @@ export type ChartOptions7 = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
   labels: string[];
-  plotOptions: ApexPlotOptions;
+  responsive: ApexResponsive;
   title: ApexTitleSubtitle;
 };
 
@@ -614,30 +614,30 @@ export class InfoDepartamentoComponent implements OnInit {
       series: [],
       chart: {
         height: 350,
-        type: "radialBar"
+        type: "donut"
       },
       title: {
         text: "Paises",
         align: "left"
       },
-      plotOptions: {
-        radialBar: {
-          dataLabels: {
-            name: {
-              fontSize: "22px"
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
             },
-            value: {
-              fontSize: "16px"
-            },
-      
+            legend: {
+              position: "bottom"
+            }
           }
         }
-      },
+      ],
       labels: []
     };
 
     this.chartOptions8 = {
-      series: [44, 55, 13, 43, 22],
+      series: [],
       title: {
         text: "Bloques Geográficos",
         align: "left"
@@ -646,7 +646,7 @@ export class InfoDepartamentoComponent implements OnInit {
         height: 350,
         type: "donut"
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      labels: [],
       responsive: [
         {
           breakpoint: 480,
@@ -1190,25 +1190,25 @@ export class InfoDepartamentoComponent implements OnInit {
           series: valor5,
           chart: {
             height: 350,
-            type: "radialBar"
+            type: "donut"
           },
           title: {
             text: "Paises",
             align: "left"
           },
-          plotOptions: {
-            radialBar: {
-              dataLabels: {
-                name: {
-                  fontSize: "22px"
+          responsive: [
+            {
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 200
                 },
-                value: {
-                  fontSize: "16px"
-                },
-        
+                legend: {
+                  position: "bottom"
+                }
               }
             }
-          },
+          ],
           labels: categoria5
         };
         break;   
@@ -1220,13 +1220,13 @@ export class InfoDepartamentoComponent implements OnInit {
         if (this.bloquesGeoDept!=null) {
           this.bloquesGeoDept.forEach((element:any) => {
             valor6.push(element.numExportadoras);
-            categoria6.push(element.pais);
+            categoria6.push(element.bloque);
           });
         }
 
 
          this.chartOptions8 = {
-      series: [44, 55, 13, 43, 22],
+      series: valor6,
       title: {
         text: "Bloques Geográficos",
         align: "left"
@@ -1235,7 +1235,7 @@ export class InfoDepartamentoComponent implements OnInit {
         height: 350,
         type: "donut"
       },
-      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      labels: categoria6,
       responsive: [
         {
           breakpoint: 480,
