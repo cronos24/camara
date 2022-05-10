@@ -118,3 +118,11 @@
     vertical-align: middle;
     line-height: normal;
   }
+
+  @media print {
+    .hide-download {
+      display: none;
+    }
+    .pagebreak { page-break-before: always; }
+  }
+  @page { size: landscape; }

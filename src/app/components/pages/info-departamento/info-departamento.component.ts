@@ -1,5 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import jsPDF from 'jspdf';
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
+//import * as htmlToPdfmake from 'html-to-pdfmake';
+
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -19,6 +25,7 @@ import {
   ApexNonAxisChartSeries
 } from "ng-apexcharts";
 import { InfoDepartamentoService } from 'src/app/services/pages/info-departamento.service';
+
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -139,6 +146,10 @@ export type ChartOptions9 = {
 
 export class InfoDepartamentoComponent implements OnInit {
 
+  title = 'htmltopdf';
+  
+  @ViewChild('pdfTable') pdfTable: ElementRef | undefined;
+
   public chartOptions!: Partial<ChartOptions>| any;
   public chartOptions2!: Partial<ChartOptions2>| any;
   public chartOptions3!: Partial<ChartOptions3>| any;
@@ -162,8 +173,8 @@ export class InfoDepartamentoComponent implements OnInit {
   capitulosArancelariosDept:any;
   rank_dep: any;
   rank_one: any;
-  periodosExtra: { id: number; numero: number; periodo_id: number; nombrePeriodoExtra: string; }[];
-  _periodosExtra: { id: number; numero: number; periodo_id: number; nombrePeriodoExtra: string; }[] | undefined;
+  periodosExtra: { id: number; numero: number; periodo_id: number; nombrePeriodoExtra: string; mescortemin: number; mescortemax: number; }[];
+  _periodosExtra: { id: number; numero: number; periodo_id: number; nombrePeriodoExtra: string; mescortemin: number; mescortemax: number; }[] | undefined;
   fobDepartamentos: any;
   kilosNetos: any;
   intensidadTecno: any;
@@ -173,11 +184,12 @@ export class InfoDepartamentoComponent implements OnInit {
   categorias: any;
   modalHeader: string = '';
   years: any[]= [];
+  mesCorte: number;
 
   constructor(private infoDepartamentoService: InfoDepartamentoService, private modalService: NgbModal,) {
     this.filterFormodel= {
       periodoID:6,
-      departamentoID:5,
+      departamentoID:68,
       extraPeriodo:0,
       graficaConsulta:1,
       anioConsulta:2021                 
@@ -188,26 +200,28 @@ export class InfoDepartamentoComponent implements OnInit {
     };
 
     this.periodosExtra=[
-      {id:0, numero: 1, periodo_id:3, nombrePeriodoExtra:'Primer Semestre'},
-      {id:1, numero: 2, periodo_id:3, nombrePeriodoExtra:'Segundo Semestre'},
-      {id:2, numero: 1, periodo_id:4, nombrePeriodoExtra:'Primer Trimestre'},
-      {id:3, numero: 2, periodo_id:4, nombrePeriodoExtra:'Segundo Trimestre'},
-      {id:4, numero: 3, periodo_id:4, nombrePeriodoExtra:'Tercer Trimestre'},
-      {id:5, numero: 4, periodo_id:4, nombrePeriodoExtra:'Cuarto Trimestre'},
-      {id:6, numero: 1, periodo_id:2, nombrePeriodoExtra:'Enero'},
-      {id:7, numero: 2, periodo_id:2, nombrePeriodoExtra:'Febrero'},
-      {id:8, numero: 3, periodo_id:2, nombrePeriodoExtra:'Marzo'},
-      {id:9, numero: 4, periodo_id:2, nombrePeriodoExtra:'Abril'},
-      {id:10, numero: 5, periodo_id:2, nombrePeriodoExtra:'Mayo'},
-      {id:11, numero: 6, periodo_id:2, nombrePeriodoExtra:'Junio'},
-      {id:12, numero: 7, periodo_id:2, nombrePeriodoExtra:'Julio'},
-      {id:13, numero: 8, periodo_id:2, nombrePeriodoExtra:'Agosto'},
-      {id:14, numero: 9, periodo_id:2, nombrePeriodoExtra:'Septiembre'},
-      {id:15, numero: 10, periodo_id:2, nombrePeriodoExtra:'Octubre'},
-      {id:16, numero: 11, periodo_id:2, nombrePeriodoExtra:'Noviembre'},
-      {id:17, numero: 12, periodo_id:2, nombrePeriodoExtra:'Diciembre'},
+      {id:0, numero: 1, periodo_id:3, nombrePeriodoExtra:'Primer Semestre', mescortemin: 1 , mescortemax: 6},
+      {id:1, numero: 2, periodo_id:3, nombrePeriodoExtra:'Segundo Semestre', mescortemin: 7, mescortemax: 12},
+      {id:2, numero: 1, periodo_id:4, nombrePeriodoExtra:'Primer Trimestre', mescortemin: 1, mescortemax: 3},
+      {id:3, numero: 2, periodo_id:4, nombrePeriodoExtra:'Segundo Trimestre', mescortemin: 4, mescortemax: 6},
+      {id:4, numero: 3, periodo_id:4, nombrePeriodoExtra:'Tercer Trimestre', mescortemin: 7, mescortemax: 9},
+      {id:5, numero: 4, periodo_id:4, nombrePeriodoExtra:'Cuarto Trimestre', mescortemin: 10, mescortemax: 12},
+      {id:6, numero: 1, periodo_id:2, nombrePeriodoExtra:'Enero', mescortemin: 1, mescortemax: 1},
+      {id:7, numero: 2, periodo_id:2, nombrePeriodoExtra:'Febrero', mescortemin: 2, mescortemax: 2},
+      {id:8, numero: 3, periodo_id:2, nombrePeriodoExtra:'Marzo', mescortemin: 3, mescortemax: 3},
+      {id:9, numero: 4, periodo_id:2, nombrePeriodoExtra:'Abril', mescortemin: 4, mescortemax: 4},
+      {id:10, numero: 5, periodo_id:2, nombrePeriodoExtra:'Mayo', mescortemin: 5, mescortemax: 5},
+      {id:11, numero: 6, periodo_id:2, nombrePeriodoExtra:'Junio', mescortemin: 6, mescortemax: 6},
+      {id:12, numero: 7, periodo_id:2, nombrePeriodoExtra:'Julio', mescortemin: 7, mescortemax: 7},
+      {id:13, numero: 8, periodo_id:2, nombrePeriodoExtra:'Agosto', mescortemin: 8, mescortemax: 8},
+      {id:14, numero: 9, periodo_id:2, nombrePeriodoExtra:'Septiembre', mescortemin: 9, mescortemax: 9},
+      {id:15, numero: 10, periodo_id:2, nombrePeriodoExtra:'Octubre', mescortemin: 10, mescortemax: 10},
+      {id:16, numero: 11, periodo_id:2, nombrePeriodoExtra:'Noviembre', mescortemin: 11, mescortemax: 11},
+      {id:17, numero: 12, periodo_id:2, nombrePeriodoExtra:'Diciembre', mescortemin: 12, mescortemax: 12},
       
     ];
+
+    this.mesCorte= 12;
  
     this.periodosExtra=this.periodosExtra;
     this.loading= false;
@@ -304,7 +318,20 @@ export class InfoDepartamentoComponent implements OnInit {
       legend: {
         horizontalAlign: "left",
         offsetX: 40
-      }
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
     };
 
     this.chartOptions2 = {
@@ -558,7 +585,7 @@ export class InfoDepartamentoComponent implements OnInit {
       // },
 
       title: {
-        text: "Intensidad tecnológica CICI Rev.2",
+        text: "Intensidad tecnológica",
         align: "left"
       },
       subtitle: {
@@ -751,13 +778,42 @@ export class InfoDepartamentoComponent implements OnInit {
     
   }
 
+
+  downloadAsPDF() {
+    const doc = new jsPDF();
+    var htmlToPdfmake = require("html-to-pdfmake");
+    const pdfTable = this.pdfTable?.nativeElement;
+
+    console.log('pdfTable',pdfTable.innerHTML);
+    
+   
+    var html = htmlToPdfmake(pdfTable.innerHTML);
+     
+    const documentDefinition = { content: html };
+    pdfMake.createPdf(documentDefinition).open(); 
+     
+  }
+
+
+  printPage() {
+    window.print();
+  }
+
   onChangePeriodo(event:any){
     this.filterFormodel.extraPeriodo=0;
     this._periodosExtra= this.periodosExtra.filter((pe: any) => {
-      return pe.periodo_id === this.filterFormodel.periodoID;
-    });
 
-    console.log(this.filterFormodel);
+      if (pe.periodo_id === this.filterFormodel.periodoID) {
+        if (this.mesCorte>=pe.mescortemin && (this.mesCorte<=pe.mescortemax || this.mesCorte>=pe.mescortemax)) {
+          return true;
+        }
+      }
+      return  false;
+    });
+    console.log('this.mesCorte', this.mesCorte);
+    
+    console.log('this._periodosExtra', this._periodosExtra);
+    console.log('this.periodosExtra', this.periodosExtra);
     
   }
   rankexpnac (graficaConsulta:number){
@@ -1130,6 +1186,7 @@ export class InfoDepartamentoComponent implements OnInit {
       this.departamentos= response.departamentos;
       this.periodos= response.periodos;
       this.categorias = response.categorias;
+      this.mesCorte= response.mescorte;
 
       for (let index = response.añomin; index < response.añomax; index++) {        
         this.years.push(index);        
@@ -1251,3 +1308,5 @@ export class InfoDepartamentoComponent implements OnInit {
     }
   }
 }
+
+

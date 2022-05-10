@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: transparent;">
+<nav class="navbar navbar-expand-lg navbar-light hide-download" style="background-color: transparent;">
     <div class="container-fluid">
       <a class="navbar-brand">Exportaciones de {{ this.stringFormat( this.departamento?.departamento) }} ({{ this.stringFormat( this.periodo?.nombrePeriodo) }})</a>
       <div *ngIf="loading">
@@ -36,8 +36,8 @@
 
             <button type="submit" class="btn " style="border: 0px; background-color:transparent;"><i class="fa fa-search" aria-hidden="true" style="color: black;"></i></button>
    
+            <button type="submit" class="btn " style="border: 0px; background-color:transparent;" (click)="printPage()"><i class="fa fa-print" aria-hidden="true" style="color: black;"></i></button>
   
-         
        
       
       </form>
@@ -45,9 +45,12 @@
     </div>
   </nav>
 <div class="container-fluid">
+    <!-- <div id="pdfTable" #pdfTable>
+        
+    </div> -->
     
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6" id="pdfTable" #pdfTable>
             <div class="card">
                 <div class="card-body" style="padding: 25px;">
                     <div class="row">
@@ -120,7 +123,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">Exportaciones totales</h6>
                         </div>
                     
-                      <div (click)="open(content,'Balance')" class="col-sm-1" style="cursor: pointer; text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content,'Balance')" class="col-sm-1 hide-download" style="cursor: pointer; text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -168,6 +171,7 @@
         </div>
     </div>
     <br>
+    <div class="pagebreak"> </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -179,7 +183,7 @@
                            
                         </div>
                     
-                      <div (click)="open(content, 'Ranking nacional de exportaciones')" class="col-sm-1" style="cursor: pointer; text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Ranking nacional de exportaciones')" class="col-sm-1 hide-download" style="cursor: pointer; text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -248,6 +252,7 @@
         </div>        
     </div>
     <br>
+    <div class="pagebreak"> </div>
     <div class="row">
         <div class="col-md-6">
             <div class="card">
@@ -259,7 +264,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">Millones USD/FOB</h6>
                         </div>
                     
-                      <div (click)="open(content, 'Exportaciones')" class="col-sm-1" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Exportaciones')" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -304,7 +309,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">Millones USD/FOB</h6>
                         </div>
                     
-                      <div (click)="open(content, 'Peso neto export')" class="col-sm-1" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Peso neto export')" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -355,7 +360,7 @@
                            
                         </div>
                     
-                      <div (click)="open(content, 'Productos Exportados')" class="col-sm-1" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Productos Exportados')" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -421,6 +426,7 @@
         </div>        
     </div>
     <br>
+    <div class="pagebreak"> </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -432,7 +438,7 @@
                            
                         </div>
                     
-                      <div (click)="open(content, 'Productos Exportados')" class="col-sm-1" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Productos Exportados')" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -511,8 +517,9 @@
           <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Consultar</button>
         </div>
       </ng-template>
-</div>
 
+   
+</div>
 
 
 
