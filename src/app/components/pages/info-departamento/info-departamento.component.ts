@@ -611,7 +611,7 @@ export class InfoDepartamentoComponent implements OnInit {
     };
 
     this.chartOptions7 = {
-      series: [44, 55, 67],
+      series: [],
       chart: {
         height: 350,
         type: "radialBar"
@@ -639,7 +639,7 @@ export class InfoDepartamentoComponent implements OnInit {
           }
         }
       },
-      labels: ["Visits", "Sales", "Earnings",]
+      labels: []
     };
 
     this.chartOptions8 = {
@@ -1118,56 +1118,7 @@ export class InfoDepartamentoComponent implements OnInit {
             text: "Capitulos Arancelarios",
             align: "left"
           },
-          // legend: {
-          //   tooltipHoverFormatter: function(val:any, opts:any) {
-          //     return (
-          //       val +
-          //       " - <strong>" +
-          //       opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
-          //       "</strong>"
-          //     );
-          //   }
-          // },
-          // markers: {
-          //   size: 0,
-          //   hover: {
-          //     sizeOffset: 6
-          //   }
-          // },
-          // xaxis: {
-          //   labels: {
-          //     trim: false
-          //   },
-          //   categories: []
-          // },
-          // tooltip: {
-          //   y: [
-          //     {
-          //       title: {
-          //         formatter: function(val:any) {
-          //           return val + " (mins)";
-          //         }
-          //       }
-          //     },
-          //     {
-          //       title: {
-          //         formatter: function(val:any) {
-          //           return val + " per session";
-          //         }
-          //       }
-          //     },
-          //     {
-          //       title: {
-          //         formatter: function(val:any) {
-          //           return val;
-          //         }
-          //       }
-          //     }
-          //   ]
-          // },
-          // grid: {
-          //   borderColor: "#f1f1f1"
-          // }
+          
         };
 
     
@@ -1230,8 +1181,62 @@ export class InfoDepartamentoComponent implements OnInit {
         break; 
         
       case 5:
+
+        let valor5: any[]= [];       
+        let categoria5: any[]= [];
+
+        if (this.paises!=null) {
+          this.paises.forEach((element:any) => {
+            valor5.push(element.numExportadoras);
+            categoria5.push(element.pais);
+          });
+        }
+
+        this.chartOptions7 = {
+          series: valor5,
+          chart: {
+            height: 350,
+            type: "radialBar"
+          },
+          title: {
+            text: "Paises",
+            align: "left"
+          },
+          plotOptions: {
+            radialBar: {
+              dataLabels: {
+                name: {
+                  fontSize: "22px"
+                },
+                value: {
+                  fontSize: "16px"
+                },
+                total: {
+                  show: true,
+                  label: "Total",
+                  formatter: function(w:any) {
+                    return "249";
+                  }
+                }
+              }
+            }
+          },
+          labels: categoria5
+        };
+        break;   
         
-        break;    
+        case 6:
+          let valor6: any[]= [];       
+          let categoria6: any[]= [];
+
+        if (this.bloquesGeoDept!=null) {
+          this.bloquesGeoDept.forEach((element:any) => {
+            valor6.push(element.numExportadoras);
+            categoria6.push(element.pais);
+          });
+        }
+          
+        break;
       default:
         break;
     }
