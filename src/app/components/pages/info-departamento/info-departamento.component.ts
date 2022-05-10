@@ -629,13 +629,7 @@ export class InfoDepartamentoComponent implements OnInit {
             value: {
               fontSize: "16px"
             },
-            total: {
-              show: true,
-              label: "Total",
-              formatter: function(w:any) {
-                return "249";
-              }
-            }
+      
           }
         }
       },
@@ -1211,13 +1205,7 @@ export class InfoDepartamentoComponent implements OnInit {
                 value: {
                   fontSize: "16px"
                 },
-                total: {
-                  show: true,
-                  label: "Total",
-                  formatter: function(w:any) {
-                    return "249";
-                  }
-                }
+        
               }
             }
           },
@@ -1235,6 +1223,33 @@ export class InfoDepartamentoComponent implements OnInit {
             categoria6.push(element.pais);
           });
         }
+
+
+         this.chartOptions8 = {
+      series: [44, 55, 13, 43, 22],
+      title: {
+        text: "Bloques Geográficos",
+        align: "left"
+      },
+      chart: {
+        height: 350,
+        type: "donut"
+      },
+      labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
           
         break;
       default:
@@ -1286,6 +1301,7 @@ export class InfoDepartamentoComponent implements OnInit {
     this.sendFilter(3);
     this.sendFilter(4);
     this.sendFilter(5);
+    this.sendFilter(6);
  }
 
   
@@ -1322,8 +1338,7 @@ export class InfoDepartamentoComponent implements OnInit {
           
           break; 
         
-        case 5:
-           
+        case 5:           
             this.paises= response.paises;
           break; 
 
