@@ -185,6 +185,8 @@ export class InfoDepartamentoComponent implements OnInit {
   modalHeader: string = '';
   years: any[]= [];
   mesCorte: number;
+  yearmax: any;
+  meses: string[];
 
   constructor(private infoDepartamentoService: InfoDepartamentoService, private modalService: NgbModal,) {
     this.filterFormodel= {
@@ -220,6 +222,8 @@ export class InfoDepartamentoComponent implements OnInit {
       {id:17, numero: 12, periodo_id:2, nombrePeriodoExtra:'Diciembre', mescortemin: 12, mescortemax: 12},
       
     ];
+
+    this.meses= ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
 
     this.mesCorte= 12;
  
@@ -1187,6 +1191,7 @@ export class InfoDepartamentoComponent implements OnInit {
       this.periodos= response.periodos;
       this.categorias = response.categorias;
       this.mesCorte= response.mescorte;
+      this.yearmax= response.añomax;
 
       for (let index = response.añomin; index < response.añomax; index++) {        
         this.years.push(index);        

@@ -1,7 +1,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light hide-download" style="background-color: transparent;">
     <div class="container-fluid">
-      <a class="navbar-brand">Exportaciones de {{ this.stringFormat( this.departamento?.departamento) }} ({{ this.stringFormat( this.periodo?.nombrePeriodo) }})</a>
+      <a class="navbar-brand">Exportaciones de {{ this.stringFormat( this.departamento?.departamento) }} ({{ this.stringFormat( this.periodo?.nombrePeriodo) }}) con fecha de corte :  {{  this.meses[this.mesCorte-1]+' de '+ this.yearmax }}</a>
       <div *ngIf="loading">
         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
@@ -16,7 +16,7 @@
               <option *ngFor="let objeto of periodos" [ngValue]="objeto.id">{{objeto.nombrePeriodo}}</option>
             </select>
 
-            <select name="anioConsulta"  [(ngModel)]="filterFormodel.anioConsulta" placeholder="año" class="form-select form-control form-control-sm me-2" #anioSelect required>
+            <select name="anioConsulta" *ngIf="filterFormodel.periodoID!=6"[(ngModel)]="filterFormodel.anioConsulta" placeholder="año" class="form-select form-control form-control-sm me-2" #anioSelect required>
                 <option value="" selected>Seleccione Año</option>
                 <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
               </select>
