@@ -121,8 +121,11 @@
 
   @media print {
     .hide-download {
-      display: none;
+      display: none !important;
     }
     .pagebreak { page-break-before: always; }
+    .test{
+      width: 100% !important;
+    }
   }
   @page { size: landscape; }

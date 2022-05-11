@@ -61,55 +61,62 @@
                     </div>
                     <br>
 
-                    <div class="row card-body">
-                        <div class="col-sm-2" style="text-align: center;">
-                            <i class="fas fa-globe-americas fa-2x" style="color:blue;"></i>
-                        </div>      
-                        <div class="col-sm-8">
-                            Paises destino
-                        </div>   
-                        <div class="col-sm-2">
-                            {{ (this.resultadosGeneralesDto?.paisesDestino != undefined) ? this.resultadosGeneralesDto?.paisesDestino: 0 }}
-                        </div>                    
-                    </div>
-
-                    <div class="row card-body">
-                        <div class="col-sm-2" style="text-align: center;">
-                            <i class="fas fa-money-bill-alt fa-2x" style="color:rgb(243, 93, 93);"></i>
-                        </div>      
-                        <div class="col-sm-8">
-                            Pocisiones Arancelarias
-                        </div>   
-                        <div class="col-sm-2">
-                            {{ (this.resultadosGeneralesDto?.posicionesArancelarias != undefined) ? this.resultadosGeneralesDto?.posicionesArancelarias: 0 }}
-                        </div>                    
-                    </div>
-
-
-                    <div class="row card-body">
-                        <div class="col-sm-2" style="text-align: center;">
-                            <i class="fas fa-balance-scale fa-2x" style="color:rgb(98, 6, 174);"></i>
-                        </div>      
-                        <div class="col-sm-8">
-                            Peso neto (Miles de Toneladas)
-                        </div>   
-                        <div class="col-sm-2">
-                            {{ (this.resultadosGeneralesDto?.pesoNeto != undefined) ? this.resultadosGeneralesDto?.pesoNeto: 0 }}
-                        </div>                    
-                    </div>
-
-                    <div class="row card-body">
-                        <div class="col-sm-2" style="text-align: center;">
-                            <i class="fas fa-building fa-2x" style="color:rgb(4, 179, 155);"></i>
-                        </div>      
-                        <div class="col-sm-8">
-                            Número de empresas
-                        </div>   
-                        <div class="col-sm-2">
-                            {{ (this.resultadosGeneralesDto?.numEmpresas != undefined) ? this.resultadosGeneralesDto?.numEmpresas: 0 }}                        </div>                    
-                    </div>
+                    <div id="chart" *ngIf="this.resultadosGeneralesDto!=null">
+                        <div class="row card-body">
+                            <div class="col-sm-2" style="text-align: center;">
+                                <i class="fas fa-globe-americas fa-2x" style="color:blue;"></i>
+                            </div>      
+                            <div class="col-sm-8">
+                                Paises destino
+                            </div>   
+                            <div class="col-sm-2">
+                                {{ (this.resultadosGeneralesDto?.paisesDestino != undefined) ? this.resultadosGeneralesDto?.paisesDestino: 0 }}
+                            </div>                    
+                        </div>
+    
+                        <div class="row card-body">
+                            <div class="col-sm-2" style="text-align: center;">
+                                <i class="fas fa-money-bill-alt fa-2x" style="color:rgb(243, 93, 93);"></i>
+                            </div>      
+                            <div class="col-sm-8">
+                                Pocisiones Arancelarias
+                            </div>   
+                            <div class="col-sm-2">
+                                {{ (this.resultadosGeneralesDto?.posicionesArancelarias != undefined) ? this.resultadosGeneralesDto?.posicionesArancelarias: 0 }}
+                            </div>                    
+                        </div>
+    
+    
+                        <div class="row card-body">
+                            <div class="col-sm-2" style="text-align: center;">
+                                <i class="fas fa-balance-scale fa-2x" style="color:rgb(98, 6, 174);"></i>
+                            </div>      
+                            <div class="col-sm-8">
+                                Peso neto (Miles de Toneladas)
+                            </div>   
+                            <div class="col-sm-2">
+                                {{ (this.resultadosGeneralesDto?.pesoNeto != undefined) ? this.resultadosGeneralesDto?.pesoNeto: 0 }}
+                            </div>                    
+                        </div>
+    
+                        <div class="row card-body">
+                            <div class="col-sm-2" style="text-align: center;">
+                                <i class="fas fa-building fa-2x" style="color:rgb(4, 179, 155);"></i>
+                            </div>      
+                            <div class="col-sm-8">
+                                Número de empresas
+                            </div>   
+                            <div class="col-sm-2">
+                                {{ (this.resultadosGeneralesDto?.numEmpresas != undefined) ? this.resultadosGeneralesDto?.numEmpresas: 0 }}                        </div>                    
+                        </div>
+                    </div>                    
             
-                 
+                    <div *ngIf="this.resultadosGeneralesDto==null">
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                    <span>&nbsp; Consultando Información...</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -130,41 +137,51 @@
 
                     <br>
 
-                    <div class="row card-body2">                 
-                        <div class="col-sm-8">
-                            Variación frente a 2020
-                        </div>   
-                        <div class="col-sm-4" style="text-align: end;">
-                            <span><i class="fas fa-plus" style="color: rgb(14, 199, 60);"></i> {{ (this.balanceDto?.variacion != undefined) ? this.balanceDto?.variacion: 0 }}</span>
-                        </div>                    
+                    <div id="chart" *ngIf="this.balanceDto!=null">
+                        <div class="row card-body2">                 
+                            <div class="col-sm-8">
+                                Variación frente a 2020
+                            </div>   
+                            <div class="col-sm-4" style="text-align: end;">
+                                <span><i class="fas fa-plus" style="color: rgb(14, 199, 60);"></i> {{ (this.balanceDto?.variacion != undefined) ? this.balanceDto?.variacion: 0 }}</span>
+                            </div>                    
+                        </div>
+    
+                        <div class="row card-body2">                 
+                            <div class="col-sm-8">
+                                Participación en Exportaciones de Colombia
+                            </div>   
+                            <div class="col-sm-4" style="text-align: end;">
+                                <span> {{ (this.balanceDto?.participacionExpo != undefined) ? this.balanceDto?.participacionExpo+'%': 0+'%' }}</span>
+                            </div>                    
+                        </div>
+    
+    
+                        <div class="row card-body2">                 
+                            <div class="col-sm-8">
+                                Ranking en Colombia
+                            </div>   
+                            <div class="col-sm-4" style="text-align: end;">                          
+                                <span><i class="fas fa-arrow-alt-circle-up" style="color: rgb(14, 199, 60);"></i> {{ (this.balanceDto?.ranking != undefined) ? this.balanceDto?.ranking: 0 }}</span>
+                            </div>                    
+                        </div>
+    
+                        <div class="row card-body2">                 
+                            <div class="col-sm-8">
+                                Número de empresas
+                            </div>   
+                            <div class="col-sm-4" style="text-align: end;">
+                                <span> {{ (this.balanceDto?.numeroEmpresas != undefined) ? this.balanceDto?.numeroEmpresas: 0 }}</span>
+                            </div>                    
+                        </div>
                     </div>
+                    
 
-                    <div class="row card-body2">                 
-                        <div class="col-sm-8">
-                            Participación en Exportaciones de Colombia
-                        </div>   
-                        <div class="col-sm-4" style="text-align: end;">
-                            <span> {{ (this.balanceDto?.participacionExpo != undefined) ? this.balanceDto?.participacionExpo+'%': 0+'%' }}</span>
-                        </div>                    
-                    </div>
-
-
-                    <div class="row card-body2">                 
-                        <div class="col-sm-8">
-                            Ranking en Colombia
-                        </div>   
-                        <div class="col-sm-4" style="text-align: end;">                          
-                            <span><i class="fas fa-arrow-alt-circle-up" style="color: rgb(14, 199, 60);"></i> {{ (this.balanceDto?.ranking != undefined) ? this.balanceDto?.ranking: 0 }}</span>
-                        </div>                    
-                    </div>
-
-                    <div class="row card-body2">                 
-                        <div class="col-sm-8">
-                            Número de empresas
-                        </div>   
-                        <div class="col-sm-4" style="text-align: end;">
-                            <span> {{ (this.balanceDto?.numeroEmpresas != undefined) ? this.balanceDto?.numeroEmpresas: 0 }}</span>
-                        </div>                    
+                    <div *ngIf="this.balanceDto==null">
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        <span>&nbsp; Consultando Información...</span>
                     </div>
                 </div>
             </div>
@@ -189,61 +206,69 @@
                     </div>
 
                     <br>
-
-                    <div class="row card-body4">                 
-                        <div class="col-sm-12">
-                            <div id="chart">
-                                <apx-chart
-                                  [series]="chartOptions.series"
-                                  [chart]="chartOptions.chart"
-                                  [plotOptions]="chartOptions.plotOptions"
-                                  [xaxis]="chartOptions.xaxis"
-                                  [markers]="chartOptions.markers"
-                                  [stroke]="chartOptions.stroke"
-                                  [yaxis]="chartOptions.yaxis"
-                                  [colors]="chartOptions.colors"
-                                  [grid]="chartOptions.grid"
-                                  [dataLabels]="chartOptions.dataLabels"
-                                  [title]="chartOptions.title"
-                                  [fill]="chartOptions.fill"
-                                  [tooltip]="chartOptions.tooltip"
-                                  [legend]="chartOptions.legend"
-                                ></apx-chart>
-                              </div>
-                        </div>                                          
+                    <div id="chart" *ngIf="this.rankings!=null">
+                        <div class="row card-body4">                 
+                            <div class="col-sm-12">
+                                <div id="chart">
+                                    <apx-chart
+                                      [series]="chartOptions.series"
+                                      [chart]="chartOptions.chart"
+                                      [plotOptions]="chartOptions.plotOptions"
+                                      [xaxis]="chartOptions.xaxis"
+                                      [markers]="chartOptions.markers"
+                                      [stroke]="chartOptions.stroke"
+                                      [yaxis]="chartOptions.yaxis"
+                                      [colors]="chartOptions.colors"
+                                      [grid]="chartOptions.grid"
+                                      [dataLabels]="chartOptions.dataLabels"
+                                      [title]="chartOptions.title"
+                                      [fill]="chartOptions.fill"
+                                      [tooltip]="chartOptions.tooltip"
+                                      [legend]="chartOptions.legend"
+                                    ></apx-chart>
+                                  </div>
+                            </div>                                          
+                        </div>
+                      
+                        <div class="row">                 
+                            <div class="col-sm-3">
+                                <div class="centerv">
+                                    Ranking entre {{ this.count_ranking }}:
+                                    <br><h2><i class="fas fa-star"></i> {{ this.rank_dep?.rank }}</h2>
+                                </div>                            
+                            </div>   
+                            <div class="col-sm-4">
+                                <div class="row card-body3">
+                                    <div class="col"> 
+                                        <div style="background-color: #b4d4fc; padding: 6px; min-height: 70px;">
+                                            Distancia al primero en el ranking _(Millones USD/FOB): {{ this.rank_one?.fobdolares-this.rank_dep?.fobdolares }}
+                                        </div>                                                                    
+                                    </div>
+                                </div>
+                                <div class="row card-body3">
+                                    <div class="col">
+                                        <div style="background-color: #b4d4fc; padding: 6px; min-height: 70px;">
+                                            Distancia al primero en el ranking _(%): {{ (this.rank_one?.fobdolares*100/this.rank_dep?.fobdolares)+'%' }}
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>   
+                            <div class="col-sm-5">
+                                <div class="row card-body3">
+                                    <div class="col">Antioquia tendía que haber exportado 1250 millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de Bogotá (Mayor exportador)</div>
+                                </div>
+                                <div class="row card-body3">
+                                    <div class="col">Antioquia tendía que haber exportado 1250 millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de Bogotá (Mayor exportador)</div>
+                                </div>
+                            </div>                  
+                        </div>
                     </div>
-                  
-                    <div class="row">                 
-                        <div class="col-sm-3">
-                            <div class="centerv">
-                                Ranking entre {{ this.count_ranking }}:
-                                <br><h2><i class="fas fa-star"></i> {{ this.rank_dep?.rank }}</h2>
-                            </div>                            
-                        </div>   
-                        <div class="col-sm-4">
-                            <div class="row card-body3">
-                                <div class="col"> 
-                                    <div style="background-color: #b4d4fc; padding: 6px; min-height: 70px;">
-                                        Distancia al primero en el ranking _(Millones USD/FOB): {{ this.rank_one?.fobdolares-this.rank_dep?.fobdolares }}
-                                    </div>                                                                    
-                                </div>
-                            </div>
-                            <div class="row card-body3">
-                                <div class="col">
-                                    <div style="background-color: #b4d4fc; padding: 6px; min-height: 70px;">
-                                        Distancia al primero en el ranking _(%): {{ (this.rank_one?.fobdolares*100/this.rank_dep?.fobdolares)+'%' }}
-                                    </div> 
-                                </div>
-                            </div>
-                        </div>   
-                        <div class="col-sm-5">
-                            <div class="row card-body3">
-                                <div class="col">Antioquia tendía que haber exportado 1250 millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de Bogotá (Mayor exportador)</div>
-                            </div>
-                            <div class="row card-body3">
-                                <div class="col">Antioquia tendía que haber exportado 1250 millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de Bogotá (Mayor exportador)</div>
-                            </div>
-                        </div>                  
+
+                    <div *ngIf="this.rankings==null">
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        <span>&nbsp; Consultando Información...</span>
                     </div>
                     
 
@@ -254,7 +279,7 @@
     <br>
     <div class="pagebreak"> </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 test">
             <div class="card">
                 <div class="card-body" style="padding: 25px;">
                   
@@ -263,8 +288,9 @@
                             <h5 class="card-title">Exportaciones</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Millones USD/FOB</h6>
                         </div>
-                    
-                      <div (click)="open(content, 'Exportaciones')" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
+                  
+                        <div (click)="open(content, 'Exportaciones')" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
+                              
             
                       
                     </div>
@@ -290,7 +316,7 @@
                                 <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                                 <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                                 <span>&nbsp; Consultando Información...</span>
-                              </div>
+                            </div>
                         </div>                                          
                     </div>
                   
@@ -369,7 +395,7 @@
 
                     <div class="row card-body4">                 
                         <div class="col-sm-6" style="border-right: 1px solid #c3c0c0;">
-                          
+                            <div id="chart" *ngIf="this.capitulosArancelariosDept!=null">
                             <apx-chart
                             [series]="chartOptions4.series"
                             [chart]="chartOptions4.chart"
@@ -384,6 +410,13 @@
                             [title]="chartOptions4.title"
                             [labels]="chartOptions4.labels"
                           ></apx-chart>
+                          </div>
+                          <div *ngIf="this.capitulosArancelariosDept==null">
+                            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                            <span>&nbsp; Consultando Información...</span>
+                          </div>
                           
                               
                         </div>      
@@ -402,7 +435,7 @@
                         </div>   -->
 
                         <div class="col-sm-6">
-                          
+                            <div id="chart" *ngIf="this.intensidadTecno!=null">
                             <apx-chart
                                 [series]="chartOptions6.series"
                                 [chart]="chartOptions6.chart"
@@ -415,6 +448,13 @@
                                 [title]="chartOptions6.title"
                                 [subtitle]="chartOptions6.subtitle"
                             ></apx-chart>
+                            </div>
+                            <div *ngIf="this.intensidadTecno==null">
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span>&nbsp; Consultando Información...</span>
+                              </div>
                               
                         </div>                   
                     </div>
@@ -448,7 +488,7 @@
 
                     <div class="row card-body4">                 
                         <div class="col-sm-4" style="border-right: 1px solid #c3c0c0;">
-                          
+                            <div id="chart" *ngIf="this.paises!=null">
                             <apx-chart
                                 [series]="chartOptions7.series"
                                 [chart]="chartOptions7.chart"
@@ -456,11 +496,18 @@
                                 [labels]="chartOptions7.labels"
                                 [title]="chartOptions7.title"
                             ></apx-chart>
+                            </div>
+                            <div *ngIf="this.paises==null">
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span>&nbsp; Consultando Información...</span>
+                              </div>
                               
                         </div>      
                         
                         <div class="col-sm-4" style="border-right: 1px solid #c3c0c0;">
-                          
+                            <div id="chart" *ngIf="this.bloquesGeoDept!=null">
                             <apx-chart
                                 [series]="chartOptions8.series"
                                 [chart]="chartOptions8.chart"
@@ -468,11 +515,18 @@
                                 [responsive]="chartOptions8.responsive"
                                 [title]="chartOptions8.title"
                             ></apx-chart>
+                            </div>
+                            <div *ngIf="this.bloquesGeoDept==null">
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span>&nbsp; Consultando Información...</span>
+                              </div>
                               
                         </div>  
 
                         <div class="col-sm-4">
-                          
+                            <div id="chart" *ngIf="this.acuerdosComerciales!=null">
                             <apx-chart
                                 [series]="chartOptions9.series"
                                 [chart]="chartOptions9.chart"
@@ -483,6 +537,13 @@
                                 [fill]="chartOptions9.fill"
                                 [title]="chartOptions9.title"
                             ></apx-chart>
+                            </div>
+                            <div *ngIf="this.acuerdosComerciales==null">
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                <span>&nbsp; Consultando Información...</span>
+                              </div>
                               
                         </div>                   
                     </div>

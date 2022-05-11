@@ -188,6 +188,7 @@ export class InfoDepartamentoComponent implements OnInit {
   mesCorte: number;
   yearmax: any;
   meses: string[];
+  acuerdosComerciales: any;
 
   constructor(private infoDepartamentoService: InfoDepartamentoService, private modalService: NgbModal,) {
     this.filterFormodel= {
@@ -375,7 +376,6 @@ export class InfoDepartamentoComponent implements OnInit {
       },
       legend: {
         position: "bottom",
-        offsetY: 10
       },
       grid: {
         show: false
@@ -412,24 +412,7 @@ export class InfoDepartamentoComponent implements OnInit {
     };
 
     this.chartOptions3 = {
-      series: [
-        {
-          name: "PRODUCT A",
-          data: [44, 55, 41, 67, 22, 43]
-        },
-        {
-          name: "PRODUCT B",
-          data: [13, 23, 20, 8, 13, 27]
-        },
-        {
-          name: "PRODUCT C",
-          data: [11, 17, 15, 15, 21, 14]
-        },
-        {
-          name: "PRODUCT D",
-          data: [21, 7, 25, 13, 22, 8]
-        }
-      ],
+      series: [],
       chart: {
         type: "bar",
         height: 350,
@@ -460,18 +443,12 @@ export class InfoDepartamentoComponent implements OnInit {
       },
       xaxis: {
         type: "category",
-        categories: [
-          "01/2011",
-          "02/2011",
-          "03/2011",
-          "04/2011",
-          "05/2011",
-          "06/2011"
+        categories: [ 
         ]
       },
       legend: {
         position: "bottom",
-        offsetY: 10
+        // offsetY: 10
       },
       fill: {
         opacity: 1
@@ -663,12 +640,7 @@ export class InfoDepartamentoComponent implements OnInit {
     };
 
     this.chartOptions9 = {
-      series: [
-        {
-          name: "Inflation",
-          data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
-        }
-      ],
+      series: [ ],
       chart: {
         height: 350,
         type: "bar"
@@ -693,20 +665,7 @@ export class InfoDepartamentoComponent implements OnInit {
       },
 
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
-        ],
+        categories: [],
         position: "bottom",
         labels: {
           
@@ -835,15 +794,18 @@ export class InfoDepartamentoComponent implements OnInit {
 
        
 
-        this.rank_dep=  ( this.rankings!=null && this.departamento!=null)? this.rankings.find((rank: any) => {
-          return rank.id === this.departamento.id;
+        this.rank_dep=  ( this.rankings!=null)? this.rankings.find((rank: any) => {
+          return rank.id === this.filterFormodel.departamentoID;
         }): null;
 
         this.rank_one=  ( this.rankings!=null)? this.rankings.find((rank: any) => {
           return rank.rank === 1;
         }):null;
 
-      
+
+        console.log('rank_dep', this.rank_dep);
+        console.log('rank_one', this.rank_one);
+        
 
         let valor: any[]= [];
         let variacion: any[]= [];
@@ -860,16 +822,16 @@ export class InfoDepartamentoComponent implements OnInit {
         }
 
         
-        console.log('this.departamento', this.departamento);
+     
         
 
-        this.rank_dep=  ( this.rankings!=null && this.departamento!=null)? this.rankings.find((rank: any) => {
-          return rank.id === this.departamento.id;
-        }): null;
+        // this.rank_dep=  ( this.rankings!=null && this.departamento!=null)? this.rankings.find((rank: any) => {
+        //   return rank.id === this.departamento.id;
+        // }): null;
 
-        this.rank_one=  ( this.rankings!=null)? this.rankings.find((rank: any) => {
-          return rank.rank === 1;
-        }):null;
+        // this.rank_one=  ( this.rankings!=null)? this.rankings.find((rank: any) => {
+        //   return rank.rank === 1;
+        // }):null;
 
   
         this.chartOptions = {
@@ -974,39 +936,35 @@ export class InfoDepartamentoComponent implements OnInit {
 
       case 2:
         let fob_categoria: any[]= [];
-        let data_categories_fob: any[]= [];
+
         let data_categories_epd: any[]= [];
         let data_categories_eme: any[]= [];
         let data_categories_epa: any[]= [];
-        let data_categories_ec: any[]= [];
+
 
 
         if (this.fobDepartamentos!=null) {
           this.fobDepartamentos.forEach((element:any) => {
             fob_categoria.push(element.fecha);
             switch (element.categoria) {
-              case 'Exportaciones totales':
-                data_categories_fob.push(element.fobdolares);
-                break;
-              case 'Excluyendo petróleo y derivados':
+              case 'Petróleo y Derivados':
                 data_categories_epd.push(element.fobdolares);
                 break;
 
-              case 'Excluyendo minero enérgeticos':
+              case 'Minero energéticos':
                 data_categories_eme.push(element.fobdolares);
                 break;
 
-              case 'Excluyendo productos agrícolas':
+              case 'No minero - No petróleos':
                 data_categories_epa.push(element.fobdolares);
-                break;
-              case 'Excluyendo café':
-                data_categories_ec.push(element.fobdolares);
-                 break;
+                break;            
               default:
                 break;
             }
           });
         }
+
+     
 
         let result_cat = fob_categoria.sort().filter((item,index)=>{
           return fob_categoria.indexOf(item) === index;
@@ -1017,25 +975,18 @@ export class InfoDepartamentoComponent implements OnInit {
         this.chartOptions3 = {
           series: [
             {
-              name: "Exportaciones totales",
-              data: data_categories_fob
-            },
-            {
-              name: "Excluyendo petróleo y derivados",
-              data: data_categories_epd
-            },
-            {
-              name: "Excluyendo minero enérgeticos",
+              name: "Minero energéticos",
               data: data_categories_eme
             },
             {
-              name: "Excluyendo productos agrícolas",
-              data: data_categories_epa
+              name: "Petróleo y Derivados",
+              data: data_categories_epd
             },
             {
-              name: "Excluyendo café",
-              data: data_categories_ec
+              name: "No minero - No petróleos",
+              data: data_categories_epa
             }
+            
           ],
           chart: {
             type: "bar",
@@ -1071,12 +1022,122 @@ export class InfoDepartamentoComponent implements OnInit {
           },
           legend: {
             position: "bottom",
-            offsetY: 10
+            // offsetY: 10
           },
           fill: {
             opacity: 1
           }
         };
+
+
+        let kilo_categoria: any[]= [];
+        let data_categories_kilo: any[]= [];
+        let data_categories_ped: any[]= [];
+        let data_categories_nmnp: any[]= [];
+        let data_categories_otr: any[]= [];
+ 
+
+        if (this.kilosNetos!=null) {
+          this.kilosNetos.forEach((element:any) => {
+            kilo_categoria.push(element.fecha);
+            switch (element.categoria) {
+              case 'Minero energéticos':
+                data_categories_kilo.push(element.kilosnetos);
+                break;
+              case 'Petróleo y Derivados':
+                data_categories_ped.push(element.kilosnetos);
+                break;
+
+              case 'No minero - No petróleos':
+                data_categories_nmnp.push(element.kilosnetos);
+                break;
+
+             
+              default:
+                data_categories_otr.push(element.kilosnetos);
+                break;
+            }
+          });
+        }
+
+        
+
+        let result_cat_kl = kilo_categoria.sort().filter((item,index)=>{
+          return kilo_categoria.indexOf(item) === index;
+        })
+
+        this.chartOptions2 = {
+          series: [
+            {
+              name: "Minero energéticos",
+              data: data_categories_kilo
+            },
+            {
+              name: "Petróleo y Derivados",
+              data: data_categories_ped
+            },
+            {
+              name: "No minero - No petróleos",
+              data: data_categories_nmnp
+            },
+            {
+              name: "Otros",
+              data: data_categories_otr
+            }
+          ],
+          chart: {
+            height: 350,
+            type: "bar",
+            events: {
+             
+            }
+          },
+          colors: [
+            "#008FFB",
+            "#00E396",
+            "#FEB019",
+            "#FF4560",
+            "#775DD0",
+            "#546E7A",
+            "#26a69a",
+            "#D10CE8",
+            "#775DD0"
+          ],
+          plotOptions: {
+            bar: {
+              columnWidth: "15%",
+              distributed: true
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          legend: {
+            position: "bottom",
+          },
+          grid: {
+            show: false
+          },
+          xaxis: {
+            categories: result_cat_kl,
+            labels: {
+              style: {
+                colors: [
+                  "#008FFB",
+                  "#00E396",
+                  "#FEB019",
+                  "#FF4560",
+                  "#775DD0",
+                  "#546E7A",
+                  "#26a69a",
+                  "#D10CE8"
+                ],
+                fontSize: "12px"
+              }
+            }
+          }
+        };
+
         break;
       
       case 3:
@@ -1226,32 +1287,137 @@ export class InfoDepartamentoComponent implements OnInit {
 
 
          this.chartOptions8 = {
-      series: valor6,
-      title: {
-        text: "Bloques Geográficos",
-        align: "left"
-      },
-      chart: {
-        height: 350,
-        type: "donut"
-      },
-      labels: categoria6,
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-              position: "bottom"
+          series: valor6,
+          title: {
+            text: "Bloques Geográficos",
+            align: "left"
+          },
+          chart: {
+            height: 350,
+            type: "donut"
+          },
+          labels: categoria6,
+          responsive: [
+            {
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 200
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
             }
-          }
-        }
-      ]
-    };
+          ]
+        };
           
         break;
+
+        case 7:
+
+          let valor7: any[]= [];       
+          let categoria7: any[]= [];
+
+        if (this.acuerdosComerciales!=null) {
+          this.acuerdosComerciales.forEach((element:any) => {
+            valor7.push(element.participacion);
+            categoria7.push(element.acuerdo);
+          });
+        }
+        
+          this.chartOptions9 = {
+            series: [
+              {
+                name: "",
+                data: valor7
+              }
+            ],
+            chart: {
+              height: 350,
+              type: "bar"
+            },
+            plotOptions: {
+              bar: {
+                dataLabels: {
+                  position: "top" // top, center, bottom
+                }
+              }
+            },
+            dataLabels: {
+              enabled: true,
+              // formatter: function(val:any) {
+              //   return val + "%";
+              // },
+              // offsetY: -20,
+              // style: {
+              //   fontSize: "12px",
+              //   colors: ["#304758"]
+              // }
+            },
+      
+            xaxis: {
+              categories: categoria7,
+              position: "bottom",
+              labels: {
+                
+              },
+              axisBorder: {
+                show: false
+              },
+              axisTicks: {
+                show: false
+              },
+              crosshairs: {
+                fill: {
+                  type: "gradient",
+                  gradient: {
+                    colorFrom: "#D8E3F0",
+                    colorTo: "#BED1E6",
+                    stops: [0, 100],
+                    opacityFrom: 0.4,
+                    opacityTo: 0.5
+                  }
+                }
+              },
+              tooltip: {
+                enabled: true,
+                offsetY: -35
+              }
+            },
+            fill: {
+              type: "gradient",
+              gradient: {
+                shade: "light",
+                type: "horizontal",
+                shadeIntensity: 0.25,
+                gradientToColors: undefined,
+                inverseColors: true,
+                opacityFrom: 1,
+                opacityTo: 1,
+                stops: [50, 0, 100, 100]
+              }
+            },
+            yaxis: {
+              axisBorder: {
+                show: false
+              },
+              axisTicks: {
+                show: false
+              },
+              labels: {
+                show: false,
+                formatter: function(val:any) {
+                  return val + "%";
+                }
+              }
+            },
+            title: {
+              text: "Agrupación de paises por acuerdos comerciales",
+              align: "left"
+            }
+          };
+          break;
       default:
         break;
     }
@@ -1302,6 +1468,7 @@ export class InfoDepartamentoComponent implements OnInit {
     this.sendFilter(4);
     this.sendFilter(5);
     this.sendFilter(6);
+    this.sendFilter(7);
  }
 
   
@@ -1311,9 +1478,23 @@ export class InfoDepartamentoComponent implements OnInit {
     this.loading= true;
     this.filterFormodel.graficaConsulta= graficaConsulta;
 
+    if (this.departamentos !=undefined ) {
+      this.departamento=  this.departamentos.find((depa: any) => {
+        return depa.id === this.filterFormodel.departamentoID;
+      });
+
+    }else{
+      this.departamento= null;
+    }
+
+    console.log('departamentos', this.departamentos);
+    
+
     this.infoDepartamentoService.postFilter(this.filterFormodel).subscribe((response) => {  
 
       console.log('response'+graficaConsulta, response);
+
+      
       
       
       switch (graficaConsulta) {
@@ -1346,6 +1527,10 @@ export class InfoDepartamentoComponent implements OnInit {
             this.bloquesGeoDept= response.bloquesGeoDept;
           break;
 
+        case 7:
+          this.acuerdosComerciales= response.acuerdosComerciales;
+          break;
+
         default:
           break;
       }
@@ -1354,14 +1539,7 @@ export class InfoDepartamentoComponent implements OnInit {
       this.rankexpnac(graficaConsulta);
 
 
-      if (this.departamentos !=undefined ) {
-        this.departamento=  this.departamentos.find((depa: any) => {
-          return depa.id === this.filterFormodel.departamentoID;
-        });
-  
-      }else{
-        this.departamento= null;
-      }
+      
 
       this.periodo=  (this.periodos!=undefined)? this.periodos.find((pera: any) => {
         return pera.id === this.filterFormodel.periodoID;
