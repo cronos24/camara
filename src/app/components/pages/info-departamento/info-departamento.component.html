@@ -208,7 +208,7 @@
                     <br>
                     <div id="chart" *ngIf="this.rankings!=null">
                         <div class="row card-body4">                 
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 print3">
                                 <div id="chart">
                                     <apx-chart
                                       [series]="chartOptions.series"
@@ -307,6 +307,7 @@
                                     [plotOptions]="chartOptions3.plotOptions"
                                     [responsive]="chartOptions3.responsive"
                                     [xaxis]="chartOptions3.xaxis"
+                                    [yaxis]="chartOptions3.yaxis"
                                     [legend]="chartOptions3.legend"
                                     [tooltip]="chartOptions3.tooltip"
                                     [fill]="chartOptions3.fill"
@@ -333,7 +334,7 @@
                     <div class="row">
                         <div class="col-sm-11">
                             <h5 class="card-title">Peso neto export</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Millones USD/FOB</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Toneladas</h6>
                         </div>
                     
                       <div (click)="open(content, 'Peso neto export', 2)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
@@ -376,6 +377,7 @@
         </div>      
     </div>
     <br>
+    <div class="pagebreak"> </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -395,7 +397,7 @@
                     <br>
 
                     <div class="row card-body4">                 
-                        <div class="col-sm-6" style="border-right: 1px solid #c3c0c0;">
+                        <div class="col-sm-6 print2" style="border-right: 1px solid #c3c0c0;">
                             <div id="chart" *ngIf="this.capitulosArancelariosDept!=null">
                             <apx-chart
                             [series]="chartOptions4.series"
@@ -436,7 +438,7 @@
                               
                         </div>   -->
 
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 print2">
                             <div id="chart" *ngIf="this.intensidadTecno!=null">
                             <apx-chart
                                 [series]="chartOptions6.series"

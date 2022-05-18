@@ -130,10 +130,18 @@
       text-align: center;   
       padding-bottom: 20px;  
     }
+    
     .print2{
       flex: 0 0 auto;
       width: 100% !important; 
       text-align: center;     
+    }
+
+    .print3{
+      flex: 0 0 auto;
+      width: 80% !important; 
+      text-align: center;   
+      padding-bottom: 20px;  
     }
   }
   @page { size: landscape; }

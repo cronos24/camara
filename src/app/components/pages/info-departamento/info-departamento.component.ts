@@ -66,6 +66,7 @@ export type ChartOptions3 = {
   plotOptions: ApexPlotOptions;
   responsive: ApexResponsive[];
   xaxis: ApexXAxis;
+  yaxis: ApexYAxis | ApexYAxis[];
   legend: ApexLegend;
   fill: ApexFill;
   tooltip: ApexTooltip;
@@ -424,6 +425,7 @@ export class InfoDepartamentoComponent implements OnInit {
         show: false
       },
       yaxis: {
+        show: false,
         labels: {
              formatter: function(val:any, index:any) {
             return formatoNumeroPipe.localeStringStaticCutDecimal(val, 2);    
@@ -523,6 +525,20 @@ export class InfoDepartamentoComponent implements OnInit {
         type: "category",
         categories: [ 
         ]
+      },
+      yaxis: {
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false,
+          formatter: function(val:any) {
+            return val + "%";
+          }
+        }
       },
       legend: {
         position: "bottom",
@@ -1076,6 +1092,20 @@ export class InfoDepartamentoComponent implements OnInit {
             type: "category",
             categories: result_cat
           },
+          yaxis: {
+            axisBorder: {
+              show: false
+            },
+            axisTicks: {
+              show: false
+            },
+            labels: {
+              show: false,
+              formatter: function(val:any) {
+                return val + "%";
+              }
+            }
+          },
           legend: {
             position: "bottom",
             // offsetY: 10
@@ -1115,8 +1145,7 @@ export class InfoDepartamentoComponent implements OnInit {
  
 
 
-        console.log('series2', series2.filter(item => item).sort());
-        
+             
 
         
 
@@ -1168,6 +1197,7 @@ export class InfoDepartamentoComponent implements OnInit {
           },
           yaxis: {
             labels: {
+              show: false,
                  formatter: function(val:any, index:any) {
                 return formatoNumeroPipe.localeStringStaticCutDecimal(val, 2);    
               }
@@ -1530,7 +1560,7 @@ export class InfoDepartamentoComponent implements OnInit {
 
  getGraph(){
     this.sendFilter(1);
-    this.sendFilter(2);
+    this.sendFilter(2, 1);
     this.sendFilter(3);
     this.sendFilter(4);
     this.sendFilter(5);
