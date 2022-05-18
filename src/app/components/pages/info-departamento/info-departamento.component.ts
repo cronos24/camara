@@ -1597,8 +1597,7 @@ export class InfoDepartamentoComponent implements OnInit {
 
         case 7:
           this.acuerdosComerciales= response.acuerdosComerciales.sort((a:any, b:any) => parseFloat(b.participacion) - parseFloat(a.participacion));
-          console.log('this.acuerdosComerciales', this.acuerdosComerciales);
-          
+                   
           break;
 
         default:
@@ -1637,28 +1636,39 @@ export class InfoDepartamentoComponent implements OnInit {
     
       switch (graficaConsulta) {
         case 1:
+          this.balanceDto = null;
+          this.resultadosGeneralesDto = null;
+          this.rankings = null;
           this.sendFilter(1, this.filterFormodelGraph.categoriaID);    
           this.modalService.dismissAll();      
           break;
       
         case 2:
+          this.fobDepartamentos= null;
+          this.kilosNetos= null;
           this.sendFilter(2, this.filterFormodelGraph.categoriaID);
           this.modalService.dismissAll();
           break;
         
         case 3:
+          this.capitulosArancelariosDept= null;
+          this.intensidadTecno=null;
           this.sendFilter(3, this.filterFormodelGraph.categoriaID);
           this.sendFilter(4, this.filterFormodelGraph.categoriaID);
           this.modalService.dismissAll();
           break;
         
         case 4:
+          this.paises=  null;
+          this.bloquesGeoDept=  null;
+          this.acuerdosComerciales= null;
           this.sendFilter(5, this.filterFormodelGraph.categoriaID);
           this.sendFilter(6, this.filterFormodelGraph.categoriaID);
           this.sendFilter(7, this.filterFormodelGraph.categoriaID);
           this.modalService.dismissAll();
           break  
       }
+      
 
       
   }
