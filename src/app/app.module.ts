@@ -20,6 +20,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './components/pages/home/home.component';
 import { ConstruccionComponent } from './components/pages/construccion/construccion.component';
+import { formatoNumeroPipe } from './pipes/formato.numero.pipe';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ConstruccionComponent } from './components/pages/construccion/construcc
     DragdropComponent,
     InfoDepartamentoComponent,
     HomeComponent,
-    ConstruccionComponent
+    ConstruccionComponent,
+    formatoNumeroPipe
   ],
   imports: [
     BrowserModule,

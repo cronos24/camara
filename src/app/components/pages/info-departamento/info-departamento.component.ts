@@ -1,10 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import jsPDF from 'jspdf';
-import * as pdfMake from "pdfmake/build/pdfmake";
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
-//import * as htmlToPdfmake from 'html-to-pdfmake';
+import { formatoNumeroPipe } from 'src/app/pipes/formato.numero.pipe';
+
 
 import {
   ChartComponent,
@@ -71,6 +68,7 @@ export type ChartOptions3 = {
   xaxis: ApexXAxis;
   legend: ApexLegend;
   fill: ApexFill;
+  tooltip: ApexTooltip;
 };
 
 export type ChartOptions4 = {
@@ -85,6 +83,7 @@ export type ChartOptions4 = {
   legend: ApexLegend;
   title: ApexTitleSubtitle;
   labels: string[];
+  plotOptions: ApexPlotOptions;
 };
 
 export type ChartOptions5 = {
@@ -94,6 +93,12 @@ export type ChartOptions5 = {
   labels: any;
   stroke: ApexStroke;
   fill: ApexFill;
+  dataLabels: ApexDataLabels;
+  tooltip: any; // ApexTooltip;
+  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  legend: ApexLegend;
+  title: ApexTitleSubtitle;
 };
 
 export type ChartOptions6 = {
@@ -107,6 +112,8 @@ export type ChartOptions6 = {
   labels: string[];
   legend: ApexLegend;
   subtitle: ApexTitleSubtitle;
+  tooltip: any; 
+  plotOptions: ApexPlotOptions;
 };
 
 
@@ -117,6 +124,8 @@ export type ChartOptions7 = {
   labels: string[];
   responsive: ApexResponsive;
   title: ApexTitleSubtitle;
+  tooltip: any; 
+  plotOptions: ApexPlotOptions;
 };
 
 export type ChartOptions8 = {
@@ -125,6 +134,8 @@ export type ChartOptions8 = {
   responsive: ApexResponsive[];
   labels: any;
   title: ApexTitleSubtitle;
+  tooltip: any; 
+  plotOptions: ApexPlotOptions;
 };
 
 export type ChartOptions9 = {
@@ -136,6 +147,7 @@ export type ChartOptions9 = {
   xaxis: ApexXAxis;
   fill: ApexFill;
   title: ApexTitleSubtitle;
+  tooltip: any; 
 };
 
 
@@ -160,7 +172,7 @@ export class InfoDepartamentoComponent implements OnInit {
   public chartOptions7!: Partial<ChartOptions7>| any;
   public chartOptions8!: Partial<ChartOptions8>| any;
   public chartOptions9!: Partial<ChartOptions9>| any;
-  filterFormodel: { periodoID: number | string, departamentoID: number, extraPeriodo:number, graficaConsulta:number, anioConsulta:number };
+  filterFormodel: { periodoID: number | string, departamentoID: number, extraPeriodo:number, graficaConsulta:number, anioConsulta:number, categoriaFiltro:number | string };
   filterFormodelGraph: { categoriaID: number | string; };
   periodos: any;
   departamentos: any;
@@ -189,6 +201,8 @@ export class InfoDepartamentoComponent implements OnInit {
   yearmax: any;
   meses: string[];
   acuerdosComerciales: any;
+  print: boolean = false;
+  _graficaConsulta: number = 1;
 
   constructor(private infoDepartamentoService: InfoDepartamentoService, private modalService: NgbModal,) {
     this.filterFormodel= {
@@ -196,7 +210,8 @@ export class InfoDepartamentoComponent implements OnInit {
       departamentoID:68,
       extraPeriodo:0,
       graficaConsulta:1,
-      anioConsulta:2021                 
+      anioConsulta:2021,
+      categoriaFiltro:0
     };
 
     this.filterFormodelGraph= {
@@ -229,7 +244,7 @@ export class InfoDepartamentoComponent implements OnInit {
 
     this.mesCorte= 12;
  
-    this.periodosExtra=this.periodosExtra;
+    this._periodosExtra=this.periodosExtra;
     this.loading= false;
 
     this.chartOptions = {
@@ -253,12 +268,16 @@ export class InfoDepartamentoComponent implements OnInit {
         "#775DD0"
       ],
       chart: {
-        height: 350,
+        height: 'auto',
+        width: '80%',
         type: "line",
         stacked: false
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
+        formatter: function (val:any, opt:any) {
+          return formatoNumeroPipe.localeStringStaticCutDecimal(val, 2);    
+        },
       },
       stroke: {
         width: [2]
@@ -283,6 +302,20 @@ export class InfoDepartamentoComponent implements OnInit {
         labels: {
           rotate: -90,
           rotateAlways: true,
+          hideOverlappingLabels: true,
+          showDuplicates: false,
+          trim: false,
+          minHeight: undefined,
+          maxHeight: 120,
+          style: {
+              colors: [],
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 400,
+              cssClass: 'apexcharts-xaxis-label',
+          },
+          offsetX: 0,
+          offsetY: 0,
         },
         categories: []
       },
@@ -371,14 +404,31 @@ export class InfoDepartamentoComponent implements OnInit {
           distributed: true
         }
       },
+      tooltip: {
+        y: {
+          formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+            return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+          }
+        }
+      },
       dataLabels: {
-        enabled: false
+        enabled: false,
+        formatter: function (val:any, opt:any) {
+          return formatoNumeroPipe.localeStringStaticCutDecimal(val, 2);    
+        },
       },
       legend: {
         position: "bottom",
       },
       grid: {
         show: false
+      },
+      yaxis: {
+        labels: {
+             formatter: function(val:any, index:any) {
+            return formatoNumeroPipe.localeStringStaticCutDecimal(val, 2);    
+          }
+        }
       },
       xaxis: {
         categories: [
@@ -418,10 +468,31 @@ export class InfoDepartamentoComponent implements OnInit {
         height: 350,
         stacked: true,
         toolbar: {
-          show: true
+          show: true,
+          offsetX: 0,
+          offsetY: 0,
+          tools: {
+            download: true,
+            selection: true,
+            zoom: true,
+            zoomin: true,
+            zoomout: true,
+            pan: true,
+            reset: true,
+            customIcons: []
+          },     
+          autoSelected: 'zoom' 
         },
-        zoom: {
-          enabled: true
+       
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function(value:any, { seriesIndex, dataPointIndex, w }: { seriesIndex: any; dataPointIndex:any; w:any }) {
+          var prueba: any = null;
+          w.config.series.forEach((element:any) => {
+            prueba= prueba+ ' ' + element.name;
+          });
+          return prueba
         }
       },
       responsive: [
@@ -441,6 +512,13 @@ export class InfoDepartamentoComponent implements OnInit {
           horizontal: false
         }
       },
+      tooltip: {
+        y: {
+          formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+            return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+          }
+        }
+      },
       xaxis: {
         type: "category",
         categories: [ 
@@ -450,6 +528,7 @@ export class InfoDepartamentoComponent implements OnInit {
         position: "bottom",
         // offsetY: 10
       },
+      
       fill: {
         opacity: 1
       }
@@ -467,60 +546,23 @@ export class InfoDepartamentoComponent implements OnInit {
       //   curve: "smooth",
       //   dashArray: [0, 0, 0]
       // },
+      plotOptions: {
+        pie: {
+          customScale: 0.8
+        }
+      },
       title: {
         text: "Capitulos Arancelarios",
         align: "left"
       },
-      // legend: {
-      //   tooltipHoverFormatter: function(val:any, opts:any) {
-      //     return (
-      //       val +
-      //       " - <strong>" +
-      //       opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
-      //       "</strong>"
-      //     );
-      //   }
-      // },
-      // markers: {
-      //   size: 0,
-      //   hover: {
-      //     sizeOffset: 6
-      //   }
-      // },
-      // xaxis: {
-      //   labels: {
-      //     trim: false
-      //   },
-      //   categories: []
-      // },
-      // tooltip: {
-      //   y: [
-      //     {
-      //       title: {
-      //         formatter: function(val:any) {
-      //           return val + " (mins)";
-      //         }
-      //       }
-      //     },
-      //     {
-      //       title: {
-      //         formatter: function(val:any) {
-      //           return val + " per session";
-      //         }
-      //       }
-      //     },
-      //     {
-      //       title: {
-      //         formatter: function(val:any) {
-      //           return val;
-      //         }
-      //       }
-      //     }
-      //   ]
-      // },
-      // grid: {
-      //   borderColor: "#f1f1f1"
-      // }
+      tooltip: {
+        y: {
+          formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+            return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+          }
+        }
+      }     
+
     };
 
     this.chartOptions5 = {
@@ -559,13 +601,12 @@ export class InfoDepartamentoComponent implements OnInit {
           enabled: false
         }
       },
-      // dataLabels: {
-      //   enabled: false
-      // },
-      // stroke: {
-      //   curve: "straight"
-      // },
-
+      plotOptions: {
+        pie: {
+          customScale: 0.8
+        }
+      },
+ 
       title: {
         text: "Intensidad tecnológica",
         align: "left"
@@ -575,16 +616,13 @@ export class InfoDepartamentoComponent implements OnInit {
         align: "left"
       },
       labels: [],
-      // xaxis: {
-      //   type: "datetime"
-      // },
-      // yaxis: {
-      //   show: false,
-      //   opposite: false
-      // },
-      // legend: {
-      //   horizontalAlign: "left"
-      // }
+      tooltip: {
+        y: {
+          formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+            return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+          }
+        }
+      }
     };
 
     this.chartOptions7 = {
@@ -596,6 +634,11 @@ export class InfoDepartamentoComponent implements OnInit {
       title: {
         text: "Paises",
         align: "left"
+      },
+      plotOptions: {
+        pie: {
+          customScale: 0.8
+        }
       },
       responsive: [
         {
@@ -610,7 +653,14 @@ export class InfoDepartamentoComponent implements OnInit {
           }
         }
       ],
-      labels: []
+      labels: [],
+      tooltip: {
+        y: {
+          formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+            return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+          }
+        }
+      }
     };
 
     this.chartOptions8 = {
@@ -624,6 +674,18 @@ export class InfoDepartamentoComponent implements OnInit {
         type: "donut"
       },
       labels: [],
+      tooltip: {
+        y: {
+          formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+            return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+          }
+        }
+      },
+      plotOptions: {
+        pie: {
+          customScale: 0.8
+        }
+      },
       responsive: [
         {
           breakpoint: 480,
@@ -648,14 +710,18 @@ export class InfoDepartamentoComponent implements OnInit {
       plotOptions: {
         bar: {
           dataLabels: {
-            position: "top" // top, center, bottom
+            position: "top",
+            formatter: function (val:any, opt:any) {
+              return formatoNumeroPipe.localeStringStaticCutDecimal(val, 2);    
+            },
+             // top, center, bottom
           }
         }
       },
       dataLabels: {
         enabled: true,
-        formatter: function(val:any) {
-          return val + "%";
+        formatter: function (val:any, opt:any) {
+          return formatoNumeroPipe.localeStringStaticCutDecimal(val, 2)+"%";    
         },
         offsetY: -20,
         style: {
@@ -723,6 +789,13 @@ export class InfoDepartamentoComponent implements OnInit {
       title: {
         text: "Agrupación de paises por acuerdos comerciales",
         align: "left"
+      },
+      tooltip: {
+        y: {
+          formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+            return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+          }
+        }
       }
     };
     
@@ -733,27 +806,13 @@ export class InfoDepartamentoComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    
+    this.getLists();
   }
 
-
-  downloadAsPDF() {
-    const doc = new jsPDF();
-    var htmlToPdfmake = require("html-to-pdfmake");
-    const pdfTable = this.pdfTable?.nativeElement;
-
-    console.log('pdfTable',pdfTable.innerHTML);
-    
-   
-    var html = htmlToPdfmake(pdfTable.innerHTML);
-     
-    const documentDefinition = { content: html };
-    pdfMake.createPdf(documentDefinition).open(); 
-     
-  }
 
 
   printPage() {
+    this.print = true;
     window.print();
   }
 
@@ -768,11 +827,7 @@ export class InfoDepartamentoComponent implements OnInit {
       }
       return  false;
     });
-    console.log('this.mesCorte', this.mesCorte);
-    
-    console.log('this._periodosExtra', this._periodosExtra);
-    console.log('this.periodosExtra', this.periodosExtra);
-    
+     
   }
   rankexpnac (graficaConsulta:number){
 
@@ -803,9 +858,8 @@ export class InfoDepartamentoComponent implements OnInit {
         }):null;
 
 
-        console.log('rank_dep', this.rank_dep);
-        console.log('rank_one', this.rank_one);
-        
+            console.log(' this.rank_one', this.rank_one);
+            
 
         let valor: any[]= [];
         let variacion: any[]= [];
@@ -824,16 +878,7 @@ export class InfoDepartamentoComponent implements OnInit {
         
      
         
-
-        // this.rank_dep=  ( this.rankings!=null && this.departamento!=null)? this.rankings.find((rank: any) => {
-        //   return rank.id === this.departamento.id;
-        // }): null;
-
-        // this.rank_one=  ( this.rankings!=null)? this.rankings.find((rank: any) => {
-        //   return rank.rank === 1;
-        // }):null;
-
-  
+ 
         this.chartOptions = {
           series: [
             {
@@ -937,34 +982,30 @@ export class InfoDepartamentoComponent implements OnInit {
       case 2:
         let fob_categoria: any[]= [];
 
-        let data_categories_epd: any[]= [];
-        let data_categories_eme: any[]= [];
-        let data_categories_epa: any[]= [];
 
+        let series: any[]= [];
+ 
+
+        this.fobDepartamentos.forEach((element:any) => {
+          if (series[element.categoriaID] == undefined) {
+            series[element.categoriaID] = {
+              'name':element.categoria,
+              'data': []
+            }
+          }
+        });
 
 
         if (this.fobDepartamentos!=null) {
           this.fobDepartamentos.forEach((element:any) => {
             fob_categoria.push(element.fecha);
-            switch (element.categoria) {
-              case 'Petróleo y Derivados':
-                data_categories_epd.push(element.fobdolares);
-                break;
 
-              case 'Minero energéticos':
-                data_categories_eme.push(element.fobdolares);
-                break;
-
-              case 'No minero - No petróleos':
-                data_categories_epa.push(element.fobdolares);
-                break;            
-              default:
-                break;
-            }
+            if (series[element.categoriaID].data !== undefined) {
+              series[element.categoriaID].data.push(element.fobdolares);
+            }            
           });
         }
 
-     
 
         let result_cat = fob_categoria.sort().filter((item,index)=>{
           return fob_categoria.indexOf(item) === index;
@@ -973,30 +1014,38 @@ export class InfoDepartamentoComponent implements OnInit {
 
 
         this.chartOptions3 = {
-          series: [
-            {
-              name: "Minero energéticos",
-              data: data_categories_eme
-            },
-            {
-              name: "Petróleo y Derivados",
-              data: data_categories_epd
-            },
-            {
-              name: "No minero - No petróleos",
-              data: data_categories_epa
-            }
-            
-          ],
+          series: series.filter(item => item).sort(),
           chart: {
             type: "bar",
             height: 350,
             stacked: true,
             toolbar: {
-              show: true
+              show: true,
+              offsetX: 0,
+              offsetY: 0,
+              tools: {
+                download: true,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true,
+                customIcons: []
+              },     
+              autoSelected: 'zoom' 
             },
-            zoom: {
-              enabled: true
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: function(value:any, { seriesIndex, dataPointIndex, w }: { seriesIndex: any; dataPointIndex:any; w:any }) {
+              var total: any = 0;
+              w.config.series.forEach((element:any) => {    
+                            
+                  total= total+ ((element.data[dataPointIndex]!=undefined)? element.data[dataPointIndex]:0);                  
+                            
+              });
+              return  formatoNumeroPipe.localeStringStaticCutDecimal((value*100/total), 2) +'%';
             }
           },
           responsive: [
@@ -1016,6 +1065,13 @@ export class InfoDepartamentoComponent implements OnInit {
               horizontal: false
             }
           },
+          tooltip: {
+            y: {
+              formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+              }
+            }
+          },
           xaxis: {
             type: "category",
             categories: result_cat
@@ -1030,35 +1086,37 @@ export class InfoDepartamentoComponent implements OnInit {
         };
 
 
-        let kilo_categoria: any[]= [];
-        let data_categories_kilo: any[]= [];
-        let data_categories_ped: any[]= [];
-        let data_categories_nmnp: any[]= [];
-        let data_categories_otr: any[]= [];
- 
+        let kilo_categoria: any[]= [];   
+
+        let series2: any[]= [];
+        
+
+        this.kilosNetos.forEach((element:any) => {
+          if (series2[element.categoriaID] == undefined) {
+            series2[element.categoriaID] = {
+              'name':element.categoria,
+              'data': []
+            }
+          }
+        });
+
 
         if (this.kilosNetos!=null) {
           this.kilosNetos.forEach((element:any) => {
             kilo_categoria.push(element.fecha);
-            switch (element.categoria) {
-              case 'Minero energéticos':
-                data_categories_kilo.push(element.kilosnetos);
-                break;
-              case 'Petróleo y Derivados':
-                data_categories_ped.push(element.kilosnetos);
-                break;
 
-              case 'No minero - No petróleos':
-                data_categories_nmnp.push(element.kilosnetos);
-                break;
-
-             
-              default:
-                data_categories_otr.push(element.kilosnetos);
-                break;
+            if (series2[element.categoriaID].data !== undefined) {
+              series2[element.categoriaID].data.push(element.kilosnetos);
             }
+            
           });
         }
+
+ 
+
+
+        console.log('series2', series2.filter(item => item).sort());
+        
 
         
 
@@ -1067,24 +1125,7 @@ export class InfoDepartamentoComponent implements OnInit {
         })
 
         this.chartOptions2 = {
-          series: [
-            {
-              name: "Minero energéticos",
-              data: data_categories_kilo
-            },
-            {
-              name: "Petróleo y Derivados",
-              data: data_categories_ped
-            },
-            {
-              name: "No minero - No petróleos",
-              data: data_categories_nmnp
-            },
-            {
-              name: "Otros",
-              data: data_categories_otr
-            }
-          ],
+          series: series2.filter(item => item).sort(),
           chart: {
             height: 350,
             type: "bar",
@@ -1109,6 +1150,13 @@ export class InfoDepartamentoComponent implements OnInit {
               distributed: true
             }
           },
+          tooltip: {
+            y: {
+              formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+              }
+            }
+          },
           dataLabels: {
             enabled: false
           },
@@ -1117,6 +1165,13 @@ export class InfoDepartamentoComponent implements OnInit {
           },
           grid: {
             show: false
+          },
+          yaxis: {
+            labels: {
+                 formatter: function(val:any, index:any) {
+                return formatoNumeroPipe.localeStringStaticCutDecimal(val, 2);    
+              }
+            }
           },
           xaxis: {
             categories: result_cat_kl,
@@ -1164,15 +1219,18 @@ export class InfoDepartamentoComponent implements OnInit {
             type: "donut"
           },
           labels: categoria3,
-          // stroke: {
-          //   width: 1,
-          //   curve: "smooth",
-          //   dashArray: [0, 0, 0]
-          // },
+    
           title: {
             text: "Capitulos Arancelarios",
             align: "left"
           },
+          tooltip: {
+            y: {
+              formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+              }
+            }
+          }
           
         };
 
@@ -1204,12 +1262,7 @@ export class InfoDepartamentoComponent implements OnInit {
               enabled: false
             }
           },
-          // dataLabels: {
-          //   enabled: false
-          // },
-          // stroke: {
-          //   curve: "straight"
-          // },
+
     
           title: {
             text: "Intensidad tecnológica",
@@ -1220,16 +1273,14 @@ export class InfoDepartamentoComponent implements OnInit {
             align: "left"
           },
           labels: categoria4,
-          // xaxis: {
-          //   type: "datetime"
-          // },
-          // yaxis: {
-          //   show: false,
-          //   opposite: false
-          // },
-          // legend: {
-          //   horizontalAlign: "left"
-          // }
+          tooltip: {
+            y: {
+              formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+              }
+            }
+          }
+
         };
 
 
@@ -1256,6 +1307,13 @@ export class InfoDepartamentoComponent implements OnInit {
           title: {
             text: "Paises",
             align: "left"
+          },
+          tooltip: {
+            y: {
+              formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+              }
+            }
           },
           responsive: [
             {
@@ -1295,6 +1353,13 @@ export class InfoDepartamentoComponent implements OnInit {
           chart: {
             height: 350,
             type: "donut"
+          },
+          tooltip: {
+            y: {
+              formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+              }
+            }
           },
           labels: categoria6,
           responsive: [
@@ -1344,16 +1409,18 @@ export class InfoDepartamentoComponent implements OnInit {
                 }
               }
             },
+            tooltip: {
+              y: {
+                formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+                  return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+                }
+              }
+            },
             dataLabels: {
               enabled: true,
-              // formatter: function(val:any) {
-              //   return val + "%";
-              // },
-              // offsetY: -20,
-              // style: {
-              //   fontSize: "12px",
-              //   colors: ["#304758"]
-              // }
+              formatter: function (val:any, opt:any) {
+                return formatoNumeroPipe.localeStringStaticCutDecimal(val, 2);    
+              },     
             },
       
             xaxis: {
@@ -1473,10 +1540,11 @@ export class InfoDepartamentoComponent implements OnInit {
 
   
 
-  sendFilter(graficaConsulta:number){
+  sendFilter(graficaConsulta:number, categoriaFiltro:number | string = 0){
 
     this.loading= true;
     this.filterFormodel.graficaConsulta= graficaConsulta;
+    this.filterFormodel.categoriaFiltro= categoriaFiltro;
 
     if (this.departamentos !=undefined ) {
       this.departamento=  this.departamentos.find((depa: any) => {
@@ -1487,7 +1555,7 @@ export class InfoDepartamentoComponent implements OnInit {
       this.departamento= null;
     }
 
-    console.log('departamentos', this.departamentos);
+
     
 
     this.infoDepartamentoService.postFilter(this.filterFormodel).subscribe((response) => {  
@@ -1528,7 +1596,9 @@ export class InfoDepartamentoComponent implements OnInit {
           break;
 
         case 7:
-          this.acuerdosComerciales= response.acuerdosComerciales;
+          this.acuerdosComerciales= response.acuerdosComerciales.sort((a:any, b:any) => parseFloat(b.participacion) - parseFloat(a.participacion));
+          console.log('this.acuerdosComerciales', this.acuerdosComerciales);
+          
           break;
 
         default:
@@ -1538,8 +1608,6 @@ export class InfoDepartamentoComponent implements OnInit {
       
       this.rankexpnac(graficaConsulta);
 
-
-      
 
       this.periodo=  (this.periodos!=undefined)? this.periodos.find((pera: any) => {
         return pera.id === this.filterFormodel.periodoID;
@@ -1554,13 +1622,45 @@ export class InfoDepartamentoComponent implements OnInit {
     
   }
 
-  open(content:any, modalHeader:string) {
+  open(content:any, modalHeader:string, graficaConsulta:number = 1) {
     this.modalHeader= modalHeader;
+    this._graficaConsulta= graficaConsulta;
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
+
+  filterGraph(graficaConsulta:number){
+
+    
+      switch (graficaConsulta) {
+        case 1:
+          this.sendFilter(1, this.filterFormodelGraph.categoriaID);    
+          this.modalService.dismissAll();      
+          break;
+      
+        case 2:
+          this.sendFilter(2, this.filterFormodelGraph.categoriaID);
+          this.modalService.dismissAll();
+          break;
+        
+        case 3:
+          this.sendFilter(3, this.filterFormodelGraph.categoriaID);
+          this.sendFilter(4, this.filterFormodelGraph.categoriaID);
+          this.modalService.dismissAll();
+          break;
+        
+        case 4:
+          this.sendFilter(5, this.filterFormodelGraph.categoriaID);
+          this.sendFilter(6, this.filterFormodelGraph.categoriaID);
+          this.sendFilter(7, this.filterFormodelGraph.categoriaID);
+          this.modalService.dismissAll();
+          break  
+      }
+
+      
   }
 
   private getDismissReason(reason: any): string {

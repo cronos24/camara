@@ -1,7 +1,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light hide-download" style="background-color: transparent;">
     <div class="container-fluid">
-      <a class="navbar-brand">Exportaciones de {{ this.stringFormat( this.departamento?.departamento) }} ({{ this.stringFormat( this.periodo?.nombrePeriodo) }}) con fecha de corte :  {{  this.meses[this.mesCorte-1]+' de '+ this.yearmax }}</a>
+      <a class="navbar-brand">Exportaciones de {{  (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} ({{ this.stringFormat( this.periodo?.nombrePeriodo) }}) con fecha de corte :  {{  this.meses[this.mesCorte-1]+' de '+ this.yearmax }}</a>
       <div *ngIf="loading">
         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
         <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
@@ -70,7 +70,7 @@
                                 Paises destino
                             </div>   
                             <div class="col-sm-2">
-                                {{ (this.resultadosGeneralesDto?.paisesDestino != undefined) ? this.resultadosGeneralesDto?.paisesDestino: 0 }}
+                                {{ ((this.resultadosGeneralesDto?.paisesDestino != undefined) ? this.resultadosGeneralesDto?.paisesDestino: 0) | formatoNumeroPipe}}
                             </div>                    
                         </div>
     
@@ -82,7 +82,7 @@
                                 Pocisiones Arancelarias
                             </div>   
                             <div class="col-sm-2">
-                                {{ (this.resultadosGeneralesDto?.posicionesArancelarias != undefined) ? this.resultadosGeneralesDto?.posicionesArancelarias: 0 }}
+                                {{ ((this.resultadosGeneralesDto?.posicionesArancelarias != undefined) ? this.resultadosGeneralesDto?.posicionesArancelarias: 0) | formatoNumeroPipe}}
                             </div>                    
                         </div>
     
@@ -95,7 +95,7 @@
                                 Peso neto (Miles de Toneladas)
                             </div>   
                             <div class="col-sm-2">
-                                {{ (this.resultadosGeneralesDto?.pesoNeto != undefined) ? this.resultadosGeneralesDto?.pesoNeto: 0 }}
+                                {{ ((this.resultadosGeneralesDto?.pesoNeto != undefined) ? this.resultadosGeneralesDto?.pesoNeto: 0) | formatoNumeroPipe}}
                             </div>                    
                         </div>
     
@@ -107,7 +107,7 @@
                                 Número de empresas
                             </div>   
                             <div class="col-sm-2">
-                                {{ (this.resultadosGeneralesDto?.numEmpresas != undefined) ? this.resultadosGeneralesDto?.numEmpresas: 0 }}                        </div>                    
+                                {{ ((this.resultadosGeneralesDto?.numEmpresas != undefined) ? this.resultadosGeneralesDto?.numEmpresas: 0) | formatoNumeroPipe}}                        </div>                    
                         </div>
                     </div>                    
             
@@ -130,7 +130,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">Exportaciones totales</h6>
                         </div>
                     
-                      <div (click)="open(content,'Balance')" class="col-sm-1 hide-download" style="cursor: pointer; text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content,'Balance',1)" class="col-sm-1 hide-download" style="cursor: pointer; text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -143,7 +143,7 @@
                                 Variación frente a 2020
                             </div>   
                             <div class="col-sm-4" style="text-align: end;">
-                                <span><i class="fas fa-plus" style="color: rgb(14, 199, 60);"></i> {{ (this.balanceDto?.variacion != undefined) ? this.balanceDto?.variacion: 0 }}</span>
+                                <span><i class="fas fa-plus" style="color: rgb(14, 199, 60);"></i> {{ ((this.balanceDto?.variacion != undefined) ? this.balanceDto?.variacion: 0) | formatoNumeroPipe}}</span>
                             </div>                    
                         </div>
     
@@ -152,7 +152,7 @@
                                 Participación en Exportaciones de Colombia
                             </div>   
                             <div class="col-sm-4" style="text-align: end;">
-                                <span> {{ (this.balanceDto?.participacionExpo != undefined) ? this.balanceDto?.participacionExpo+'%': 0+'%' }}</span>
+                                <span> {{ ((this.balanceDto?.participacionExpo != undefined) ? this.balanceDto?.participacionExpo+'%': 0+'%') | formatoNumeroPipe}}</span>
                             </div>                    
                         </div>
     
@@ -162,7 +162,7 @@
                                 Ranking en Colombia
                             </div>   
                             <div class="col-sm-4" style="text-align: end;">                          
-                                <span><i class="fas fa-arrow-alt-circle-up" style="color: rgb(14, 199, 60);"></i> {{ (this.balanceDto?.ranking != undefined) ? this.balanceDto?.ranking: 0 }}</span>
+                                <span><i class="fas fa-arrow-alt-circle-up" style="color: rgb(14, 199, 60);"></i> {{ ((this.balanceDto?.ranking != undefined) ? this.balanceDto?.ranking: 0) | formatoNumeroPipe}}</span>
                             </div>                    
                         </div>
     
@@ -171,7 +171,7 @@
                                 Número de empresas
                             </div>   
                             <div class="col-sm-4" style="text-align: end;">
-                                <span> {{ (this.balanceDto?.numeroEmpresas != undefined) ? this.balanceDto?.numeroEmpresas: 0 }}</span>
+                                <span> {{ ((this.balanceDto?.numeroEmpresas != undefined) ? this.balanceDto?.numeroEmpresas: 0) | formatoNumeroPipe}}</span>
                             </div>                    
                         </div>
                     </div>
@@ -200,7 +200,7 @@
                            
                         </div>
                     
-                      <div (click)="open(content, 'Ranking nacional de exportaciones')" class="col-sm-1 hide-download" style="cursor: pointer; text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Ranking nacional de exportaciones', 1)" class="col-sm-1 hide-download" style="cursor: pointer; text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -241,24 +241,24 @@
                                 <div class="row card-body3">
                                     <div class="col"> 
                                         <div style="background-color: #b4d4fc; padding: 6px; min-height: 70px;">
-                                            Distancia al primero en el ranking _(Millones USD/FOB): {{ this.rank_one?.fobdolares-this.rank_dep?.fobdolares }}
+                                            Distancia al primero en el ranking _(Millones USD/FOB): {{ this.rank_one?.fobdolares-this.rank_dep?.fobdolares | formatoNumeroPipe }}
                                         </div>                                                                    
                                     </div>
                                 </div>
                                 <div class="row card-body3">
                                     <div class="col">
                                         <div style="background-color: #b4d4fc; padding: 6px; min-height: 70px;">
-                                            Distancia al primero en el ranking _(%): {{ (this.rank_one?.fobdolares*100/this.rank_dep?.fobdolares)+'%' }}
+                                            Distancia al primero en el ranking _(%): {{ (this.rank_one?.fobdolares*100/this.rank_dep?.fobdolares).toFixed(2)+'%' | formatoNumeroPipe }}
                                         </div> 
                                     </div>
                                 </div>
                             </div>   
                             <div class="col-sm-5">
                                 <div class="row card-body3">
-                                    <div class="col">Antioquia tendía que haber exportado 1250 millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de Bogotá (Mayor exportador)</div>
+                                    <div class="col">{{  (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} tendía que haber exportado {{ this.rank_one?.fobdolares-this.rank_dep?.fobdolares | formatoNumeroPipe }} millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de {{ this.rank_one?.departament }} (Mayor exportador)</div>
                                 </div>
                                 <div class="row card-body3">
-                                    <div class="col">Antioquia tendía que haber exportado 1250 millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de Bogotá (Mayor exportador)</div>
+                                    <div class="col">El valor de las exportaciones de {{ (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} tendía que haber sido {{ (this.rank_one?.fobdolares*100/this.rank_dep?.fobdolares).toFixed(2)+'%' | formatoNumeroPipe }} mas altas en el periodo para haber alcanzado las exportaciones en {{ this.rank_one?.departament }} (Mayor exportador)</div>
                                 </div>
                             </div>                  
                         </div>
@@ -289,7 +289,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">Millones USD/FOB</h6>
                         </div>
                   
-                        <div (click)="open(content, 'Exportaciones')" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
+                        <div (click)="open(content, 'Exportaciones', 2)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
                               
             
                       
@@ -308,6 +308,7 @@
                                     [responsive]="chartOptions3.responsive"
                                     [xaxis]="chartOptions3.xaxis"
                                     [legend]="chartOptions3.legend"
+                                    [tooltip]="chartOptions3.tooltip"
                                     [fill]="chartOptions3.fill"
                                 ></apx-chart>
                             </div>
@@ -335,7 +336,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">Millones USD/FOB</h6>
                         </div>
                     
-                      <div (click)="open(content, 'Peso neto export')" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Peso neto export', 2)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -386,7 +387,7 @@
                            
                         </div>
                     
-                      <div (click)="open(content, 'Productos Exportados')" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Productos Exportados',3)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -409,6 +410,7 @@
                             [yaxis]="chartOptions4.yaxis"
                             [title]="chartOptions4.title"
                             [labels]="chartOptions4.labels"
+                            [plotOptions]="chartOptions4.plotOptions"
                           ></apx-chart>
                           </div>
                           <div *ngIf="this.capitulosArancelariosDept==null">
@@ -447,6 +449,8 @@
                                 [legend]="chartOptions6.legend"
                                 [title]="chartOptions6.title"
                                 [subtitle]="chartOptions6.subtitle"
+                                [tooltip]="chartOptions6.tooltip"
+                                [plotOptions]="chartOptions6.plotOptions"
                             ></apx-chart>
                             </div>
                             <div *ngIf="this.intensidadTecno==null">
@@ -479,7 +483,7 @@
                            
                         </div>
                     
-                      <div (click)="open(content, 'Productos Exportados')" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Productos Exportados',4)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -487,7 +491,7 @@
                     <br>
 
                     <div class="row card-body4">                 
-                        <div class="col-sm-4" style="border-right: 1px solid #c3c0c0;">
+                        <div class="col-sm-4 print1" style="border-right: 1px solid #c3c0c0;">
                             <div id="chart" *ngIf="this.paises!=null">
                             <apx-chart
                                 [series]="chartOptions7.series"
@@ -495,6 +499,7 @@
                                 [plotOptions]="chartOptions7.plotOptions"
                                 [labels]="chartOptions7.labels"
                                 [title]="chartOptions7.title"
+                                
                             ></apx-chart>
                             </div>
                             <div *ngIf="this.paises==null">
@@ -506,7 +511,7 @@
                               
                         </div>      
                         
-                        <div class="col-sm-4" style="border-right: 1px solid #c3c0c0;">
+                        <div class="col-sm-4 print1" style="border-right: 1px solid #c3c0c0;">
                             <div id="chart" *ngIf="this.bloquesGeoDept!=null">
                             <apx-chart
                                 [series]="chartOptions8.series"
@@ -514,6 +519,8 @@
                                 [labels]="chartOptions8.labels"
                                 [responsive]="chartOptions8.responsive"
                                 [title]="chartOptions8.title"
+                                [tooltip]="chartOptions8.tooltip"
+                                [plotOptions]="chartOptions8.plotOptions"
                             ></apx-chart>
                             </div>
                             <div *ngIf="this.bloquesGeoDept==null">
@@ -525,7 +532,7 @@
                               
                         </div>  
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 print2">
                             <div id="chart" *ngIf="this.acuerdosComerciales!=null">
                             <apx-chart
                                 [series]="chartOptions9.series"
@@ -536,6 +543,7 @@
                                 [xaxis]="chartOptions9.xaxis"
                                 [fill]="chartOptions9.fill"
                                 [title]="chartOptions9.title"
+                                [tooltip]="chartOptions9.tooltip"
                             ></apx-chart>
                             </div>
                             <div *ngIf="this.acuerdosComerciales==null">
@@ -576,7 +584,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Consultar</button>
+          <button type="button" class="btn btn-outline-dark" (click)="filterGraph(this._graficaConsulta)">Consultar</button>
         </div>
       </ng-template>
 
