@@ -253,14 +253,23 @@
                                     </div>
                                 </div>
                             </div>   
-                            <div class="col-sm-5">
+                            <div class="col-sm-5" *ngIf="this.rank_dep?.rank!=1">
                                 <div class="row card-body3">
                                     <div class="col">{{  (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} tendía que haber exportado {{ this.rank_one?.fobdolares-this.rank_dep?.fobdolares | formatoNumeroPipe }} millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de {{ this.rank_one?.departament }} (Mayor exportador)</div>
                                 </div>
                                 <div class="row card-body3">
                                     <div class="col">El valor de las exportaciones de {{ (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} tendía que haber sido {{ (this.rank_one?.fobdolares*100/this.rank_dep?.fobdolares).toFixed(2)+'%' | formatoNumeroPipe }} mas altas en el periodo para haber alcanzado las exportaciones en {{ this.rank_one?.departament }} (Mayor exportador)</div>
                                 </div>
-                            </div>                  
+                            </div>   
+                            
+                            <div class="col-sm-5" *ngIf="this.rank_dep?.rank==1">
+                                <div class="row card-body3">
+                                    <div class="col">{{  (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} ha exportado {{ this.rank_dep?.fobdolares | formatoNumeroPipe }} millones 'USD/FOB' ubicándose en el primer puesto del ranking.</div>
+                                </div>
+                                <div class="row card-body3">
+                                    <div class="col">El valor de las exportaciones de {{ (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} ha sido {{ (this.rank_one?.fobdolares*100/this.rank_dep?.fobdolares).toFixed(2)+'%' | formatoNumeroPipe }} ubicándose en el primer puesto del ranking.</div>
+                                </div>
+                            </div>  
                         </div>
                     </div>
 

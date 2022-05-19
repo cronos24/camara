@@ -874,7 +874,6 @@ export class InfoDepartamentoComponent implements OnInit {
         }):null;
 
 
-            console.log(' this.rank_one', this.rank_one);
             
 
         let valor: any[]= [];
@@ -1525,7 +1524,7 @@ export class InfoDepartamentoComponent implements OnInit {
 
   getLists(){
     this.infoDepartamentoService.getAllFilter().subscribe((response) => {   
-      console.log('response', response);
+ 
       this.departamentos= response.departamentos;
       this.periodos= response.periodos;
       this.categorias = response.categorias;
@@ -1544,10 +1543,7 @@ export class InfoDepartamentoComponent implements OnInit {
     );
   }
 
-  edit(){
-    console.log('Editando');
-    
-  }
+
 
   stringFormat(string: any){
     if (string!=null && string!='') {
@@ -1590,10 +1586,7 @@ export class InfoDepartamentoComponent implements OnInit {
 
     this.infoDepartamentoService.postFilter(this.filterFormodel).subscribe((response) => {  
 
-      console.log('response'+graficaConsulta, response);
 
-      
-      
       
       switch (graficaConsulta) {
         case 1:
