@@ -24,8 +24,7 @@ export class MenuComponent implements OnInit {
     this.httpClient.get<any>(environment.apiUrl+'/api/Menu/CargarDatos').subscribe(
       (data) => {
 
-        console.log('data',data);
-        
+         
       
          if (data.length >0 ) {
           this.menus= data.sort((a:any, b:any) => (a.orden < b.orden ? -1 : 1));

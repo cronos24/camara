@@ -108,13 +108,7 @@ export class DragdropComponent implements OnInit {
   crearMenu(content: any){
 
     this.form_menu.reset();
-    
-    
-
-
-    console.log(this.menus);
-    console.log(this.form_menu.getRawValue());
-    
+     
 
     this.scenario= "Crear";
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -135,8 +129,7 @@ export class DragdropComponent implements OnInit {
           this.httpClient.post<any>(environment.apiUrl+'/api/Menu/GuardarMenus', [new_menu]).subscribe(
             (data) => {
 
-              console.log('data', data);
-              
+             
             
               if (data.status==200) {
 
@@ -283,8 +276,7 @@ export class DragdropComponent implements OnInit {
     this.httpClient.delete<any>(environment.apiUrl+"/api/Menu/Eliminar?id="+id).subscribe(
       (data) => {
 
-        console.log('delete',data);
-        
+       
       
         if (data.status==200) {
 
@@ -347,9 +339,6 @@ export class DragdropComponent implements OnInit {
     this.menus.forEach((value, index) => {
       value.orden = index+1;                     
     });
-
-    console.log(this.menus);
-    
     
   }
 

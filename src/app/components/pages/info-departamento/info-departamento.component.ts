@@ -211,7 +211,7 @@ export class InfoDepartamentoComponent implements OnInit {
       departamentoID:68,
       extraPeriodo:0,
       graficaConsulta:1,
-      anioConsulta:2021,
+      anioConsulta:(new Date()).getFullYear(),
       categoriaFiltro:0
     };
 
@@ -269,7 +269,7 @@ export class InfoDepartamentoComponent implements OnInit {
         "#775DD0"
       ],
       chart: {
-        height: 'auto',
+        height: 500,
         width: '80%',
         type: "line",
         stacked: false
@@ -307,10 +307,10 @@ export class InfoDepartamentoComponent implements OnInit {
           showDuplicates: false,
           trim: false,
           minHeight: undefined,
-          maxHeight: 120,
+          maxHeight: 300,
           style: {
               colors: [],
-              fontSize: '12px',
+              fontSize: '16px',
               fontFamily: 'Helvetica, Arial, sans-serif',
               fontWeight: 400,
               cssClass: 'apexcharts-xaxis-label',
@@ -457,7 +457,7 @@ export class InfoDepartamentoComponent implements OnInit {
               "#26a69a",
               "#D10CE8"
             ],
-            fontSize: "12px"
+            fontSize: "16px"
           }
         }
       }
@@ -568,7 +568,7 @@ export class InfoDepartamentoComponent implements OnInit {
         }
       },
       title: {
-        text: "Capitulos Arancelarios",
+        text: "Capítulos Arancelarios",
         align: "left"
       },
       tooltip: {
@@ -648,7 +648,7 @@ export class InfoDepartamentoComponent implements OnInit {
         type: "donut"
       },
       title: {
-        text: "Paises",
+        text: "Países",
         align: "left"
       },
       plotOptions: {
@@ -741,7 +741,7 @@ export class InfoDepartamentoComponent implements OnInit {
         },
         offsetY: -20,
         style: {
-          fontSize: "12px",
+          fontSize: "16px",
           colors: ["#304758"]
         }
       },
@@ -803,7 +803,7 @@ export class InfoDepartamentoComponent implements OnInit {
         }
       },
       title: {
-        text: "Agrupación de paises por acuerdos comerciales",
+        text: "Agrupación de países por acuerdos comerciales",
         align: "left"
       },
       tooltip: {
@@ -834,10 +834,18 @@ export class InfoDepartamentoComponent implements OnInit {
 
   onChangePeriodo(event:any){
     this.filterFormodel.extraPeriodo=0;
+    
     this._periodosExtra= this.periodosExtra.filter((pe: any) => {
 
       if (pe.periodo_id === this.filterFormodel.periodoID) {
-        if (this.mesCorte>=pe.mescortemin && (this.mesCorte<=pe.mescortemax || this.mesCorte>=pe.mescortemax)) {
+
+        let mes_corte= this.mesCorte;
+        if (this.filterFormodel.anioConsulta < this.yearmax) {
+          mes_corte= 12;
+        }
+
+
+        if (mes_corte>=pe.mescortemin && (mes_corte<=pe.mescortemax || mes_corte>=pe.mescortemax)) {
           return true;
         }
       }
@@ -915,7 +923,7 @@ export class InfoDepartamentoComponent implements OnInit {
             "#775DD0"
           ],
           chart: {
-            height: 350,
+            height: 500,
             type: "line",
             stacked: false
           },
@@ -945,6 +953,20 @@ export class InfoDepartamentoComponent implements OnInit {
             labels: {
               rotate: -90,
               rotateAlways: true,
+              hideOverlappingLabels: true,
+              showDuplicates: false,
+              trim: false,
+              minHeight: undefined,
+              maxHeight: 300,
+              style: {
+                  colors: [],
+                  fontSize: '16px',
+                  fontFamily: 'Helvetica, Arial, sans-serif',
+                  fontWeight: 400,
+                  cssClass: 'apexcharts-xaxis-label',
+              },
+              offsetX: 0,
+              offsetY: 0,
             },
             categories: data_categories
           },
@@ -1001,7 +1023,7 @@ export class InfoDepartamentoComponent implements OnInit {
         let series: any[]= [];
  
 
-        this.fobDepartamentos.forEach((element:any) => {
+        this.fobDepartamentos?.forEach((element:any) => {
           if (series[element.categoriaID] == undefined) {
             series[element.categoriaID] = {
               'name':element.categoria,
@@ -1120,7 +1142,7 @@ export class InfoDepartamentoComponent implements OnInit {
         let series2: any[]= [];
         
 
-        this.kilosNetos.forEach((element:any) => {
+        this.kilosNetos?.forEach((element:any) => {
           if (series2[element.categoriaID] == undefined) {
             series2[element.categoriaID] = {
               'name':element.categoria,
@@ -1216,7 +1238,7 @@ export class InfoDepartamentoComponent implements OnInit {
                   "#26a69a",
                   "#D10CE8"
                 ],
-                fontSize: "12px"
+                fontSize: "16px"
               }
             }
           }
@@ -1250,7 +1272,7 @@ export class InfoDepartamentoComponent implements OnInit {
           labels: categoria3,
     
           title: {
-            text: "Capitulos Arancelarios",
+            text: "Capítulos Arancelarios",
             align: "left"
           },
           tooltip: {
@@ -1334,7 +1356,7 @@ export class InfoDepartamentoComponent implements OnInit {
             type: "donut"
           },
           title: {
-            text: "Paises",
+            text: "Países",
             align: "left"
           },
           tooltip: {
@@ -1509,7 +1531,7 @@ export class InfoDepartamentoComponent implements OnInit {
               }
             },
             title: {
-              text: "Agrupación de paises por acuerdos comerciales",
+              text: "Agrupación de países por acuerdos comerciales",
               align: "left"
             }
           };
@@ -1525,13 +1547,16 @@ export class InfoDepartamentoComponent implements OnInit {
   getLists(){
     this.infoDepartamentoService.getAllFilter().subscribe((response) => {   
  
-      this.departamentos= response.departamentos;
+      this.departamentos= response.departamentos.sort((a:any, b:any) => a.departamento.localeCompare(b.departamento));;
       this.periodos= response.periodos;
       this.categorias = response.categorias;
       this.mesCorte= response.mescorte;
       this.yearmax= response.añomax;
 
-      for (let index = response.añomin; index < response.añomax; index++) {        
+      this.filterFormodel.anioConsulta = this.yearmax;
+
+      this.years = [];
+      for (let index = response.añomin; index <= response.añomax; index++) {        
         this.years.push(index);        
       }
 
@@ -1566,7 +1591,7 @@ export class InfoDepartamentoComponent implements OnInit {
 
   
 
-  sendFilter(graficaConsulta:number, categoriaFiltro:number | string = 0){
+  sendFilter(graficaConsulta:number, categoriaFiltro:number | string = 0 , graficaFiltro:number | string = 0){
 
     this.loading= true;
     this.filterFormodel.graficaConsulta= graficaConsulta;
@@ -1586,18 +1611,46 @@ export class InfoDepartamentoComponent implements OnInit {
 
     this.infoDepartamentoService.postFilter(this.filterFormodel).subscribe((response) => {  
 
-
-      
+         
       switch (graficaConsulta) {
         case 1:
-          this.balanceDto = response.balanceDto;
-          this.resultadosGeneralesDto = response.resultadosGeneralesDto;
-          this.rankings = (response.rankings!=null) ? response.rankings.sort((a:any, b:any) => (a.rank < b.rank ? -1 : 1)): null;
+
+            switch (graficaFiltro) {
+              case 1:
+                this.balanceDto = response.balanceDto;
+                break;
+
+              case 2:
+                this.rankings = (response.rankings!=null) ? response.rankings.sort((a:any, b:any) => (a.rank < b.rank ? -1 : 1)): null;
+                break;  
+            
+              default:
+                this.balanceDto = response.balanceDto;
+                this.resultadosGeneralesDto = response.resultadosGeneralesDto;
+                this.rankings = (response.rankings!=null) ? response.rankings.sort((a:any, b:any) => (a.rank < b.rank ? -1 : 1)): null;
+                break;
+            }          
+      
+          
           break;
         
         case 2:
-          this.fobDepartamentos= response.fobDepartamentos;
-          this.kilosNetos= response.kilosNetos;
+
+            switch (graficaFiltro) {
+              case 3:
+                this.fobDepartamentos= response.fobDepartamentos;
+                break;
+
+              case 4:
+                this.kilosNetos= response.kilosNetos;
+                break;  
+            
+              default:
+                this.fobDepartamentos= response.fobDepartamentos;
+                this.kilosNetos= response.kilosNetos;
+                break;
+            }
+                
           break;        
 
         case 3:
@@ -1619,7 +1672,7 @@ export class InfoDepartamentoComponent implements OnInit {
           break;
 
         case 7:
-          this.acuerdosComerciales= response.acuerdosComerciales.sort((a:any, b:any) => parseFloat(b.participacion) - parseFloat(a.participacion));
+          this.acuerdosComerciales= response.acuerdosComerciales?.sort((a:any, b:any) => parseFloat(b.participacion) - parseFloat(a.participacion));
                    
           break;
 
@@ -1634,6 +1687,8 @@ export class InfoDepartamentoComponent implements OnInit {
       this.periodo=  (this.periodos!=undefined)? this.periodos.find((pera: any) => {
         return pera.id === this.filterFormodel.periodoID;
       }): null;
+
+      this.filterFormodelGraph.categoriaID = 0;
       
     },
     (error) => {
@@ -1659,35 +1714,44 @@ export class InfoDepartamentoComponent implements OnInit {
     
       switch (graficaConsulta) {
         case 1:
-          this.balanceDto = null;
-          this.resultadosGeneralesDto = null;
-          this.rankings = null;
-          this.sendFilter(1, this.filterFormodelGraph.categoriaID);    
+          this.balanceDto = null;         
+          this.sendFilter(1, this.filterFormodelGraph.categoriaID, 1);    
           this.modalService.dismissAll();      
           break;
+
+        case 2:            
+            this.rankings = null;
+            this.sendFilter(1, this.filterFormodelGraph.categoriaID, 2);    
+            this.modalService.dismissAll();      
+            break;  
       
-        case 2:
-          this.fobDepartamentos= null;
-          this.kilosNetos= null;
-          this.sendFilter(2, this.filterFormodelGraph.categoriaID);
+        case 3:
+          this.fobDepartamentos= null;         
+          this.sendFilter(2, this.filterFormodelGraph.categoriaID, 3);
           this.modalService.dismissAll();
           break;
+
+        case 4:       
+            this.kilosNetos= null;
+            this.sendFilter(2, this.filterFormodelGraph.categoriaID, 4);
+            this.modalService.dismissAll();
+            break;   
         
-        case 3:
+        case 5:
           this.capitulosArancelariosDept= null;
           this.intensidadTecno=null;
-          this.sendFilter(3, this.filterFormodelGraph.categoriaID);
-          this.sendFilter(4, this.filterFormodelGraph.categoriaID);
+          this.sendFilter(3, this.filterFormodelGraph.categoriaID, 5);
+          this.sendFilter(4, this.filterFormodelGraph.categoriaID, 5);
           this.modalService.dismissAll();
           break;
         
-        case 4:
+        case 6:
           this.paises=  null;
           this.bloquesGeoDept=  null;
           this.acuerdosComerciales= null;
-          this.sendFilter(5, this.filterFormodelGraph.categoriaID);
-          this.sendFilter(6, this.filterFormodelGraph.categoriaID);
-          this.sendFilter(7, this.filterFormodelGraph.categoriaID);
+          this.sendFilter(5, this.filterFormodelGraph.categoriaID, 6);
+          this.sendFilter(6, this.filterFormodelGraph.categoriaID, 6);
+          this.sendFilter(7, this.filterFormodelGraph.categoriaID, 6);
           this.modalService.dismissAll();
           break  
       }

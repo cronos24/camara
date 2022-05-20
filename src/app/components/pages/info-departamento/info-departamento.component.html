@@ -16,7 +16,7 @@
               <option *ngFor="let objeto of periodos" [ngValue]="objeto.id">{{objeto.nombrePeriodo}}</option>
             </select>
 
-            <select name="anioConsulta" *ngIf="filterFormodel.periodoID!=6"[(ngModel)]="filterFormodel.anioConsulta" placeholder="año" class="form-select form-control form-control-sm me-2" #anioSelect required>
+            <select name="anioConsulta" *ngIf="filterFormodel.periodoID!=6"[(ngModel)]="filterFormodel.anioConsulta" placeholder="año" class="form-select form-control form-control-sm me-2" #anioSelect (change)="onChangePeriodo($event)" required>
                 <option value="" selected>Seleccione Año</option>
                 <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
               </select>
@@ -67,7 +67,7 @@
                                 <i class="fas fa-globe-americas fa-2x" style="color:blue;"></i>
                             </div>      
                             <div class="col-sm-8">
-                                Paises destino
+                                Países destino
                             </div>   
                             <div class="col-sm-2">
                                 {{ ((this.resultadosGeneralesDto?.paisesDestino != undefined) ? this.resultadosGeneralesDto?.paisesDestino: 0) | formatoNumeroPipe}}
@@ -79,7 +79,7 @@
                                 <i class="fas fa-money-bill-alt fa-2x" style="color:rgb(243, 93, 93);"></i>
                             </div>      
                             <div class="col-sm-8">
-                                Pocisiones Arancelarias
+                                Posiciones arancelarias
                             </div>   
                             <div class="col-sm-2">
                                 {{ ((this.resultadosGeneralesDto?.posicionesArancelarias != undefined) ? this.resultadosGeneralesDto?.posicionesArancelarias: 0) | formatoNumeroPipe}}
@@ -92,7 +92,7 @@
                                 <i class="fas fa-balance-scale fa-2x" style="color:rgb(98, 6, 174);"></i>
                             </div>      
                             <div class="col-sm-8">
-                                Peso neto (Miles de Toneladas)
+                                Peso neto (Miles de toneladas)
                             </div>   
                             <div class="col-sm-2">
                                 {{ ((this.resultadosGeneralesDto?.pesoNeto != undefined) ? this.resultadosGeneralesDto?.pesoNeto: 0) | formatoNumeroPipe}}
@@ -140,7 +140,7 @@
                     <div id="chart" *ngIf="this.balanceDto!=null">
                         <div class="row card-body2">                 
                             <div class="col-sm-8">
-                                Variación frente a 2020
+                                Variación frente a {{  this.filterFormodel.anioConsulta }}
                             </div>   
                             <div class="col-sm-4" style="text-align: end;">
                                 <span><i class="fas fa-plus" style="color: rgb(14, 199, 60);"></i> {{ ((this.balanceDto?.variacion != undefined) ? this.balanceDto?.variacion: 0) | formatoNumeroPipe}}</span>
@@ -200,7 +200,7 @@
                            
                         </div>
                     
-                      <div (click)="open(content, 'Ranking nacional de exportaciones', 1)" class="col-sm-1 hide-download" style="cursor: pointer; text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Ranking nacional de exportaciones', 2)" class="col-sm-1 hide-download" style="cursor: pointer; text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -255,10 +255,10 @@
                             </div>   
                             <div class="col-sm-5" *ngIf="this.rank_dep?.rank!=1">
                                 <div class="row card-body3">
-                                    <div class="col">{{  (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} tendía que haber exportado {{ this.rank_one?.fobdolares-this.rank_dep?.fobdolares | formatoNumeroPipe }} millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de {{ this.rank_one?.departament }} (Mayor exportador)</div>
+                                    <div class="col">{{  (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} tendría que haber exportado {{ this.rank_one?.fobdolares-this.rank_dep?.fobdolares | formatoNumeroPipe }} millones 'USD/FOB adicionales en el periodo para haber alcanzado las exportaciones de {{ this.rank_one?.departament }} (Mayor exportador)</div>
                                 </div>
                                 <div class="row card-body3">
-                                    <div class="col">El valor de las exportaciones de {{ (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} tendía que haber sido {{ (this.rank_one?.fobdolares*100/this.rank_dep?.fobdolares).toFixed(2)+'%' | formatoNumeroPipe }} mas altas en el periodo para haber alcanzado las exportaciones en {{ this.rank_one?.departament }} (Mayor exportador)</div>
+                                    <div class="col">El valor de las exportaciones de {{ (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} tendría que haber sido {{ (this.rank_one?.fobdolares*100/this.rank_dep?.fobdolares).toFixed(2)+'%' | formatoNumeroPipe }} más altas en el periodo para haber alcanzado las exportaciones en {{ this.rank_one?.departament }} (Mayor exportador)</div>
                                 </div>
                             </div>   
                             
@@ -298,7 +298,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">Millones USD/FOB</h6>
                         </div>
                   
-                        <div (click)="open(content, 'Exportaciones', 2)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
+                        <div (click)="open(content, 'Exportaciones', 3)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
                               
             
                       
@@ -342,11 +342,11 @@
                   
                     <div class="row">
                         <div class="col-sm-11">
-                            <h5 class="card-title">Peso neto export</h5>
+                            <h5 class="card-title">Peso neto exportaciones</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Toneladas</h6>
                         </div>
                     
-                      <div (click)="open(content, 'Peso neto export', 2)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Peso neto export', 4)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -398,7 +398,7 @@
                            
                         </div>
                     
-                      <div (click)="open(content, 'Productos Exportados',3)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Productos Exportados',5)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -494,7 +494,7 @@
                            
                         </div>
                     
-                      <div (click)="open(content, 'Productos Exportados',4)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
+                      <div (click)="open(content, 'Productos Exportados',6)" class="col-sm-1 hide-download" style="cursor: pointer;  text-align: end; padding-left: 90px;"> <i class="fas fa-cogs fa-2x"></i></div>
             
                       
                     </div>
@@ -587,8 +587,8 @@
               <div class="input-group">
 
                 <select name="categoriaID"  [(ngModel)]="filterFormodelGraph.categoriaID" placeholder="categoria" class="form-control form-control-sm">
-                    <option value="0" selected>Seleccione Categoria</option>
-                    <option *ngFor="let objeto of categorias" [ngValue]="objeto.id">{{objeto.nombreCategoria}}</option>
+                    <option value="0" selected>Exportaciones Totales</option>
+                    <option *ngFor="let objeto of categorias" [ngValue]="objeto.id">{{'Excluyendo '+objeto.nombreCategoria}}</option>
                 </select>               
               </div>
             </div>
