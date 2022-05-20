@@ -1034,7 +1034,8 @@ export class InfoDepartamentoComponent implements OnInit {
 
         let series: any[]= [];
  
-
+       
+        
         this.fobDepartamentos?.forEach((element:any) => {
           if (series[element.categoriaID] == undefined) {
             series[element.categoriaID] = {
@@ -1061,9 +1062,10 @@ export class InfoDepartamentoComponent implements OnInit {
         })
         
 
+  
 
         this.chartOptions3 = {
-          series: series.filter(item => item).sort(),
+          series: series.filter(item => item).sort((a:any, b:any) => a.name.localeCompare(b.name)),
           chart: {
             type: "bar",
             height: 350,
@@ -1561,7 +1563,7 @@ export class InfoDepartamentoComponent implements OnInit {
   getLists(){
     this.infoDepartamentoService.getAllFilter().subscribe((response) => {   
  
-      this.departamentos= response.departamentos.sort((a:any, b:any) => a.departamento.localeCompare(b.departamento));;
+      this.departamentos= response.departamentos.sort((a:any, b:any) => a.departamento.localeCompare(b.departamento));
       this.periodos= response.periodos;
       this.categorias = response.categorias;
       this.mesCorte= response.mescorte;
@@ -1652,7 +1654,7 @@ export class InfoDepartamentoComponent implements OnInit {
 
             switch (graficaFiltro) {
               case 3:
-                this.fobDepartamentos= response.fobDepartamentos;
+                this.fobDepartamentos= response.fobDepartamentos.sort((a:any, b:any) => a.categoria.localeCompare(b.categoria));
                 break;
 
               case 4:
@@ -1660,7 +1662,7 @@ export class InfoDepartamentoComponent implements OnInit {
                 break;  
             
               default:
-                this.fobDepartamentos= response.fobDepartamentos;
+                this.fobDepartamentos= response.fobDepartamentos.sort((a:any, b:any) => a.categoria.localeCompare(b.categoria));
                 this.kilosNetos= response.kilosNetos;
                 break;
             }
