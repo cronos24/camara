@@ -871,7 +871,7 @@ export class InfoDepartamentoComponent implements OnInit {
         if (this.rankings!=null) {
           this.rankings.forEach((element:any) => {
             data_series.push(element.fobdolares);
-            data_categories.push(element.departament);
+            data_categories.push(element.departament.split(' '));
           });
         }
         
@@ -960,17 +960,17 @@ export class InfoDepartamentoComponent implements OnInit {
             labels: {
               rotate: -90,
               rotateAlways: true,
-              hideOverlappingLabels: true,
+              minHeight: 120,
+              maxHeight: 200,
               showDuplicates: false,
               trim: false,
-              minHeight: undefined,
-              maxHeight: 300,
+     
               style: {
                   colors: [],
                   fontSize: '16px',
                   fontFamily: 'Helvetica, Arial, sans-serif',
                   fontWeight: 400,
-                  cssClass: 'apexcharts-xaxis-label',
+                  margin: 2
               },
               offsetX: 0,
               offsetY: 0,
