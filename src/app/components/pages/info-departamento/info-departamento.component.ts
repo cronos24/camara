@@ -310,7 +310,7 @@ export class InfoDepartamentoComponent implements OnInit {
           maxHeight: 300,
           style: {
               colors: [],
-              fontSize: '16px',
+              fontSize: '14px',
               fontFamily: 'Helvetica, Arial, sans-serif',
               fontWeight: 400,
               cssClass: 'apexcharts-xaxis-label',
@@ -962,12 +962,13 @@ export class InfoDepartamentoComponent implements OnInit {
               rotateAlways: true,
               minHeight: 120,
               maxHeight: 200,
+              hideOverlappingLabels: true,
               showDuplicates: false,
               trim: false,
      
               style: {
                   colors: [],
-                  fontSize: '16px',
+                  fontSize: '14px',
                   fontFamily: 'Helvetica, Arial, sans-serif',
                   fontWeight: 400,
                   margin: 2
