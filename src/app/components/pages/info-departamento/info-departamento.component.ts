@@ -1215,7 +1215,7 @@ export class InfoDepartamentoComponent implements OnInit {
           tooltip: {
             y: {
               formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
-                return '$ '+formatoNumeroPipe.localeStringStaticCutDecimal(value, 2)+ '';  
+                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2)+ ' Kg';  
               }
             }
           },
@@ -1290,12 +1290,14 @@ export class InfoDepartamentoComponent implements OnInit {
           tooltip: {
             y: {
               formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
-                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+                return 'US$ '+ formatoNumeroPipe.localeStringStaticCutDecimal(value, 2) + ' FOB Millones';  
               }
             }
           }
           
         };
+
+        
 
     
         
@@ -1339,7 +1341,7 @@ export class InfoDepartamentoComponent implements OnInit {
           tooltip: {
             y: {
               formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
-                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+                return 'US$ '+ formatoNumeroPipe.localeStringStaticCutDecimal(value, 2) + ' FOB Millones';  
               }
             }
           }
@@ -1374,7 +1376,7 @@ export class InfoDepartamentoComponent implements OnInit {
           tooltip: {
             y: {
               formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
-                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+                return 'US$ '+ formatoNumeroPipe.localeStringStaticCutDecimal(value, 2) + ' FOB Millones';  
               }
             }
           },
@@ -1420,7 +1422,7 @@ export class InfoDepartamentoComponent implements OnInit {
           tooltip: {
             y: {
               formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
-                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+                return 'US$ '+ formatoNumeroPipe.localeStringStaticCutDecimal(value, 2) + ' FOB Millones';  
               }
             }
           },
@@ -1475,7 +1477,7 @@ export class InfoDepartamentoComponent implements OnInit {
             tooltip: {
               y: {
                 formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
-                  return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+                  return 'US$ '+ formatoNumeroPipe.localeStringStaticCutDecimal(value, 2) + ' FOB Millones';  
                 }
               }
             },
