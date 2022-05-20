@@ -634,10 +634,10 @@ export class InfoDepartamentoComponent implements OnInit {
         text: "Intensidad tecnológica",
         align: "left"
       },
-      subtitle: {
-        text: "178,080",
-        align: "left"
-      },
+      // subtitle: {
+      //   text: "178,080",
+      //   align: "left"
+      // },
       labels: [],
       tooltip: {
         y: {
@@ -1333,10 +1333,10 @@ export class InfoDepartamentoComponent implements OnInit {
             text: "Intensidad tecnológica",
             align: "left"
           },
-          subtitle: {
-            text: "178,080",
-            align: "left"
-          },
+          // subtitle: {
+          //   text: "178,080",
+          //   align: "left"
+          // },
           labels: categoria4,
           tooltip: {
             y: {
