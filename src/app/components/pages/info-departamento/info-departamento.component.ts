@@ -353,8 +353,15 @@ export class InfoDepartamentoComponent implements OnInit {
           position: "topLeft", // topRight, topLeft, bottomRight, bottomLeft
           offsetY: 30,
           offsetX: 60
+        },
+        y: {
+          formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+            return '$ '+formatoNumeroPipe.localeStringStaticCutDecimal(value, 2)+' Millones';  
+          }
         }
       },
+
+      
       legend: {
         horizontalAlign: "left",
         offsetX: 40
@@ -1003,6 +1010,11 @@ export class InfoDepartamentoComponent implements OnInit {
               position: "topLeft", // topRight, topLeft, bottomRight, bottomLeft
               offsetY: 30,
               offsetX: 60
+            },
+            y: {
+              formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
+                return 'US$ '+formatoNumeroPipe.localeStringStaticCutDecimal(value, 2)+' FOB Millones';  
+              }
             }
           },
           legend: {
@@ -1105,7 +1117,7 @@ export class InfoDepartamentoComponent implements OnInit {
           tooltip: {
             y: {
               formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
-                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+                return 'US$ '+ formatoNumeroPipe.localeStringStaticCutDecimal(value, 2) + ' FOB Millones';  
               }
             }
           },
@@ -1203,7 +1215,7 @@ export class InfoDepartamentoComponent implements OnInit {
           tooltip: {
             y: {
               formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
-                return formatoNumeroPipe.localeStringStaticCutDecimal(value, 2);  
+                return '$ '+formatoNumeroPipe.localeStringStaticCutDecimal(value, 2)+ '';  
               }
             }
           },
