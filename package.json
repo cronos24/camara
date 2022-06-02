@@ -1,10 +1,10 @@
 {
-  "name": "login",
+  "name": "comex",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build:prod": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --prod --deploy-url /Login/ --base-href /Login/",
+    "build:prod": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --prod --deploy-url /comex/ --base-href /comex/",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

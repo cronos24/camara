@@ -51,7 +51,7 @@ export class LoginService {
        this.isUserLoggedIn = '0';
       // localStorage.setItem('login',this.isUserLoggedIn);
       localStorage.clear();
-      this.router.navigate(['/home']);
+      this.router.navigate(['/login']);
       return false;
     }
     

@@ -225,6 +225,7 @@
                                       [fill]="chartOptions.fill"
                                       [tooltip]="chartOptions.tooltip"
                                       [legend]="chartOptions.legend"
+                                
                                     ></apx-chart>
                                   </div>
                             </div>                                          
@@ -368,6 +369,9 @@
                                 [fill]="chartOptions2.fill"
                                 [tooltip]="chartOptions2.tooltip"
                                 [legend]="chartOptions2.legend"
+                                [plotOptions]="chartOptions2.plotOptions"
+                                [colors]="chartOptions2.colors"
+                                [grid]="chartOptions2.grid"                          
                                 ></apx-chart>
                             </div>
                             <div *ngIf="this.kilosNetos==null">
@@ -555,6 +559,8 @@
                                 [fill]="chartOptions9.fill"
                                 [title]="chartOptions9.title"
                                 [tooltip]="chartOptions9.tooltip"
+                                [colors]="chartOptions9.colors"
+                                [grid]="chartOptions9.grid"  
                             ></apx-chart>
                             </div>
                             <div *ngIf="this.acuerdosComerciales==null">

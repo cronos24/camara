@@ -66,7 +66,7 @@
            
           </div>
           <div class="mb-3">
-            <label for="icono" class="form-label">Icono</label>
+            <label for="icono" class="form-label">Icono <i class="{{ form_menu.getRawValue().icono }}"></i></label>
 
             <select class="form-select" size="5" id="icono" [formControlName]="'icono'" placeholder="Ingrese el icono" required>
 
@@ -81,7 +81,12 @@
                   Icono no puede estar vacio.
               </div>
             </div>
+
+            
           </div>
+
+         
+          
           <div class="mb-3">
             <label for="leyenda" class="form-label">Descripción</label>
             <textarea  class="form-control" id="leyenda" [formControlName]="'leyenda'" placeholder="Ingrese la descripción" required maxlength="255" rows="3"></textarea>

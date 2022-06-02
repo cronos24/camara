@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
   send:boolean=false;
   constructor(private readonly fb: FormBuilder,private router: Router, private loginService: LoginService) { 
     this.form_login = this.fb.group({
-      email: ['dianac.rueda', Validators.required],      
-      clave: ['Compite360.2022', Validators.required],
+      email: ['', Validators.required],      
+      clave: ['', Validators.required],
       savepassword:[]
     });
   }

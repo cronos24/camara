@@ -28,7 +28,6 @@ export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   xaxis: ApexXAxis;
-  colors: string[];
   markers: any; //ApexMarkers;
   stroke: ApexStroke; //ApexStroke;
   yaxis: ApexYAxis | ApexYAxis[];
@@ -149,6 +148,11 @@ export type ChartOptions9 = {
   fill: ApexFill;
   title: ApexTitleSubtitle;
   tooltip: any; 
+  legend: ApexLegend;
+  markers: any; //ApexMarkers;
+  stroke: any; //ApexStroke;  
+  grid: ApexGrid;
+  colors: string[];
 };
 
 
@@ -252,26 +256,26 @@ export class InfoDepartamentoComponent implements OnInit {
       series: [
         {
           name: "Income",
-          type: "column",
+          // type: "column",
           data: []
         },
       
       ],
-      colors: [
-        "#008FFB",
-        "#00E396",
-        "#FEB019",
-        "#FF4560",
-        "#775DD0",
-        "#546E7A",
-        "#26a69a",
-        "#D10CE8",
-        "#775DD0"
-      ],
+      // colors: [
+      //   "#008FFB",
+      //   "#00E396",
+      //   "#FEB019",
+      //   "#FF4560",
+      //   "#775DD0",
+      //   "#546E7A",
+      //   "#26a69a",
+      //   "#D10CE8",
+      //   "#775DD0"
+      // ],
       chart: {
         height: 500,
         width: '80%',
-        type: "line",
+        type: "bar",
         stacked: false
       },
       dataLabels: {
@@ -296,7 +300,7 @@ export class InfoDepartamentoComponent implements OnInit {
       },
       grid: {
         row: {
-          colors: ["#fff", "#f2f2f2"]
+          // colors: ["#fff", "#f2f2f2"]
         }
       },
       xaxis: {
@@ -382,12 +386,7 @@ export class InfoDepartamentoComponent implements OnInit {
     };
 
     this.chartOptions2 = {
-      series: [
-        {
-          name: "distibuted",
-          data: [21, 22, 10, 28, 16, 21, 13, 30, 12]
-        }
-      ],
+      series: [],
       chart: {
         height: 350,
         type: "bar",
@@ -395,17 +394,17 @@ export class InfoDepartamentoComponent implements OnInit {
          
         }
       },
-      colors: [
-        "#008FFB",
-        "#00E396",
-        "#FEB019",
-        "#FF4560",
-        "#775DD0",
-        "#546E7A",
-        "#26a69a",
-        "#D10CE8",
-        "#775DD0"
-      ],
+      // colors: [
+      //   "#008FFB",
+      //   "#00E396",
+      //   "#FEB019",
+      //   "#FF4560",
+      //   "#775DD0",
+      //   "#546E7A",
+      //   "#26a69a",
+      //   "#D10CE8",
+      //   "#775DD0"
+      // ],
       plotOptions: {
         bar: {
           columnWidth: "15%",
@@ -454,16 +453,16 @@ export class InfoDepartamentoComponent implements OnInit {
         ],
         labels: {
           style: {
-            colors: [
-              "#008FFB",
-              "#00E396",
-              "#FEB019",
-              "#FF4560",
-              "#775DD0",
-              "#546E7A",
-              "#26a69a",
-              "#D10CE8"
-            ],
+            // colors: [
+            //   "#008FFB",
+            //   "#00E396",
+            //   "#FEB019",
+            //   "#FF4560",
+            //   "#775DD0",
+            //   "#546E7A",
+            //   "#26a69a",
+            //   "#D10CE8"
+            // ],
             fontSize: "16px"
           }
         }
@@ -595,7 +594,7 @@ export class InfoDepartamentoComponent implements OnInit {
         height: 350,
       },
       stroke: {
-        colors: ["#fff"]
+        // colors: ["#fff"]
       },
       fill: {
         opacity: 0.8
@@ -732,6 +731,8 @@ export class InfoDepartamentoComponent implements OnInit {
       },
       plotOptions: {
         bar: {
+          columnWidth: "15%",
+          distributed: true,
           dataLabels: {
             position: "top",
             formatter: function (val:any, opt:any) {
@@ -740,6 +741,7 @@ export class InfoDepartamentoComponent implements OnInit {
              // top, center, bottom
           }
         }
+        
       },
       dataLabels: {
         enabled: true,
@@ -749,7 +751,7 @@ export class InfoDepartamentoComponent implements OnInit {
         offsetY: -20,
         style: {
           fontSize: "16px",
-          colors: ["#304758"]
+          // colors: ["#304758"]
         }
       },
 
@@ -765,35 +767,35 @@ export class InfoDepartamentoComponent implements OnInit {
         axisTicks: {
           show: false
         },
-        crosshairs: {
-          fill: {
-            type: "gradient",
-            gradient: {
-              colorFrom: "#D8E3F0",
-              colorTo: "#BED1E6",
-              stops: [0, 100],
-              opacityFrom: 0.4,
-              opacityTo: 0.5
-            }
-          }
-        },
+        // crosshairs: {
+        //   fill: {
+        //     type: "gradient",
+        //     gradient: {
+        //       // colorFrom: "#D8E3F0",
+        //       // colorTo: "#BED1E6",
+        //       stops: [0, 100],
+        //       opacityFrom: 0.4,
+        //       opacityTo: 0.5
+        //     }
+        //   }
+        // },
         tooltip: {
           enabled: true,
           offsetY: -35
         }
       },
       fill: {
-        type: "gradient",
-        gradient: {
-          shade: "light",
-          type: "horizontal",
-          shadeIntensity: 0.25,
-          gradientToColors: undefined,
-          inverseColors: true,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [50, 0, 100, 100]
-        }
+        // type: "gradient",
+        // gradient: {
+        //   shade: "light",
+        //   type: "horizontal",
+        //   shadeIntensity: 0.25,
+        //   gradientToColors: undefined,
+        //   inverseColors: true,
+        //   opacityFrom: 1,
+        //   opacityTo: 1,
+        //   stops: [50, 0, 100, 100]
+        // }
       },
       yaxis: {
         axisBorder: {
@@ -913,25 +915,25 @@ export class InfoDepartamentoComponent implements OnInit {
           series: [
             {
               name: "Fobdolares",
-              type: "column",
+              // type: "column",
               data: data_series
             },
           
           ],
-          colors: [
-            "#008FFB",
-            "#00E396",
-            "#FEB019",
-            "#FF4560",
-            "#775DD0",
-            "#546E7A",
-            "#26a69a",
-            "#D10CE8",
-            "#775DD0"
-          ],
+          // colors: [
+          //   "#008FFB",
+          //   "#00E396",
+          //   "#FEB019",
+          //   "#FF4560",
+          //   "#775DD0",
+          //   "#546E7A",
+          //   "#26a69a",
+          //   "#D10CE8",
+          //   "#775DD0"
+          // ],
           chart: {
             height: 500,
-            type: "line",
+            type: "bar",
             stacked: false
           },
           dataLabels: {
@@ -943,7 +945,8 @@ export class InfoDepartamentoComponent implements OnInit {
           plotOptions: {
             bar: {
               columnWidth: "50%",
-              endingShape: "rounded"
+              endingShape: "rounded",
+              distributed: true
             }
           },
           title: {
@@ -953,7 +956,7 @@ export class InfoDepartamentoComponent implements OnInit {
           },
           grid: {
             row: {
-              colors: ["#fff", "#f2f2f2"]
+              // colors: ["#fff", "#f2f2f2"]
             }
           },
           xaxis: {
@@ -985,12 +988,12 @@ export class InfoDepartamentoComponent implements OnInit {
               },
               axisBorder: {
                 show: false,
-                color: "#008FFB"
+                // color: "#008FFB"
               },
               labels: {
                 show: false,
                 style: {
-                  color: "#008FFB"
+                  // color: "#008FFB"
                 }
               },
               title: {
@@ -1019,6 +1022,7 @@ export class InfoDepartamentoComponent implements OnInit {
             }
           },
           legend: {
+            show: false,
             horizontalAlign: "left",
             offsetX: 40
           }
@@ -1198,17 +1202,17 @@ export class InfoDepartamentoComponent implements OnInit {
              
             }
           },
-          colors: [
-            "#008FFB",
-            "#00E396",
-            "#FEB019",
-            "#FF4560",
-            "#775DD0",
-            "#546E7A",
-            "#26a69a",
-            "#D10CE8",
-            "#775DD0"
-          ],
+          // colors: [
+          //   "#008FFB",
+          //   "#00E396",
+          //   "#FEB019",
+          //   "#FF4560",
+          //   "#775DD0",
+          //   "#546E7A",
+          //   "#26a69a",
+          //   "#D10CE8",
+          //   "#775DD0"
+          // ],
           plotOptions: {
             bar: {
               columnWidth: "15%",
@@ -1243,16 +1247,16 @@ export class InfoDepartamentoComponent implements OnInit {
             categories: result_cat_kl,
             labels: {
               style: {
-                colors: [
-                  "#008FFB",
-                  "#00E396",
-                  "#FEB019",
-                  "#FF4560",
-                  "#775DD0",
-                  "#546E7A",
-                  "#26a69a",
-                  "#D10CE8"
-                ],
+                // colors: [
+                //   "#008FFB",
+                //   "#00E396",
+                //   "#FEB019",
+                //   "#FF4560",
+                //   "#775DD0",
+                //   "#546E7A",
+                //   "#26a69a",
+                //   "#D10CE8"
+                // ],
                 fontSize: "16px"
               }
             }
@@ -1472,6 +1476,7 @@ export class InfoDepartamentoComponent implements OnInit {
             },
             plotOptions: {
               bar: {
+                distributed: true,
                 dataLabels: {
                   position: "top" // top, center, bottom
                 }
@@ -1503,35 +1508,35 @@ export class InfoDepartamentoComponent implements OnInit {
               axisTicks: {
                 show: false
               },
-              crosshairs: {
-                fill: {
-                  type: "gradient",
-                  gradient: {
-                    colorFrom: "#D8E3F0",
-                    colorTo: "#BED1E6",
-                    stops: [0, 100],
-                    opacityFrom: 0.4,
-                    opacityTo: 0.5
-                  }
-                }
-              },
+              // crosshairs: {
+              //   fill: {
+              //     type: "gradient",
+              //     gradient: {
+              //       // colorFrom: "#D8E3F0",
+              //       // colorTo: "#BED1E6",
+              //       stops: [0, 100],
+              //       opacityFrom: 0.4,
+              //       opacityTo: 0.5
+              //     }
+              //   }
+              // },
               tooltip: {
                 enabled: true,
                 offsetY: -35
               }
             },
             fill: {
-              type: "gradient",
-              gradient: {
-                shade: "light",
-                type: "horizontal",
-                shadeIntensity: 0.25,
-                gradientToColors: undefined,
-                inverseColors: true,
-                opacityFrom: 1,
-                opacityTo: 1,
-                stops: [50, 0, 100, 100]
-              }
+              // type: "gradient",
+              // gradient: {
+              //   shade: "light",
+              //   type: "horizontal",
+              //   shadeIntensity: 0.25,
+              //   gradientToColors: undefined,
+              //   inverseColors: true,
+              //   opacityFrom: 1,
+              //   opacityTo: 1,
+              //   stops: [50, 0, 100, 100]
+              // }
             },
             yaxis: {
               axisBorder: {
