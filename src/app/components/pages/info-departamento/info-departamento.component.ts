@@ -180,7 +180,7 @@ export class InfoDepartamentoComponent implements OnInit {
   public chartOptions7!: Partial<ChartOptions7>| any;
   public chartOptions8!: Partial<ChartOptions8>| any;
   public chartOptions9!: Partial<ChartOptions9>| any;
-  filterFormodel: { periodoID: number | string, departamentoID: number, extraPeriodo:number, graficaConsulta:number, anioConsulta:number, categoriaFiltro:number | string };
+  filterFormodel: { periodoID: number | string, departamentoID: number, extraPeriodo:number | string, graficaConsulta:number, anioConsulta:number, categoriaFiltro:number | string };
   filterFormodelGraph: { categoriaID: number | string; };
   periodos: any;
   departamentos: any;
@@ -902,14 +902,18 @@ export class InfoDepartamentoComponent implements OnInit {
   }
 
   onChangePeriodo(event:any){
-    this.filterFormodel.extraPeriodo=0;
+    
+    this.filterFormodel.extraPeriodo='';
+   
     
     this._periodosExtra= this.periodosExtra.filter((pe: any) => {
 
       if (pe.periodo_id === this.filterFormodel.periodoID) {
 
         let mes_corte= this.mesCorte;
-        if (this.filterFormodel.anioConsulta < this.yearmax) {
+        
+        
+        if (event.target.value < this.yearmax) {
           mes_corte= 12;
         }
 

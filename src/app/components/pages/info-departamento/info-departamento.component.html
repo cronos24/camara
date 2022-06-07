@@ -21,7 +21,7 @@
                       <option *ngFor="let objeto of periodos" [ngValue]="objeto.id">{{objeto.nombrePeriodo}}</option>
                     </select>
                 </div>
-                <div class="col-3 full-width-50" *ngIf="filterFormodel.periodoID!=6"[(ngModel)]="filterFormodel.anioConsulta">
+                <div class="col-3 full-width-50" *ngIf="filterFormodel.periodoID!=6" [(ngModel)]="filterFormodel.anioConsulta">
                     <select name="anioConsulta"  placeholder="año" class="form-select form-control form-control-sm" #anioSelect (change)="onChangePeriodo($event)" required>
                         <option value="" selected>Seleccione Año</option>
                         <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
