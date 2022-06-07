@@ -1,46 +1,60 @@
 
-<nav class="navbar navbar-expand-lg navbar-light hide-download" style="background-color: transparent;">
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color: transparent;">
     <div class="container-fluid">
-      <a class="navbar-brand">Exportaciones de {{  (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} ({{ this.stringFormat( this.periodo?.nombrePeriodo) }}) con fecha de corte :  {{  this.meses[this.mesCorte-1]+' de '+ this.yearmax }}</a>
-      <div *ngIf="loading">
-        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-        <span>&nbsp; Consultando Información...</span>
-      </div>
-      <form class="d-flex" (submit)="getGraph()" *ngIf="!loading">
-     
-         
-            <select name="periodoID"  [(ngModel)]="filterFormodel.periodoID" placeholder="Periodo" class="form-select form-control form-control-sm me-2" #periodoSelect (change)="onChangePeriodo($event)" required>
-              <option value="" selected>Seleccione Periodo</option>
-              <option *ngFor="let objeto of periodos" [ngValue]="objeto.id">{{objeto.nombrePeriodo}}</option>
-            </select>
-
-            <select name="anioConsulta" *ngIf="filterFormodel.periodoID!=6"[(ngModel)]="filterFormodel.anioConsulta" placeholder="año" class="form-select form-control form-control-sm me-2" #anioSelect (change)="onChangePeriodo($event)" required>
-                <option value="" selected>Seleccione Año</option>
-                <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
-              </select>
-      
-            <select name="extraPeriodo" *ngIf="(filterFormodel.periodoID==2 || filterFormodel.periodoID==3 || filterFormodel.periodoID==4)"  [(ngModel)]="filterFormodel.extraPeriodo" placeholder="Periodo" class="form-select form-control form-control-sm me-2" [required]="(filterFormodel.periodoID==2 || filterFormodel.periodoID==3 || filterFormodel.periodoID==4)">
-                <option value="" selected>Seleccione ..</option>
-                <option *ngFor="let objetoExtra of _periodosExtra" [ngValue]="objetoExtra.numero">{{objetoExtra.nombrePeriodoExtra}}</option>
-              </select>
-      
-            <select name="departamentoID"  [(ngModel)]="filterFormodel.departamentoID" placeholder="departamento" class="form-select form-control form-control-sm me-2">
-              <option value="0" selected>Seleccione Departamento</option>
-              <option *ngFor="let objeto of departamentos" [ngValue]="objeto.id">{{objeto.departamento}}</option>
-            </select>
-         
-          
-  
-
-            <button type="submit" class="btn " style="border: 0px; background-color:transparent;"><i class="fa fa-search" aria-hidden="true" style="color: black;"></i></button>
    
-            <button type="submit" class="btn " style="border: 0px; background-color:transparent;" (click)="printPage()"><i class="fa fa-print" aria-hidden="true" style="color: black;"></i></button>
-  
+       <div class="row" style="width: 100%; padding-bottom: 10px;">
+        <div class="col-6 full-width">
+            <span> <h3> Exportaciones de {{  (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} ({{ this.stringFormat( this.periodo?.nombrePeriodo) }}) con fecha de corte :  {{  this.meses[this.mesCorte-1]+' de '+ this.yearmax }} </h3></span>
+        </div>
+        <div class="col-5 full-width">
+            <div *ngIf="loading">
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                <span>&nbsp; Consultando Información...</span>
+              </div>
+              <form class="hide-download"  *ngIf="!loading">
+                <div class="row justify-content-end">
+                <div class="col-3 full-width-50">
+                    <select name="periodoID"  [(ngModel)]="filterFormodel.periodoID" placeholder="Periodo" class="form-select form-control form-control-sm" #periodoSelect (change)="onChangePeriodo($event)" required>
+                      <option value="" selected>Seleccione Periodo</option>
+                      <option *ngFor="let objeto of periodos" [ngValue]="objeto.id">{{objeto.nombrePeriodo}}</option>
+                    </select>
+                </div>
+                <div class="col-3 full-width-50" *ngIf="filterFormodel.periodoID!=6"[(ngModel)]="filterFormodel.anioConsulta">
+                    <select name="anioConsulta"  placeholder="año" class="form-select form-control form-control-sm" #anioSelect (change)="onChangePeriodo($event)" required>
+                        <option value="" selected>Seleccione Año</option>
+                        <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
+                      </select>
+                </div>
+                <div class="col-3 full-width-50" *ngIf="(filterFormodel.periodoID==2 || filterFormodel.periodoID==3 || filterFormodel.periodoID==4)">
+                    <select name="extraPeriodo"   [(ngModel)]="filterFormodel.extraPeriodo" placeholder="Periodo" class="form-select form-control form-control-sm " [required]="(filterFormodel.periodoID==2 || filterFormodel.periodoID==3 || filterFormodel.periodoID==4)">
+                        <option value="" selected>Seleccione ..</option>
+                        <option *ngFor="let objetoExtra of _periodosExtra" [ngValue]="objetoExtra.numero">{{objetoExtra.nombrePeriodoExtra}}</option>
+                      </select>
+                </div>
+                <div class="col-3 full-width-50">
+                    <select name="departamentoID"  [(ngModel)]="filterFormodel.departamentoID" placeholder="departamento" class="form-select form-control form-control-sm ">
+                      <option value="0" selected>Seleccione Departamento</option>
+                      <option *ngFor="let objeto of departamentos" [ngValue]="objeto.id">{{objeto.departamento}}</option>
+                    </select>
+                </div>       
+           
+               </div>
+              
+              </form>
+        </div>
+        <div class="col-1 full-width">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <button type="button" class="btn " style="border: 0px; background-color:transparent;" (click)="getGraph()"><i class="fa fa-search" aria-hidden="true" style="color: black;"></i></button>
        
+                    <button type="button" class="btn " style="border: 0px; background-color:transparent;" (click)="printPage()"><i class="fa fa-print" aria-hidden="true" style="color: black;"></i></button>
+                </div>
+              </div>
+        </div>
+    </div>  
       
-      </form>
       
     </div>
   </nav>
@@ -410,7 +424,7 @@
                     <br>
 
                     <div class="row card-body4">                 
-                        <div class="col-sm-6 print2" style="border-right: 1px solid #c3c0c0;">
+                        <div class="col-lg-6 print1" style="border-right: 1px solid #c3c0c0;">
                             <div id="chart" *ngIf="this.capitulosArancelariosDept!=null">
                             <apx-chart
                             [series]="chartOptions4.series"
@@ -426,6 +440,7 @@
                             [title]="chartOptions4.title"
                             [labels]="chartOptions4.labels"
                             [plotOptions]="chartOptions4.plotOptions"
+                            [responsive]="chartOptions4.responsive"
                           ></apx-chart>
                           </div>
                           <div *ngIf="this.capitulosArancelariosDept==null">
@@ -451,7 +466,7 @@
                               
                         </div>   -->
 
-                        <div class="col-sm-6 print2">
+                        <div class="col-lg-6 print1">
                             <div id="chart" *ngIf="this.intensidadTecno!=null">
                             <apx-chart
                                 [series]="chartOptions6.series"
@@ -466,6 +481,7 @@
                                 [subtitle]="chartOptions6.subtitle"
                                 [tooltip]="chartOptions6.tooltip"
                                 [plotOptions]="chartOptions6.plotOptions"
+                                [responsive]="chartOptions6.responsive"
                             ></apx-chart>
                             </div>
                             <div *ngIf="this.intensidadTecno==null">
@@ -514,7 +530,7 @@
                                 [plotOptions]="chartOptions7.plotOptions"
                                 [labels]="chartOptions7.labels"
                                 [title]="chartOptions7.title"
-                                
+                                [responsive]="chartOptions7.responsive"
                             ></apx-chart>
                             </div>
                             <div *ngIf="this.paises==null">
@@ -536,6 +552,8 @@
                                 [title]="chartOptions8.title"
                                 [tooltip]="chartOptions8.tooltip"
                                 [plotOptions]="chartOptions8.plotOptions"
+                                [responsive]="chartOptions8.responsive"
+                                [dataLabels]="chartOptions8.dataLabels"
                             ></apx-chart>
                             </div>
                             <div *ngIf="this.bloquesGeoDept==null">

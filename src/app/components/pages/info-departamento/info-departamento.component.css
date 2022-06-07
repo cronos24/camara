@@ -138,11 +138,11 @@
       padding-bottom: 20px;  
     }
     
-    .print2{
+    /* .print2{
       flex: 0 0 auto;
       width: 100% !important; 
       text-align: center;     
-    }
+    } */
 
     .print3{
       flex: 0 0 auto;
@@ -152,3 +152,9 @@
     }
   }
   @page { size: landscape; }
+  @media screen and (max-width: 760px){
+    .full-width{ width: 100% !important; }
+    .full-width-50{ width: 50% !important; }
+}
+
+  

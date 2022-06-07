@@ -84,6 +84,7 @@ export type ChartOptions4 = {
   title: ApexTitleSubtitle;
   labels: string[];
   plotOptions: ApexPlotOptions;
+  responsive: ApexResponsive;
 };
 
 export type ChartOptions5 = {
@@ -114,6 +115,7 @@ export type ChartOptions6 = {
   subtitle: ApexTitleSubtitle;
   tooltip: any; 
   plotOptions: ApexPlotOptions;
+  responsive: ApexResponsive;
 };
 
 
@@ -136,6 +138,7 @@ export type ChartOptions8 = {
   title: ApexTitleSubtitle;
   tooltip: any; 
   plotOptions: ApexPlotOptions;
+  dataLabels: ApexDataLabels;
 };
 
 export type ChartOptions9 = {
@@ -314,7 +317,7 @@ export class InfoDepartamentoComponent implements OnInit {
           maxHeight: 300,
           style: {
               colors: [],
-              fontSize: '14px',
+              fontSize: '12px',
               fontFamily: 'Helvetica, Arial, sans-serif',
               fontWeight: 400,
               cssClass: 'apexcharts-xaxis-label',
@@ -463,7 +466,7 @@ export class InfoDepartamentoComponent implements OnInit {
             //   "#26a69a",
             //   "#D10CE8"
             // ],
-            fontSize: "16px"
+            fontSize: "12px"
           }
         }
       }
@@ -501,6 +504,10 @@ export class InfoDepartamentoComponent implements OnInit {
             prueba= prueba+ ' ' + element.name;
           });
           return prueba
+        },
+        dropShadow: {
+          enabled: true,
+          color: '#656363',
         }
       },
       responsive: [
@@ -573,6 +580,19 @@ export class InfoDepartamentoComponent implements OnInit {
           customScale: 0.8
         }
       },
+      responsive: [
+        {
+          breakpoint: 768,
+          options: {
+            chart: {
+              width: '100%'
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ],
       title: {
         text: "Capítulos Arancelarios",
         align: "left"
@@ -638,6 +658,19 @@ export class InfoDepartamentoComponent implements OnInit {
       //   align: "left"
       // },
       labels: [],
+      responsive: [
+        {
+          breakpoint: 768,
+          options: {
+            chart: {
+              width: '100%'
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ],
       tooltip: {
         y: {
           formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
@@ -664,10 +697,10 @@ export class InfoDepartamentoComponent implements OnInit {
       },
       responsive: [
         {
-          breakpoint: 480,
+          breakpoint: 768,
           options: {
             chart: {
-              width: 200
+              width: '100%'
             },
             legend: {
               position: "bottom"
@@ -708,19 +741,26 @@ export class InfoDepartamentoComponent implements OnInit {
           customScale: 0.8
         }
       },
+      dataLabels: {
+        enabled: true,
+          dropShadow: {
+          enabled: true,
+          color: '#656363',
+        }
+      },
       responsive: [
         {
-          breakpoint: 480,
+          breakpoint: 768,
           options: {
             chart: {
-              width: 200
+              width: '100%'
             },
             legend: {
               position: "bottom"
             }
           }
         }
-      ]
+      ],
     };
 
     this.chartOptions9 = {
@@ -745,21 +785,41 @@ export class InfoDepartamentoComponent implements OnInit {
       },
       dataLabels: {
         enabled: true,
+        dropShadow: {
+          enabled: true,
+          color: '#656363',
+        },
         formatter: function (val:any, opt:any) {
           return formatoNumeroPipe.localeStringStaticCutDecimal(val, 2)+"%";    
         },
-        offsetY: -20,
+        offsetY: -90,
         style: {
-          fontSize: "16px",
+          fontSize: "12px",
           // colors: ["#304758"]
         }
       },
 
-      xaxis: {
+      xaxis: {        
         categories: [],
         position: "bottom",
         labels: {
-          
+          rotate: -90,
+          rotateAlways: true,
+          minHeight: 120,
+          maxHeight: 200,
+          hideOverlappingLabels: true,
+          showDuplicates: false,
+          trim: false,
+ 
+          style: {
+              colors: [],
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 400,
+              margin: 2
+          },
+          offsetX: 0,
+          offsetY: 0,
         },
         axisBorder: {
           show: false
@@ -971,7 +1031,7 @@ export class InfoDepartamentoComponent implements OnInit {
      
               style: {
                   colors: [],
-                  fontSize: '14px',
+                  fontSize: '12px',
                   fontFamily: 'Helvetica, Arial, sans-serif',
                   fontWeight: 400,
                   margin: 2
@@ -1102,6 +1162,10 @@ export class InfoDepartamentoComponent implements OnInit {
                             
               });
               return  formatoNumeroPipe.localeStringStaticCutDecimal((value*100/total), 2) +'%';
+            },
+            dropShadow: {
+              enabled: true,
+              color: '#656363',
             }
           },
           responsive: [
@@ -1257,7 +1321,7 @@ export class InfoDepartamentoComponent implements OnInit {
                 //   "#26a69a",
                 //   "#D10CE8"
                 // ],
-                fontSize: "16px"
+                fontSize: "12px"
               }
             }
           }
@@ -1294,6 +1358,19 @@ export class InfoDepartamentoComponent implements OnInit {
             text: "Capítulos Arancelarios",
             align: "left"
           },
+          responsive: [
+            {
+              breakpoint: 768,
+              options: {
+                chart: {
+                  width: '100%'
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            }
+          ],
           tooltip: {
             y: {
               formatter: function(value:any, { series, seriesIndex, dataPointIndex, w }: { series: any; seriesIndex: any; dataPointIndex:any; w:any }) {
@@ -1344,6 +1421,19 @@ export class InfoDepartamentoComponent implements OnInit {
           //   text: "178,080",
           //   align: "left"
           // },
+          responsive: [
+            {
+              breakpoint: 768,
+              options: {
+                chart: {
+                  width: '100%'
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            }
+          ],
           labels: categoria4,
           tooltip: {
             y: {
@@ -1351,7 +1441,8 @@ export class InfoDepartamentoComponent implements OnInit {
                 return 'US$ '+ formatoNumeroPipe.localeStringStaticCutDecimal(value, 2) + ' FOB Millones';  
               }
             }
-          }
+          },
+    
 
         };
 
@@ -1389,10 +1480,10 @@ export class InfoDepartamentoComponent implements OnInit {
           },
           responsive: [
             {
-              breakpoint: 480,
+              breakpoint: 768,
               options: {
                 chart: {
-                  width: 200
+                  width: '100%'
                 },
                 legend: {
                   position: "bottom"
@@ -1433,20 +1524,27 @@ export class InfoDepartamentoComponent implements OnInit {
               }
             }
           },
+          dataLabels: {
+            enabled: true,
+              dropShadow: {
+              enabled: true,
+              color: '#656363',
+            }
+          },
           labels: categoria6,
           responsive: [
             {
-              breakpoint: 480,
+              breakpoint: 768,
               options: {
                 chart: {
-                  width: 200
+                  width: '100%'
                 },
                 legend: {
                   position: "bottom"
                 }
               }
             }
-          ]
+          ],
         };
           
         break;
@@ -1493,14 +1591,34 @@ export class InfoDepartamentoComponent implements OnInit {
               enabled: true,
               formatter: function (val:any, opt:any) {
                 return formatoNumeroPipe.localeStringStaticCutDecimal(val, 2);    
-              },     
+              },    
+              dropShadow: {
+                enabled: true,
+                color: '#656363',
+              } 
             },
       
-            xaxis: {
+            xaxis: {            
               categories: categoria7,
               position: "bottom",
               labels: {
-                
+                rotate: -90,
+                rotateAlways: true,
+                minHeight: 120,
+                maxHeight: 200,
+                hideOverlappingLabels: true,
+                showDuplicates: false,
+                trim: false,
+       
+                style: {
+                    colors: [],
+                    fontSize: '12px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 400,
+                    margin: 2
+                },
+                offsetX: 0,
+                offsetY: 0,
               },
               axisBorder: {
                 show: false

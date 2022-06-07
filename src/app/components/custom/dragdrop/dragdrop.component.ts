@@ -131,7 +131,7 @@ export class DragdropComponent implements OnInit {
 
              
             
-              if (data.status==200) {
+         
 
                 Swal.fire({
                   icon: 'success',            
@@ -144,20 +144,6 @@ export class DragdropComponent implements OnInit {
                 setTimeout(() => { 
                   this.menus.push(new_menu);
                 }, 500);
-
-                
-                
-              }else{
-                Swal.fire({
-                  icon: 'info',            
-                  title: 'UPS!!!',
-                  text: data.message,
-                  timer: 1000,
-                  timerProgressBar: true,
-                }); 
-              }
-               
-             
                
                          
             },
@@ -195,7 +181,7 @@ export class DragdropComponent implements OnInit {
             this.httpClient.post<any>(environment.apiUrl+'/api/Menu/GuardarMenus', [this.form_menu.getRawValue()]).subscribe(
               (data) => {
               
-                if (data.status==200) {
+            
 
                   Swal.fire({
                     icon: 'success',            
@@ -210,16 +196,7 @@ export class DragdropComponent implements OnInit {
                   this.menus[index_menu]=  this.form_menu.getRawValue();
                   }, 500);
                   
-                  
-                }else{
-                  Swal.fire({
-                    icon: 'info',            
-                    title: 'UPS!!!',
-                    text: data.message,
-                    timer: 1000,
-                    timerProgressBar: true,
-                  }); 
-                }
+                
                  
                
                  
@@ -294,6 +271,8 @@ export class DragdropComponent implements OnInit {
           
           
         }else{
+          console.log(data);
+          
           Swal.fire({
             icon: 'info',            
             title: 'UPS!!!',

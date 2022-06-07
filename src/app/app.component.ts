@@ -12,7 +12,7 @@ export class AppComponent {
   login: boolean = false;
   isOpen: boolean= false;
 
-  constructor(public loginService: LoginService, public appService: AppService) {
+  constructor(public loginService: LoginService, public appService: AppService, public router: Router) {
     this.getComexUrl(72);
   }
 
@@ -28,6 +28,8 @@ export class AppComponent {
   click(){
     this.isOpen = false;
   }
+
+  
 
   getComexUrl(id:any){
     this.appService.getComexUrl(id).subscribe((response) => {   

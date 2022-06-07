@@ -28,15 +28,6 @@ export class MenuComponent implements OnInit {
       
          if (data.length >0 ) {
           this.menus= data.sort((a:any, b:any) => (a.orden < b.orden ? -1 : 1));
-         }else{
-          Swal.fire({
-            title: 'Error!',
-            text:'No se encontraron menus en la base de dados',
-            icon: 'error',
-            confirmButtonText: 'OK',
-            timer: 3000,
-            timerProgressBar: true,
-          })
          }
          
                    
