@@ -6,28 +6,30 @@
         <div class="col-6 full-width">
             <span> <h3> Exportaciones de {{  (this.stringFormat( this.departamento?.departamento)!=null && this.stringFormat( this.departamento?.departamento)!='') ? this.stringFormat( this.departamento?.departamento) :'Santander' }} ({{ this.stringFormat( this.periodo?.nombrePeriodo) }}) con fecha de corte :  {{  this.meses[this.mesCorte-1]+' de '+ this.yearmax }} </h3></span>
         </div>
-        <div class="col-5 full-width">
+        <div class="col-6 full-width">
             <div *ngIf="loading">
                 <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                 <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                 <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                 <span>&nbsp; Consultando Información...</span>
               </div>
-              <form class="hide-download"  *ngIf="!loading">
+              <form class="hide-download"  *ngIf="!loading" (submit)="getGraph()" ngNativeValidate>
                 <div class="row justify-content-end">
                 <div class="col-3 full-width-50">
                     <select name="periodoID"  [(ngModel)]="filterFormodel.periodoID" placeholder="Periodo" class="form-select form-control form-control-sm" #periodoSelect (change)="onChangePeriodo($event)" required>
                       <option value="" selected>Seleccione Periodo</option>
                       <option *ngFor="let objeto of periodos" [ngValue]="objeto.id">{{objeto.nombrePeriodo}}</option>
                     </select>
+                    <div class="invalid-feedback">Example invalid custom select feedback</div>
                 </div>
-                <div class="col-3 full-width-50" *ngIf="filterFormodel.periodoID!=6" [(ngModel)]="filterFormodel.anioConsulta">
-                    <select name="anioConsulta"  placeholder="año" class="form-select form-control form-control-sm" #anioSelect (change)="onChangePeriodo($event)" required>
+                <div class="col-2 full-width-50" *ngIf="filterFormodel.periodoID!=6">
+                    <select name="anioConsulta" [(ngModel)]="filterFormodel.anioConsulta" placeholder="año" class="form-select form-control form-control-sm" #anioSelect (change)="onChangePeriodo($event)" required>
                         <option value="" selected>Seleccione Año</option>
                         <option *ngFor="let year of years" [ngValue]="year">{{year}}</option>
                       </select>
+                      
                 </div>
-                <div class="col-3 full-width-50" *ngIf="(filterFormodel.periodoID==2 || filterFormodel.periodoID==3 || filterFormodel.periodoID==4)">
+                <div class="col-2 full-width-50" *ngIf="(filterFormodel.periodoID==2 || filterFormodel.periodoID==3 || filterFormodel.periodoID==4)">
                     <select name="extraPeriodo"   [(ngModel)]="filterFormodel.extraPeriodo" placeholder="Periodo" class="form-select form-control form-control-sm " [required]="(filterFormodel.periodoID==2 || filterFormodel.periodoID==3 || filterFormodel.periodoID==4)">
                         <option value="" selected>Seleccione ..</option>
                         <option *ngFor="let objetoExtra of _periodosExtra" [ngValue]="objetoExtra.numero">{{objetoExtra.nombrePeriodoExtra}}</option>
@@ -38,21 +40,25 @@
                       <option value="0" selected>Seleccione Departamento</option>
                       <option *ngFor="let objeto of departamentos" [ngValue]="objeto.id">{{objeto.departamento}}</option>
                     </select>
-                </div>       
+                </div>   
+                
+                <div class="col-2 full-width">
+                    <div class="form-group">
+                       
+                            <button type="submit" class="btn " style="border: 0px; background-color:transparent;"><i class="fa fa-search" aria-hidden="true" style="color: black;"></i></button>
+            
+                            <button type="button" class="btn " style="border: 0px; background-color:transparent;" (click)="printPage()"><i class="fa fa-print" aria-hidden="true" style="color: black;"></i></button>
+                       
+                    </div>
+                </div>
            
                </div>
+
+               
               
               </form>
         </div>
-        <div class="col-1 full-width">
-            <div class="form-group">
-                <div class="col-md-12">
-                    <button type="button" class="btn " style="border: 0px; background-color:transparent;" (click)="getGraph()"><i class="fa fa-search" aria-hidden="true" style="color: black;"></i></button>
        
-                    <button type="button" class="btn " style="border: 0px; background-color:transparent;" (click)="printPage()"><i class="fa fa-print" aria-hidden="true" style="color: black;"></i></button>
-                </div>
-              </div>
-        </div>
     </div>  
       
       
@@ -239,7 +245,7 @@
                                       [fill]="chartOptions.fill"
                                       [tooltip]="chartOptions.tooltip"
                                       [legend]="chartOptions.legend"
-                                
+                                      [responsive]="chartOptions.responsive"
                                     ></apx-chart>
                                   </div>
                             </div>                                          
@@ -522,7 +528,7 @@
                     <br>
 
                     <div class="row card-body4">                 
-                        <div class="col-sm-4 print1" style="border-right: 1px solid #c3c0c0;">
+                        <div class="col-sm-4 print1 full-width-50" style="border-right: 1px solid #c3c0c0;">
                             <div id="chart" *ngIf="this.paises!=null">
                             <apx-chart
                                 [series]="chartOptions7.series"
@@ -542,7 +548,7 @@
                               
                         </div>      
                         
-                        <div class="col-sm-4 print1" style="border-right: 1px solid #c3c0c0;">
+                        <div class="col-sm-4 print1 full-width-50 no-border-rigth-card" style="border-right: 1px solid #c3c0c0;">
                             <div id="chart" *ngIf="this.bloquesGeoDept!=null">
                             <apx-chart
                                 [series]="chartOptions8.series"
@@ -565,28 +571,34 @@
                               
                         </div>  
 
-                        <div class="col-sm-4 print2">
-                            <div id="chart" *ngIf="this.acuerdosComerciales!=null">
-                            <apx-chart
+                        <div class="col-sm-4 print2 full-width border-top-card">
+                            <div id="row chart" *ngIf="this.acuerdosComerciales!=null">
+                            <div class="col-sm-12">
+                                    <span class="tittle-graph"><b>{{ chartOptions9.title.text }}</b></span>                                   
+                            </div>
+                            <div class="col-sm-12">
+                                <apx-chart
                                 [series]="chartOptions9.series"
                                 [chart]="chartOptions9.chart"
                                 [dataLabels]="chartOptions9.dataLabels"
                                 [plotOptions]="chartOptions9.plotOptions"
                                 [yaxis]="chartOptions9.yaxis"
                                 [xaxis]="chartOptions9.xaxis"
-                                [fill]="chartOptions9.fill"
-                                [title]="chartOptions9.title"
+                                [fill]="chartOptions9.fill"                               
                                 [tooltip]="chartOptions9.tooltip"
                                 [colors]="chartOptions9.colors"
+                                [responsive]="chartOptions9.responsive"
                                 [grid]="chartOptions9.grid"  
-                            ></apx-chart>
+                                ></apx-chart>
+                                </div>
+                                <div *ngIf="this.acuerdosComerciales==null">
+                                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                    <span>&nbsp; Consultando Información...</span>
+                                </div>                                   
                             </div>
-                            <div *ngIf="this.acuerdosComerciales==null">
-                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                                <span>&nbsp; Consultando Información...</span>
-                              </div>
+                            
                               
                         </div>                   
                     </div>

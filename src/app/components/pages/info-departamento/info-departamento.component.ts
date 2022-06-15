@@ -39,6 +39,7 @@ export type ChartOptions = {
   plotOptions: ApexPlotOptions;
   annotations: ApexAnnotations;
   grid: ApexGrid;
+  responsive: ApexResponsive[];
 };
 
 export type ChartOptions2 = {
@@ -156,6 +157,7 @@ export type ChartOptions9 = {
   stroke: any; //ApexStroke;  
   grid: ApexGrid;
   colors: string[];
+  responsive: ApexResponsive;
 };
 
 
@@ -375,14 +377,30 @@ export class InfoDepartamentoComponent implements OnInit {
       },
       responsive: [
         {
-          breakpoint: 480,
+          breakpoint: 768,
           options: {
-            chart: {
-              width: 200
+           
+            xaxis: {
+              labels: {
+                rotate: -90,
+                rotateAlways: true,
+                hideOverlappingLabels: true,
+                showDuplicates: false,
+                trim: false,
+                minHeight: undefined,
+                maxHeight: 300,
+                style: {
+                    colors: [],
+                    fontSize: '5px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 400,
+                    cssClass: 'apexcharts-xaxis-label',
+                },
+                offsetX: 0,
+                offsetY: 0,
+              },
+              categories: []
             },
-            legend: {
-              position: "bottom"
-            }
           }
         }
       ]
@@ -518,6 +536,23 @@ export class InfoDepartamentoComponent implements OnInit {
               position: "bottom",
               offsetX: -10,
               offsetY: 0
+            },
+            dataLabels: {
+              enabled: true,
+              formatter: function(value:any, { seriesIndex, dataPointIndex, w }: { seriesIndex: any; dataPointIndex:any; w:any }) {
+                var prueba: any = null;
+                w.config.series.forEach((element:any) => {
+                  prueba= prueba+ ' ' + element.name;
+                });
+                return prueba
+              },
+              dropShadow: {
+                enabled: true,
+                color: '#656363',
+              },
+              style: {
+                fontSize: '10px',
+              },
             }
           }
         }
@@ -589,6 +624,13 @@ export class InfoDepartamentoComponent implements OnInit {
             },
             legend: {
               position: "bottom"
+            },
+            dataLabels: {
+              enabled: true,
+    
+              style: {
+                fontSize: '8px',
+              },
             }
           }
         }
@@ -628,6 +670,13 @@ export class InfoDepartamentoComponent implements OnInit {
             },
             legend: {
               position: "bottom"
+            },
+            dataLabels: {
+              enabled: true,
+    
+              style: {
+                fontSize: '8px',
+              },
             }
           }
         }
@@ -667,6 +716,13 @@ export class InfoDepartamentoComponent implements OnInit {
             },
             legend: {
               position: "bottom"
+            },
+            dataLabels: {
+              enabled: true,
+    
+              style: {
+                fontSize: '10px',
+              },
             }
           }
         }
@@ -838,11 +894,25 @@ export class InfoDepartamentoComponent implements OnInit {
         //       opacityTo: 0.5
         //     }
         //   }
-        // },
+        // },responsive
         tooltip: {
           enabled: true,
           offsetY: -35
-        }
+        },
+        responsive: [
+          {
+            breakpoint: 768,
+            options: {             
+              dataLabels: {
+                enabled: true,
+      
+                style: {
+                  fontSize: '8px',
+                },
+              }
+            }
+          }
+        ],
       },
       fill: {
         // type: "gradient",
@@ -905,6 +975,8 @@ export class InfoDepartamentoComponent implements OnInit {
     
     this.filterFormodel.extraPeriodo='';
    
+
+    
     
     this._periodosExtra= this.periodosExtra.filter((pe: any) => {
 
@@ -913,12 +985,12 @@ export class InfoDepartamentoComponent implements OnInit {
         let mes_corte= this.mesCorte;
         
         
-        if (event.target.value < this.yearmax) {
+        if (this.filterFormodel.anioConsulta < this.yearmax) {
           mes_corte= 12;
         }
 
 
-        if (mes_corte>=pe.mescortemin && (mes_corte<=pe.mescortemax || mes_corte>=pe.mescortemax)) {
+        if (mes_corte>=pe.mescortemin && mes_corte>=pe.mescortemax) {
           return true;
         }
       }
@@ -1072,6 +1144,35 @@ export class InfoDepartamentoComponent implements OnInit {
             },
             
           ],
+          responsive: [
+            {
+              breakpoint: 768,
+              options: {
+               
+                xaxis: {
+                  labels: {
+                    rotate: -90,
+                    rotateAlways: true,
+                    minHeight: 120,
+                    maxHeight: 200,
+                    hideOverlappingLabels: true,
+                    showDuplicates: false,
+                    trim: false,
+                    style: {
+                        colors: [],
+                        fontSize: '6px',
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        fontWeight: 400,
+                        margin: 2
+                    },
+                    offsetX: 0,
+                    offsetY: 0,
+                  },
+                  categories: data_categories
+                },
+              }
+            }
+          ],
           tooltip: {
             fixed: {
               enabled: true,
@@ -1180,7 +1281,26 @@ export class InfoDepartamentoComponent implements OnInit {
                   position: "bottom",
                   offsetX: -10,
                   offsetY: 0
-                }
+                },
+                dataLabels: {
+                  enabled: true,
+                  formatter: function(value:any, { seriesIndex, dataPointIndex, w }: { seriesIndex: any; dataPointIndex:any; w:any }) {
+                    var total: any = 0;
+                    w.config.series.forEach((element:any) => {    
+                                  
+                        total= total+ ((element.data[dataPointIndex]!=undefined)? element.data[dataPointIndex]:0);                  
+                                  
+                    });
+                    return  formatoNumeroPipe.localeStringStaticCutDecimal((value*100/total), 2) +'%';
+                  },
+                  dropShadow: {
+                    enabled: true,
+                    color: '#656363',
+                  },
+                  style: {
+                    fontSize: '10px',
+                  },
+                },
               }
             }
           ],
@@ -1371,6 +1491,13 @@ export class InfoDepartamentoComponent implements OnInit {
                 },
                 legend: {
                   position: "bottom"
+                },
+                dataLabels: {
+                  enabled: true,
+        
+                  style: {
+                    fontSize: '8px',
+                  },
                 }
               }
             }
@@ -1384,7 +1511,7 @@ export class InfoDepartamentoComponent implements OnInit {
           }
           
         };
-
+       
         
 
     
@@ -1677,7 +1804,21 @@ export class InfoDepartamentoComponent implements OnInit {
             title: {
               text: "Agrupación de países por acuerdos comerciales",
               align: "left"
-            }
+            },
+            responsive: [
+              {
+                breakpoint: 768,
+                options: {             
+                  dataLabels: {
+                    enabled: true,
+          
+                    style: {
+                      fontSize: '8px',
+                    },
+                  }
+                }
+              }
+            ],
           };
           break;
       default:
