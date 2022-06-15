@@ -973,7 +973,13 @@ export class InfoDepartamentoComponent implements OnInit {
 
   onChangePeriodo(event:any){
     
-    this.filterFormodel.extraPeriodo='';
+    
+
+    if (this.filterFormodel.periodoID==5 || this.filterFormodel.periodoID==6) {
+      this.filterFormodel.extraPeriodo=0;
+    }else{
+      this.filterFormodel.extraPeriodo='';
+    }
    
 
     
@@ -1056,17 +1062,7 @@ export class InfoDepartamentoComponent implements OnInit {
             },
           
           ],
-          // colors: [
-          //   "#008FFB",
-          //   "#00E396",
-          //   "#FEB019",
-          //   "#FF4560",
-          //   "#775DD0",
-          //   "#546E7A",
-          //   "#26a69a",
-          //   "#D10CE8",
-          //   "#775DD0"
-          // ],
+
           chart: {
             height: 500,
             type: "bar",
@@ -1090,10 +1086,7 @@ export class InfoDepartamentoComponent implements OnInit {
             align: "left",
             offsetX: 110
           },
-          grid: {
-            row: {
-              // colors: ["#fff", "#f2f2f2"]
-            }
+          grid: {     
           },
           xaxis: {
             labels: {
@@ -1865,6 +1858,8 @@ export class InfoDepartamentoComponent implements OnInit {
   }
 
  getGraph(){
+  
+  
     this.sendFilter(1);
     this.sendFilter(2, 1);
     this.sendFilter(3);
